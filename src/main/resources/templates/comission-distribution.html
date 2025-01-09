@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commission Update from Happy Home Products</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 30px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .header img {
+            max-width: 120px;
+            margin-bottom: 20px;
+        }
+        .content {
+            padding: 20px;
+            text-align: center;
+        }
+        .content h1 {
+            color: #007bff;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        .content p {
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        .cta {
+            margin: 20px 0;
+        }
+        .cta a {
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .cta a:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Mobile responsive styles */
+        @media only screen and (max-width: 600px) {
+            .container {
+                width: 100% !important;
+            }
+            .header img {
+                width: 100% !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <alt="Happy Home Products">
+            <h1>Reward Update – Happy Home Products</h1>
+        </div>
+        <div class="content">
+            <h1>Hello, {{username}}!</h1>
+            <p>
+                Congratulations on your recent success! We are pleased to inform you that your commission has been updated.
+            </p>
+            <p>
+                <strong>Your Total Commission Earned:</strong> ₹{{totalAccountBalance}}<br>
+                <strong>Your Currect Commission Earned:</strong> ₹{{commissionAmount}}<br>
+            </p>
+            <p>
+                We are also excited to let you know that a new member has joined your team! Please welcome:
+            </p>
+            <p><strong>New Team Member Joined: {{childName}}, With Referral Code: {{childReferralCode}}</strong></p>
+			
+            <div class="cta">
+                <a href="https://www.mukulchauhan.com" target="_blank">View Your Commission Details</a>
+            </div>
+
+            <p>If you have any questions or need assistance, feel free to <a href="mailto:support@happyhomesforever.com">contact us</a>.</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2024 Happy Home Products. All rights reserved.</p>
+            <p>
+                Follow us on 
+                <a href="https://facebook.com" target="_blank">Facebook</a>, 
+                <a href="https://twitter.com" target="_blank">Twitter</a>, and 
+                <a href="https://instagram.com" target="_blank">Instagram</a>.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

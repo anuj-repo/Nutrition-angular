@@ -1,0 +1,192 @@
+{"properties": [
+  {
+    "name": "api.url",
+    "type": "java.lang.String",
+    "description": "A description for 'api.url'"
+  },
+  {
+    "name": "web.url",
+    "type": "java.lang.String",
+    "description": "A description for 'web.url'"
+  },
+  {
+    "name": "smtp.from",
+    "type": "java.lang.String",
+    "description": "A description for 'smtp.from'"
+  },
+  {
+    "name": "email.sender",
+    "type": "java.lang.String",
+    "description": "A description for 'email.sender'"
+  },
+  {
+    "name": "email.activation.subject",
+    "type": "java.lang.String",
+    "description": "A description for 'email.activation.subject'"
+  },
+  {
+    "name": "activation.mail.content",
+    "type": "java.lang.String",
+    "description": "A description for 'activation.mail.content'"
+  },
+  {
+    "name": "logging.skip.body",
+    "type": "java.lang.String",
+    "description": "A description for 'logging.skip.body'"
+  },
+  {
+    "name": "app.jwtSecret",
+    "type": "java.lang.String",
+    "description": "A description for 'app.jwtSecret'"
+  },
+  {
+    "name": "app.jwtRefreshExpirationInMs",
+    "type": "java.lang.String",
+    "description": "A description for 'app.jwtRefreshExpirationInMs'"
+  },
+  {
+    "name": "app.public.urls",
+    "type": "java.lang.String",
+    "description": "A description for 'app.public.urls'"
+  },
+  {
+    "name": "security.jwt.token.required",
+    "type": "java.lang.String",
+    "description": "A description for 'security.jwt.token.required'"
+  },
+  {
+    "name": "app.public.strict.urls",
+    "type": "java.lang.String",
+    "description": "A description for 'app.public.strict.urls'"
+  },
+  {
+    "name": "app.jwtExpirationInMs",
+    "type": "java.lang.String",
+    "description": "A description for 'app.jwtExpirationInMs'"
+  },
+  {
+    "name": "user.credit.csv.header",
+    "type": "java.lang.String",
+    "description": "A description for 'user.credit.csv.header'"
+  },
+  {
+    "name": "sso.enable",
+    "type": "java.lang.String",
+    "description": "A description for 'sso.enable'"
+  },
+  {
+    "name": "sso.url",
+    "type": "java.lang.String",
+    "description": "A description for 'sso.url'"
+  },
+  {
+    "name": "sso.signup",
+    "type": "java.lang.String",
+    "description": "A description for 'sso.signup'"
+  },
+  {
+    "name": "sso.login",
+    "type": "java.lang.String",
+    "description": "A description for 'sso.login'"
+  },
+  {
+    "name": "sso.verify.otp",
+    "type": "java.lang.String",
+    "description": "A description for 'sso.verify.otp'"
+  },
+  {
+    "name": "sso.sign.up",
+    "type": "java.lang.String",
+    "description": "A description for 'sso.sign.up'"
+  },
+  {
+    "name": "sso.check.login",
+    "type": "java.lang.String",
+    "description": "A description for 'sso.check.login'"
+  },
+  {
+    "name": "sso.logout",
+    "type": "java.lang.String",
+    "description": "A description for 'sso.logout'"
+  },
+  {
+    "name": "sso.referer",
+    "type": "java.lang.String",
+    "description": "A description for 'sso.referer'"
+  },
+  {
+    "name": "sso.otpfor.forget",
+    "type": "java.lang.String",
+    "description": "A description for 'sso.otpfor.forget'"
+  },
+  {
+    "name": "sso.generateotp",
+    "type": "java.lang.String",
+    "description": "A description for 'sso.generateotp'"
+  },
+  {
+    "name": "sso.update.password",
+    "type": "java.lang.String",
+    "description": "A description for 'sso.update.password'"
+  },
+  {
+    "name": "sso.change.password",
+    "type": "java.lang.String",
+    "description": "A description for 'sso.change.password'"
+  },
+  {
+    "name": "voucher.amount.percentage",
+    "type": "java.lang.String",
+    "description": "A description for 'voucher.amount.percentage'"
+  },
+  {
+    "name": "role.user",
+    "type": "java.lang.String",
+    "description": "A description for 'role.user'"
+  },
+  {
+    "name": "ccavenue.merchant.id",
+    "type": "java.lang.String",
+    "description": "A description for 'ccavenue.merchant.id'"
+  },
+  {
+    "name": "ccavenue.access.code",
+    "type": "java.lang.String",
+    "description": "A description for 'ccavenue.access.code'"
+  },
+  {
+    "name": "ccavenue.working.key",
+    "type": "java.lang.String",
+    "description": "A description for 'ccavenue.working.key'"
+  },
+  {
+    "name": "ccavenue.end.point",
+    "type": "java.lang.String",
+    "description": "A description for 'ccavenue.end.point'"
+  },
+  {
+    "name": "ccavenue.valid.for",
+    "type": "java.lang.String",
+    "description": "A description for 'ccavenue.valid.for'"
+  },
+  {
+    "name": "ccavenue.valid.type",
+    "type": "java.lang.String",
+    "description": "A description for 'ccavenue.valid.type'"
+  },
+  {
+    "name": "ccavenue.valid.currency",
+    "type": "java.lang.String",
+    "description": "A description for 'ccavenue.valid.currency'"
+  },
+  {
+    "name": "ccavenue.terms.and.conditions",
+    "type": "java.lang.String",
+    "description": "A description for 'ccavenue.terms.and.conditions'"
+  },
+  {
+    "name": "ad",
+    "type": "java.lang.String",
+    "description": "A description for 'ad'"
+  }
+]}
