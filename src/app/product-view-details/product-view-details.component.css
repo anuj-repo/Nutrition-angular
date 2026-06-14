@@ -1,7 +1,167 @@
-.product-information{
-    font-size: medium;
+/* ===== Product View Details — ICICI Theme ===== */
+:host {
+  display: block;
+  padding: 32px 24px;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
-.image-container{
-    height: 450px;
+.container {
+  max-width: 100%;
+  padding: 0;
+}
+
+.row {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.col-6 {
+  flex: 1;
+  min-width: 300px;
+}
+
+/* Image Card */
+.image-container {
+  height: 450px;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.image-container img {
+  max-width: 85%;
+  max-height: 90%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.image-container:hover img {
+  transform: scale(1.03);
+}
+
+/* Thumbnail grid */
+mat-grid-tile {
+  border: 2px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+mat-grid-tile:hover {
+  border-color: var(--primary) !important;
+  box-shadow: 0 2px 8px rgba(0, 74, 127, 0.15);
+}
+
+/* Product Information */
+.product-information {
+  font-size: 15px;
+  color: var(--text-primary);
+}
+
+.product-information h2 {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--primary-dark);
+  margin: 0 0 8px;
+  line-height: 1.25;
+  letter-spacing: -0.3px;
+}
+
+.product-information .mt-3 {
+  margin-top: 16px !important;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* Pricing */
+.product-information b {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--success);
+}
+
+.product-information b[style*="line-through"] {
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  color: var(--text-muted) !important;
+}
+
+/* Action Buttons */
+.product-information .mt-5 {
+  margin-top: 32px !important;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.product-information button[mat-raised-button][color="warn"] {
+  background: var(--accent) !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  border-radius: var(--radius-md) !important;
+  padding: 10px 32px !important;
+  width: auto !important;
+  min-width: 180px;
+  box-shadow: 0 3px 12px rgba(249, 157, 39, 0.3) !important;
+  transition: all var(--transition-fast);
+}
+
+.product-information button[mat-raised-button][color="warn"]:hover {
+  background: var(--accent-dark) !important;
+  box-shadow: 0 6px 18px rgba(249, 157, 39, 0.4) !important;
+  transform: translateY(-1px);
+}
+
+.product-information button[style*="color: gold"] {
+  background: var(--primary) !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  border-radius: var(--radius-md) !important;
+  padding: 10px 32px !important;
+  width: auto !important;
+  min-width: 180px;
+  box-shadow: 0 2px 8px rgba(0, 74, 127, 0.2) !important;
+}
+
+.product-information button[style*="color: gold"]:hover {
+  background: var(--primary-dark) !important;
+  box-shadow: 0 4px 14px rgba(0, 74, 127, 0.3) !important;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  :host {
+    padding: 16px;
+  }
+
+  .row {
+    gap: 24px;
+  }
+
+  .col-6 {
+    min-width: 100%;
+  }
+
+  .image-container {
+    height: 300px;
+  }
+
+  .product-information h2 {
+    font-size: 22px;
+  }
+
+  .product-information .mt-5 {
+    justify-content: center;
+  }
 }
