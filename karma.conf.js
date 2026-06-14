@@ -13,7 +13,7 @@ module.exports = function (config) {
       clearContext: false 
     },
     coverageReporter: {  
-      dir: require('path').join(__dirname, './coverage/jwt-youtube-ui'),
+      dir: require('path').join(__dirname, './coverage/fertilizer-design'),
       reports: ['html', 'lcovonly', 'text-summary'],
       fixWebpackSourcePaths: true
     },

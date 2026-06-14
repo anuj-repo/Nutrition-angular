@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "jwt-youtube-ui": {
+    "fertilizer-design": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/jwt-youtube-ui",
+            "outputPath": "dist/fertilizer-design",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -70,18 +70,18 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "proxyConfig": "proxy.conf.json",
-            "browserTarget": "jwt-youtube-ui:build"
+            "browserTarget": "fertilizer-design:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "jwt-youtube-ui:build:production"
+              "browserTarget": "fertilizer-design:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "jwt-youtube-ui:build"
+            "browserTarget": "fertilizer-design:build"
           }
         },
         "test": {
@@ -115,11 +115,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "jwt-youtube-ui:serve"
+            "devServerTarget": "fertilizer-design:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "jwt-youtube-ui:serve:production"
+              "devServerTarget": "fertilizer-design:serve:production"
             }
           }
         }
