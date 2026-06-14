@@ -1,0 +1,126 @@
+<div class="bonus-container">
+  <div class="page-header">
+    <h2>🔄 Repurchase Performance Bonus</h2>
+    <p class="subtitle">मासिक रिपरचेज परफॉर्मेंस बोनस</p>
+    <p class="description">Earn bonus on your team's monthly repurchase business!</p>
+    <p class="description-hindi">अपनी टीम के मासिक रिपरचेज बिजनेस पर बोनस कमाएं!</p>
+  </div>
+
+  <!-- My Bonus Summary -->
+  <div class="bonus-summary">
+    <mat-card class="bonus-stat">
+      <mat-card-content>
+        <div class="stat-icon">📊</div>
+        <div class="stat-label">Current Team Business</div>
+        <div class="stat-value">₹{{ myBonusData.currentTeamBusiness | number }}</div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="bonus-stat">
+      <mat-card-content>
+        <div class="stat-icon">📈</div>
+        <div class="stat-label">Current Bonus %</div>
+        <div class="stat-value">{{ myBonusData.currentBonusPercentage }}%</div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="bonus-stat">
+      <mat-card-content>
+        <div class="stat-icon">💰</div>
+        <div class="stat-label">This Month Bonus</div>
+        <div class="stat-value green">₹{{ myBonusData.currentBonusAmount | number }}</div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="bonus-stat">
+      <mat-card-content>
+        <div class="stat-icon">🏆</div>
+        <div class="stat-label">Total Bonus Earned</div>
+        <div class="stat-value green">₹{{ myBonusData.totalBonusEarned | number }}</div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Bonus Slab Table -->
+  <mat-card class="slab-card">
+    <mat-card-content>
+      <h3>📋 Repurchase Bonus Slabs / रिपरचेज बोनस स्लैब</h3>
+      <table mat-table [dataSource]="bonusSlabs" class="slab-table">
+        <ng-container matColumnDef="range">
+          <th mat-header-cell *matHeaderCellDef>Team Business (₹) / टीम बिजनेस</th>
+          <td mat-cell *matCellDef="let row" [class.current-slab]="isCurrentSlab(row)">
+            {{ formatCurrency(row.min) }} – {{ formatCurrency(row.max) }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="percentage">
+          <th mat-header-cell *matHeaderCellDef>Bonus % / बोनस</th>
+          <td mat-cell *matCellDef="let row" [class.current-slab]="isCurrentSlab(row)">
+            <span class="bonus-percent">{{ row.percentage }}%</span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="example">
+          <th mat-header-cell *matHeaderCellDef>Example Earning</th>
+          <td mat-cell *matCellDef="let row" [class.current-slab]="isCurrentSlab(row)">
+            ₹{{ (row.min * row.percentage / 100) | number }} - ₹{{ (row.max * row.percentage / 100) | number }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let row">
+            <span class="slab-status" *ngIf="isCurrentSlab(row)">← You are here</span>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="['range', 'percentage', 'example', 'status']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['range', 'percentage', 'example', 'status']"
+            [class.highlight-row]="isCurrentSlab(row)"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Payment Info -->
+  <mat-card class="payment-info-card">
+    <mat-card-content>
+      <h3>💳 Payment Schedule / भुगतान अनुसूची</h3>
+      <div class="payment-info-grid">
+        <div class="payment-item">
+          <mat-icon>calendar_today</mat-icon>
+          <div>
+            <strong>Calculation: Every 30 days</strong>
+            <p>गणना: हर 30 दिन</p>
+          </div>
+        </div>
+        <div class="payment-item">
+          <mat-icon>account_balance</mat-icon>
+          <div>
+            <strong>Payment: Every 15 days to bank account</strong>
+            <p>भुगतान: हर 15 दिन बैंक खाते में</p>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Bonus History -->
+  <mat-card class="history-card" *ngIf="bonusHistory.length > 0">
+    <mat-card-content>
+      <h3>📊 Bonus History / बोनस इतिहास</h3>
+      <table mat-table [dataSource]="bonusHistory" class="history-table">
+        <ng-container matColumnDef="month">
+          <th mat-header-cell *matHeaderCellDef>Month</th>
+          <td mat-cell *matCellDef="let row">{{ row.month }}</td>
+        </ng-container>
+        <ng-container matColumnDef="teamBusiness">
+          <th mat-header-cell *matHeaderCellDef>Team Business</th>
+          <td mat-cell *matCellDef="let row">₹{{ row.teamBusiness | number }}</td>
+        </ng-container>
+        <ng-container matColumnDef="bonusPercent">
+          <th mat-header-cell *matHeaderCellDef>Bonus %</th>
+          <td mat-cell *matCellDef="let row">{{ row.bonusPercent }}%</td>
+        </ng-container>
+        <ng-container matColumnDef="bonusAmount">
+          <th mat-header-cell *matHeaderCellDef>Bonus Amount</th>
+          <td mat-cell *matCellDef="let row" class="green-text">₹{{ row.bonusAmount | number }}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="['month', 'teamBusiness', 'bonusPercent', 'bonusAmount']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['month', 'teamBusiness', 'bonusPercent', 'bonusAmount']"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

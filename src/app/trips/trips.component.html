@@ -1,0 +1,55 @@
+<div class="trips-container">
+  <div class="page-header"><h2>✈️ Trip Bookings</h2></div>
+
+  <div class="alert success" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="alert error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <mat-card class="form-card">
+    <mat-card-content>
+      <h3>Book a Trip from Earned Rewards</h3>
+      <form [formGroup]="form" (ngSubmit)="bookTrip()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Reward Tier (eligible trips)</mat-label>
+          <mat-select formControlName="rewardTierId">
+            <mat-option *ngFor="let t of trip_eligible_tiers" [value]="t.id">
+              {{ t.rewardName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Destination</mat-label>
+          <input matInput formControlName="destination">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Preferred Date</mat-label>
+          <input matInput [matDatepicker]="pk" formControlName="preferredDate">
+          <mat-datepicker-toggle matSuffix [for]="pk"></mat-datepicker-toggle>
+          <mat-datepicker #pk></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Number of Travellers</mat-label>
+          <input matInput type="number" formControlName="travellers" min="1">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Remarks</mat-label>
+          <textarea matInput formControlName="remarks" rows="2"></textarea>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Book Trip</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <h3 class="section-title">My Trips</h3>
+  <div class="trips-grid" *ngIf="trips.length">
+    <mat-card *ngFor="let t of trips" class="trip-card">
+      <mat-card-content>
+        <div class="trip-icon">✈️</div>
+        <h4>{{ t.destination }}</h4>
+        <p>Date: {{ t.preferredDate | date:'mediumDate' }}</p>
+        <p>Travellers: {{ t.travellers }}</p>
+        <span class="status-badge" [ngClass]="t.status?.toLowerCase()">{{ t.status }}</span>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <p *ngIf="!trips.length" class="empty">No trips booked yet.</p>
+</div>

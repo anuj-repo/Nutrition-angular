@@ -1,0 +1,44 @@
+<div class="ps-container">
+  <mat-card class="status-card">
+    <mat-card-content>
+      <h2>💳 Payment Status</h2>
+      <p class="muted">Order #{{ orderId }}</p>
+
+      <div *ngIf="!status && !errorMessage" class="loading">
+        <mat-icon class="spin">sync</mat-icon>
+        <p>Checking payment status...</p>
+      </div>
+
+      <div *ngIf="status && isSuccess(status)" class="success-banner">
+        <mat-icon>check_circle</mat-icon>
+        <h3>Payment Successful!</h3>
+        <p *ngIf="status.amount">Amount: ₹{{ status.amount | number }}</p>
+        <p *ngIf="status.transactionId">Transaction ID: {{ status.transactionId }}</p>
+      </div>
+
+      <div *ngIf="status && isFinal(status) && !isSuccess(status)" class="error-banner">
+        <mat-icon>cancel</mat-icon>
+        <h3>Payment {{ status.status || status.paymentStatus }}</h3>
+        <p *ngIf="status.failureReason">Reason: {{ status.failureReason }}</p>
+        <button mat-raised-button color="primary" (click)="retry()">Retry Status Check</button>
+      </div>
+
+      <div *ngIf="status && !isFinal(status)" class="processing-banner">
+        <mat-icon class="spin">sync</mat-icon>
+        <h3>Processing...</h3>
+        <p>Status: {{ status.status || status.paymentStatus || 'Pending' }}</p>
+        <p class="muted">Auto-refresh: {{ attempts }}/{{ maxAttempts }}</p>
+      </div>
+
+      <div *ngIf="errorMessage" class="error-banner">
+        <mat-icon>error</mat-icon>
+        <p>{{ errorMessage }}</p>
+      </div>
+
+      <div class="actions">
+        <button mat-raised-button color="primary" (click)="goToOrder()">View Order</button>
+        <button mat-button routerLink="/myOrders">All Orders</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

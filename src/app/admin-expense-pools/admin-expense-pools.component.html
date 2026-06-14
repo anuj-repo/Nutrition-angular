@@ -1,0 +1,210 @@
+<div class="ep-container">
+  <div class="page-header">
+    <h2>💼 Expense Pools</h2>
+    <p class="subtitle">
+      Buckets that receive the non-commission share of every paid order.
+      Together with the L1–L15 commission ladder ({{ commissionShare }}%) they should add up to 100%.
+    </p>
+  </div>
+
+  <!-- Summary tiles -->
+  <div class="summary-row">
+    <div class="tile">
+      <div class="tile-label">Active distribution %</div>
+      <div class="tile-value">{{ totalPercentage }}%</div>
+      <div class="tile-hint">+ {{ commissionShare }}% commission = {{ distributionTotal }}%</div>
+    </div>
+    <div class="tile">
+      <div class="tile-label">Available balance</div>
+      <div class="tile-value">{{ inr(totalBalance) }}</div>
+    </div>
+    <div class="tile">
+      <div class="tile-label">Lifetime credited</div>
+      <div class="tile-value">{{ inr(totalCredited) }}</div>
+    </div>
+    <div class="tile">
+      <div class="tile-label">Lifetime spent</div>
+      <div class="tile-value">{{ inr(totalSpent) }}</div>
+    </div>
+  </div>
+
+  <div class="warning-banner" *ngIf="distributionWarning">
+    <mat-icon>warning</mat-icon>
+    <span>{{ distributionWarning }}</span>
+  </div>
+
+  <!-- Pools table -->
+  <mat-card class="card-block">
+    <mat-card-content>
+      <div class="header-row">
+        <h3>Pools</h3>
+        <button mat-stroked-button (click)="load()" [disabled]="loading">
+          <mat-icon>refresh</mat-icon> Refresh
+        </button>
+      </div>
+
+      <div class="loading" *ngIf="loading">Loading pools…</div>
+
+      <table class="full-width pools-table" *ngIf="!loading && pools.length">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>%</th>
+            <th>Balance</th>
+            <th>Credited</th>
+            <th>Spent</th>
+            <th>Active</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let p of pools; trackBy: trackByCode">
+            <tr [class.row-inactive]="p.isActive === false" [class.row-selected]="selectedCode === p.code">
+              <td><strong>{{ p.code }}</strong></td>
+              <td>{{ p.name }}</td>
+              <td class="pct-cell">
+                <input type="number" min="0" max="100" step="0.5"
+                       class="inline-edit"
+                       [(ngModel)]="p.percentage"
+                       [name]="'pct-' + p.code">
+                <span class="pct-suffix">%</span>
+              </td>
+              <td>{{ inr(p.balance) }}</td>
+              <td>{{ inr(p.totalCredited) }}</td>
+              <td>{{ inr(p.totalSpent) }}</td>
+              <td>
+                <span class="badge" [class.badge-on]="p.isActive !== false" [class.badge-off]="p.isActive === false">
+                  {{ p.isActive !== false ? 'Active' : 'Inactive' }}
+                </span>
+              </td>
+              <td class="actions-cell">
+                <button mat-button color="primary" (click)="savePercentage(p)">Save %</button>
+                <button mat-button (click)="toggleActive(p)">
+                  {{ p.isActive !== false ? 'Disable' : 'Enable' }}
+                </button>
+                <button mat-button color="accent" (click)="openLedger(p)">
+                  {{ selectedCode === p.code ? 'Hide' : 'Ledger' }}
+                </button>
+              </td>
+            </tr>
+
+            <!-- Inline ledger + spend form -->
+            <tr *ngIf="selectedCode === p.code" class="ledger-row">
+              <td colspan="8">
+                <div class="ledger-pane">
+                  <div class="ledger-header">
+                    <div>
+                      <h4>{{ p.name || p.code }} — Ledger</h4>
+                      <div class="ledger-sub">Balance {{ inr(p.balance) }} · Credited {{ inr(p.totalCredited) }} · Spent {{ inr(p.totalSpent) }}</div>
+                    </div>
+                  </div>
+
+                  <!-- Spend form -->
+                  <form [formGroup]="spendForm" (ngSubmit)="recordSpend()" class="spend-form">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Amount (₹)</mat-label>
+                      <input matInput type="number" min="0.01" step="0.01" formControlName="amount">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Reference (invoice / vendor)</mat-label>
+                      <input matInput formControlName="reference" placeholder="INV-2026-0042">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="grow">
+                      <mat-label>Description</mat-label>
+                      <input matInput formControlName="description" placeholder="What was this spent on?">
+                    </mat-form-field>
+                    <button mat-raised-button color="warn" type="submit">
+                      <mat-icon>remove_circle</mat-icon> Record spend
+                    </button>
+                  </form>
+
+                  <div class="loading" *ngIf="ledgerLoading && !ledger.length">Loading ledger…</div>
+                  <div class="empty" *ngIf="!ledgerLoading && !ledger.length">
+                    No transactions yet. Pool credits will appear here on the next paid order.
+                  </div>
+
+                  <table class="full-width ledger-table" *ngIf="ledger.length">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Source</th>
+                        <th class="num">Amount</th>
+                        <th class="num">Balance after</th>
+                        <th>Reference</th>
+                        <th>Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let t of ledger" [class.txn-credit]="isCredit(t)" [class.txn-debit]="!isCredit(t)">
+                        <td>{{ t.txnDate | date:'short' }}</td>
+                        <td>
+                          <span class="badge" [class.badge-credit]="isCredit(t)" [class.badge-debit]="!isCredit(t)">
+                            {{ t.txnType }}
+                          </span>
+                        </td>
+                        <td>{{ t.source }}</td>
+                        <td class="num">
+                          <span [class.amt-credit]="isCredit(t)" [class.amt-debit]="!isCredit(t)">
+                            {{ isCredit(t) ? '+' : '−' }}{{ inr(t.amount) }}
+                          </span>
+                          <div class="muted-small" *ngIf="isCredit(t) && t.percentage">
+                            {{ t.percentage }}% of {{ inr(t.businessVolume) }}
+                          </div>
+                        </td>
+                        <td class="num">{{ inr(t.balanceAfter) }}</td>
+                        <td>{{ t.reference || '—' }}</td>
+                        <td>{{ t.description || '—' }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <div class="ledger-footer" *ngIf="ledger.length">
+                    <button mat-stroked-button (click)="loadMore()" [disabled]="!ledgerHasMore || ledgerLoading">
+                      {{ ledgerHasMore ? 'Load more' : 'No more entries' }}
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+
+      <div class="empty" *ngIf="!loading && !pools.length">
+        No expense pools yet. Add one below.
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Create new pool -->
+  <mat-card class="card-block">
+    <mat-card-content>
+      <h3>Add a new pool</h3>
+      <p class="muted">Use a stable, uppercase code (letters, digits, underscores). Example: <code>EVENT_FUND</code>.</p>
+      <form [formGroup]="newPoolForm" (ngSubmit)="createPool()" class="inline-form">
+        <mat-form-field appearance="outline">
+          <mat-label>Code</mat-label>
+          <input matInput formControlName="code" placeholder="EVENT_FUND">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" placeholder="Event Fund">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>%</mat-label>
+          <input matInput type="number" min="0" max="100" step="0.5" formControlName="percentage">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="grow">
+          <mat-label>Description</mat-label>
+          <input matInput formControlName="description">
+        </mat-form-field>
+        <label class="cb-label"><input type="checkbox" formControlName="isActive"> Active</label>
+        <button mat-raised-button color="primary" type="submit">
+          <mat-icon>add</mat-icon> Create
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

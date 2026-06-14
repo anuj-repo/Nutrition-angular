@@ -1,0 +1,18 @@
+.fb-container { padding: 24px; max-width: 800px; margin: 0 auto; }
+.page-header { text-align: center; margin-bottom: 16px; }
+.page-header h2 { color: #1b5e20; }
+.alert { padding: 10px 14px; border-radius: 6px; margin-bottom: 12px; }
+.alert.success { background: #e8f5e9; color: #2e7d32; }
+.alert.error { background: #ffebee; color: #c62828; }
+.form-card { border-radius: 12px; margin-bottom: 24px; }
+.full-width { width: 100%; }
+.rating-row { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+.star { font-size: 28px; color: #ddd; cursor: pointer; transition: color 0.15s; }
+.star.filled { color: #ffc107; }
+.section-title { color: #333; }
+.fb-row { border-radius: 10px; margin-bottom: 8px; }
+.fb-header { display: flex; gap: 12px; margin-bottom: 6px; align-items: center; }
+.stars { color: #ffc107; font-size: 18px; }
+.cat { background: #e3f2fd; color: #1565c0; padding: 2px 8px; border-radius: 10px; font-size: 11px; }
+.time { color: #888; font-size: 12px; margin-left: auto; }
+.empty { text-align: center; color: #888; padding: 24px; }

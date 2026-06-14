@@ -1,0 +1,10 @@
+.pc-container { padding: 24px; max-width: 600px; margin: 0 auto; }
+.pc-card { border-radius: 12px; }
+.pc-card h2 { color: #1b5e20; }
+.muted { color: #888; }
+.pc-form { display: flex; gap: 8px; align-items: flex-start; margin-top: 12px; }
+.pin-input { flex: 1; }
+.result { margin-top: 16px; }
+.status { display: flex; gap: 12px; padding: 14px; border-radius: 8px; align-items: flex-start; }
+.status.success { background: #e8f5e9; color: #2e7d32; }
+.status.error { background: #ffebee; color: #c62828; }

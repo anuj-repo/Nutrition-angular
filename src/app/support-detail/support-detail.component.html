@@ -1,0 +1,47 @@
+<div class="td-container">
+  <button mat-button (click)="back()"><mat-icon>arrow_back</mat-icon> Back to Tickets</button>
+
+  <mat-card class="ticket-header" *ngIf="ticket">
+    <mat-card-content>
+      <div class="header-row">
+        <div>
+          <h2>#{{ ticket.id }} — {{ ticket.subject }}</h2>
+          <p class="meta">{{ ticket.category }} · {{ ticket.priority }} · Opened {{ ticket.createdAt | date:'medium' }}</p>
+        </div>
+        <span class="status-badge" [ngClass]="ticket.status?.toLowerCase()">{{ ticket.status }}</span>
+      </div>
+      <p class="description">{{ ticket.description }}</p>
+      <button mat-stroked-button color="warn" (click)="closeTicket()" *ngIf="ticket.status !== 'CLOSED'">Close Ticket</button>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="alert error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <div class="thread">
+    <h3>Conversation</h3>
+    <div *ngFor="let r of replies" class="msg" [class.admin]="r.isAdmin || r.fromAdmin">
+      <div class="msg-author">{{ r.isAdmin || r.fromAdmin ? '🛡️ Support Team' : '👤 You' }}</div>
+      <div class="msg-body">{{ r.message }}</div>
+      <a *ngIf="r.attachmentUrl" [href]="r.attachmentUrl" target="_blank" class="attachment">📎 Attachment</a>
+      <div class="msg-time">{{ r.createdAt | date:'medium' }}</div>
+    </div>
+    <p *ngIf="!replies.length" class="muted">No replies yet.</p>
+  </div>
+
+  <mat-card class="reply-card" *ngIf="ticket?.status !== 'CLOSED'">
+    <mat-card-content>
+      <h3>Add Reply</h3>
+      <form [formGroup]="replyForm" (ngSubmit)="reply()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Message</mat-label>
+          <textarea matInput formControlName="message" rows="4"></textarea>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Attachment URL (optional)</mat-label>
+          <input matInput formControlName="attachmentUrl">
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Send Reply</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

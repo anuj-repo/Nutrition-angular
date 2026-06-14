@@ -1,0 +1,43 @@
+<div class="tds-container">
+  <div class="page-header"><h2>📑 TDS & Tax Statement</h2></div>
+
+  <div class="summary-cards">
+    <mat-card class="summary-card">
+      <mat-card-content>
+        <span class="card-label">Total Earnings (Year)</span>
+        <span class="card-value">₹{{ summary.totalEarnings || 0 | number }}</span>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="summary-card">
+      <mat-card-content>
+        <span class="card-label">TDS Deducted</span>
+        <span class="card-value tds-val">₹{{ summary.tdsDeducted || summary.totalTdsDeducted || 0 | number }}</span>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="summary-card">
+      <mat-card-content>
+        <span class="card-label">Net Paid to Bank</span>
+        <span class="card-value paid-val">₹{{ summary.netPaid || summary.totalWithdrawn || 0 | number }}</span>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <mat-card class="form16-card">
+    <mat-card-content>
+      <h3>📄 Download Form 16A</h3>
+      <p>Form 16A is your TDS certificate showing tax deducted at source on commission income.</p>
+      <div class="form16-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Financial Year</mat-label>
+          <mat-select [(ngModel)]="selectedYear">
+            <mat-option *ngFor="let y of years" [value]="y">{{ y }}-{{ y + 1 }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="downloadForm16a()" [disabled]="downloading">
+          <mat-icon>download</mat-icon> {{ downloading ? 'Downloading...' : 'Download Form 16A' }}
+        </button>
+      </div>
+      <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+    </mat-card-content>
+  </mat-card>
+</div>

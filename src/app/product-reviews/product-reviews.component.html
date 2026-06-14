@@ -1,0 +1,129 @@
+<div class="pr-container">
+  <div class="page-header">
+    <h2>🌿 Stamina Core Plus — Product Information</h2>
+    <p class="subtitle">120 Capsules | 60 Days Supply | 100% Ayurvedic Formula</p>
+  </div>
+
+  <!-- Product Overview -->
+  <mat-card class="product-overview">
+    <mat-card-content>
+      <div class="overview-grid">
+        <div class="overview-text">
+          <h3>💊 About Stamina Core Plus</h3>
+          <p>
+            Stamina Core Plus is a premium Ayurvedic supplement formulated to boost energy,
+            improve stamina, and support overall wellness. Made with clinically tested
+            natural ingredients including Ashwagandha, Shilajit, and Safed Musli.
+          </p>
+          <div class="product-highlights">
+            <span class="ph-badge">✅ 100% Natural</span>
+            <span class="ph-badge">✅ No Side Effects</span>
+            <span class="ph-badge">✅ GMP Certified</span>
+            <span class="ph-badge">✅ FSSAI Approved</span>
+          </div>
+          <div class="pricing">
+            <span class="price">₹2,280</span>
+            <span class="mrp">MRP ₹3,500</span>
+            <span class="discount">35% OFF</span>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="info-card" *ngIf="benefits.length">
+    <mat-card-content>
+      <h3>💪 Key Benefits</h3>
+      <div class="benefits-grid">
+        <div class="benefit-item" *ngFor="let b of benefits">
+          <div class="benefit-icon">✨</div>
+          <div>
+            <strong>{{ b.name || b.benefit || b.title }}</strong>
+            <p>{{ b.description }}</p>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="info-card" *ngIf="ingredients.length">
+    <mat-card-content>
+      <h3>🌿 Ingredients & Composition</h3>
+      <table mat-table [dataSource]="ingredients" class="full-width">
+        <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Ingredient</th>
+          <td mat-cell *matCellDef="let i">{{ i.name }}</td></ng-container>
+        <ng-container matColumnDef="qty"><th mat-header-cell *matHeaderCellDef>Quantity</th>
+          <td mat-cell *matCellDef="let i">{{ i.quantity }} {{ i.unit }}</td></ng-container>
+        <ng-container matColumnDef="benefit"><th mat-header-cell *matHeaderCellDef>Benefit</th>
+          <td mat-cell *matCellDef="let i">{{ i.benefit || i.description }}</td></ng-container>
+        <tr mat-header-row *matHeaderRowDef="['name','qty','benefit']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['name','qty','benefit']"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- How to Use -->
+  <mat-card class="info-card">
+    <mat-card-content>
+      <h3>📋 How to Use</h3>
+      <div class="usage-grid">
+        <div class="usage-step">
+          <div class="step-num">1</div>
+          <div>
+            <strong>Morning</strong>
+            <p>Take 1 capsule with warm water/milk after breakfast</p>
+          </div>
+        </div>
+        <div class="usage-step">
+          <div class="step-num">2</div>
+          <div>
+            <strong>Evening</strong>
+            <p>Take 1 capsule with warm water/milk after dinner</p>
+          </div>
+        </div>
+        <div class="usage-step">
+          <div class="step-num">3</div>
+          <div>
+            <strong>Duration</strong>
+            <p>Continue for at least 60 days for best results</p>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <h3>⭐ Customer Reviews ({{ reviews.length }})</h3>
+  <div *ngFor="let r of reviews" class="review-row">
+    <div class="r-head">
+      <strong>{{ r.userName || r.user?.fname || 'Anonymous' }}</strong>
+      <span class="stars">{{ '★'.repeat(r.rating || 0) }}{{ '☆'.repeat(5 - (r.rating || 0)) }}</span>
+      <span class="time">{{ r.createdAt | date:'mediumDate' }}</span>
+    </div>
+    <strong>{{ r.title }}</strong>
+    <p>{{ r.review }}</p>
+  </div>
+  <p *ngIf="!reviews.length" class="muted">Be the first to review this product!</p>
+
+  <mat-card class="form-card">
+    <mat-card-content>
+      <h3>Write a Review</h3>
+      <div class="alert success" *ngIf="successMessage">{{ successMessage }}</div>
+      <div class="alert error" *ngIf="errorMessage">{{ errorMessage }}</div>
+      <form [formGroup]="reviewForm" (ngSubmit)="submit()">
+        <div class="rating-row">
+          <span>Your Rating:</span>
+          <span *ngFor="let n of [1,2,3,4,5]" class="star" [class.filled]="reviewForm.value.rating >= n" (click)="setRating(n)">★</span>
+        </div>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Title</mat-label>
+          <input matInput formControlName="title">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Review</mat-label>
+          <textarea matInput formControlName="review" rows="4"></textarea>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Submit Review</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

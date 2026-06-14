@@ -1,0 +1,13 @@
+.orders-container { padding: 24px; max-width: 1100px; margin: 0 auto; }
+.page-header { text-align: center; margin-bottom: 16px; }
+.page-header h2 { color: #1b5e20; }
+.repurchase-card { border-radius: 12px; margin-bottom: 16px; background: linear-gradient(135deg, #fff8e1, #ffecb3); }
+.repurchase-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #ffe082; }
+.repurchase-row:last-child { border-bottom: none; }
+.full-width { width: 100%; }
+.badge { padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500; }
+.badge.pending, .badge.processing { background: #fff3e0; color: #e65100; }
+.badge.shipped { background: #e3f2fd; color: #1565c0; }
+.badge.delivered, .badge.completed { background: #e8f5e9; color: #2e7d32; }
+.badge.cancelled, .badge.returned { background: #ffebee; color: #c62828; }
+.empty { text-align: center; color: #888; padding: 40px; }

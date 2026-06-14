@@ -1,0 +1,29 @@
+.tree-container { padding: 24px; max-width: 1200px; margin: 0 auto; position: relative; }
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+.page-header h2 { color: #1b5e20; margin: 0; }
+.controls { display: flex; gap: 8px; align-items: center; }
+.level-select { width: 140px; }
+.tree-area { background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 16px; max-height: 75vh; overflow: auto; }
+.tree-node-wrap { font-size: 14px; }
+.tree-node { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 6px; cursor: pointer; transition: background 0.15s; }
+.tree-node:hover { background: #f1f8e9; }
+.toggle-btn { width: 32px; height: 32px; }
+.leaf { width: 20px; text-align: center; color: #bbb; }
+.member-icon { font-size: 20px; }
+.name { font-weight: 600; color: #333; }
+.username { color: #888; font-size: 12px; }
+.lvl-badge { background: #e8f5e9; color: #2e7d32; padding: 2px 8px; border-radius: 10px; font-size: 11px; }
+.children-count { background: #fff3e0; color: #e65100; padding: 2px 8px; border-radius: 10px; font-size: 11px; }
+.children { margin-top: 4px; }
+.muted { color: #888; }
+.empty { text-align: center; padding: 40px; color: #888; }
+
+.member-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 380px; background: white; box-shadow: -4px 0 16px rgba(0,0,0,0.1); z-index: 1100; overflow-y: auto; }
+.drawer-content { padding: 20px; }
+.drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.drawer-header h3 { margin: 0; color: #1b5e20; }
+.member-info h4 { margin: 16px 0 8px; color: #333; border-bottom: 1px solid #e0e0e0; padding-bottom: 4px; }
+.info-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f0f0f0; }
+.info-row span { color: #666; }
+.info-row strong { color: #333; }
+@media (max-width: 600px) { .member-drawer { width: 100%; } }

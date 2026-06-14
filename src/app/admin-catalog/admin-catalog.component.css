@@ -1,0 +1,11 @@
+.ac2-container { padding: 24px; max-width: 1300px; margin: 0 auto; }
+.page-header { text-align: center; margin-bottom: 16px; }
+.page-header h2 { color: #1b5e20; }
+.muted { color: #888; }
+.tab-nav { display: flex; gap: 8px; margin-bottom: 16px; border-bottom: 2px solid #e0e0e0; padding-bottom: 8px; flex-wrap: wrap; }
+.active-tab { color: #2e7d32 !important; border-bottom: 3px solid #4caf50; }
+.tab-content { border-radius: 12px; }
+.full-width { width: 100%; }
+.inline-form { display: flex; gap: 8px; align-items: flex-start; flex-wrap: wrap; margin-bottom: 16px; }
+.inline-form mat-form-field { width: 180px; }
+.inline-form .grow { flex: 1; min-width: 200px; }

@@ -1,0 +1,199 @@
+<div class="admin-dash">
+  <header class="dash-header">
+    <div>
+      <h2>📊 Admin Dashboard</h2>
+      <p class="muted">A quick pulse on registrations, KYC, payouts and revenue.</p>
+    </div>
+    <button mat-stroked-button class="refresh-btn" (click)="refresh()" [disabled]="loading">
+      <mat-icon>refresh</mat-icon>
+      <span>{{ loading ? 'Refreshing…' : 'Refresh' }}</span>
+    </button>
+  </header>
+
+  <div *ngIf="error" class="dash-error">
+    <mat-icon>error</mat-icon> {{ error }}
+  </div>
+
+  <!-- ===== Stat tiles ===== -->
+  <section class="tiles" *ngIf="!loading; else tilesSkeleton">
+    <a class="tile" *ngFor="let t of tiles"
+       [class.good]="t.tone==='good'"
+       [class.warn]="t.tone==='warn'"
+       [class.bad]="t.tone==='bad'"
+       [class.info]="t.tone==='info'"
+       [class.linkable]="!!t.link"
+       (click)="t.link && go(t.link)">
+      <span class="tile-icon">
+        <mat-icon>{{ t.icon }}</mat-icon>
+      </span>
+      <span class="tile-body">
+        <span class="tile-label">{{ t.label }}</span>
+        <span class="tile-value">{{ t.value }}</span>
+        <span class="tile-hint" *ngIf="t.hint">{{ t.hint }}</span>
+      </span>
+    </a>
+  </section>
+  <ng-template #tilesSkeleton>
+    <section class="tiles">
+      <div class="tile skel" *ngFor="let i of [1,2,3,4,5,6,7,8]"></div>
+    </section>
+  </ng-template>
+
+  <!-- ===== Charts row ===== -->
+  <section class="charts-row" *ngIf="!loading">
+
+    <!-- Trend (line/area) -->
+    <article class="chart-card span-2">
+      <header class="chart-head">
+        <h3>📈 Registrations · last 14 days</h3>
+        <span class="muted">Total: {{ totalRegistrations }}</span>
+      </header>
+      <div class="trend-wrap" *ngIf="trend.length">
+        <svg viewBox="0 0 600 180" preserveAspectRatio="none" class="trend-svg">
+          <defs>
+            <linearGradient id="trendGrad" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%"  stop-color="#1976d2" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#1976d2" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <!-- horizontal grid -->
+          <g class="grid">
+            <line x1="30" x2="570" y1="20"  y2="20"/>
+            <line x1="30" x2="570" y1="60"  y2="60"/>
+            <line x1="30" x2="570" y1="100" y2="100"/>
+            <line x1="30" x2="570" y1="140" y2="140"/>
+            <line x1="30" x2="570" y1="160" y2="160"/>
+          </g>
+          <path class="area" [attr.d]="trendArea" fill="url(#trendGrad)"></path>
+          <path class="line" [attr.d]="trendPath" fill="none" stroke="#1976d2" stroke-width="2"></path>
+          <g class="dots">
+            <circle *ngFor="let pt of trendPoints"
+                    [attr.cx]="pt.x" [attr.cy]="pt.y" r="3"
+                    fill="#1976d2">
+              <title>{{ pt.p.shortLabel }}: {{ pt.p.count }}</title>
+            </circle>
+          </g>
+        </svg>
+        <div class="x-axis">
+          <span *ngFor="let p of trend; let i = index"
+                [class.show]="i % 2 === 0">
+            {{ p.shortLabel }}
+          </span>
+        </div>
+      </div>
+    </article>
+
+    <!-- KYC donut -->
+    <article class="chart-card">
+      <header class="chart-head">
+        <h3>🪪 KYC status</h3>
+        <span class="muted">{{ kycTotal }} users</span>
+      </header>
+      <div class="donut-wrap">
+        <svg viewBox="0 0 140 140" class="donut" *ngIf="kycTotal > 0">
+          <path *ngFor="let seg of kycSvgSegments"
+                [attr.d]="seg.d"
+                [attr.fill]="seg.color"
+                stroke="#fff" stroke-width="1.5">
+            <title>{{ seg.label }}: {{ seg.value }}</title>
+          </path>
+          <text x="70" y="68" text-anchor="middle" class="donut-num">{{ kycTotal }}</text>
+          <text x="70" y="84" text-anchor="middle" class="donut-sub">users</text>
+        </svg>
+        <div class="donut-empty" *ngIf="kycTotal === 0">No KYC data yet.</div>
+        <ul class="legend">
+          <li *ngFor="let s of kycSlices">
+            <span class="dot" [style.background]="s.color"></span>
+            <span class="lbl">{{ s.label }}</span>
+            <span class="val">{{ s.value }}<small *ngIf="kycTotal"> · {{ pct(s.value, kycTotal) }}%</small></span>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Bar chart: registration payment status -->
+    <article class="chart-card">
+      <header class="chart-head">
+        <h3>💳 Registration payments</h3>
+        <span class="muted">{{ totalRegistrations }} total</span>
+      </header>
+      <ul class="bars">
+        <li *ngFor="let b of regStatusBars" class="bar-row">
+          <span class="bar-label">{{ b.label }}</span>
+          <div class="bar-track">
+            <div class="bar-fill" [class]="b.cls"
+                 [style.width.%]="(b.value / regStatusMax) * 100"></div>
+          </div>
+          <span class="bar-value">{{ b.value }}</span>
+        </li>
+      </ul>
+    </article>
+  </section>
+
+  <!-- ===== Recent registrations + Quick links ===== -->
+  <section class="bottom-row" *ngIf="!loading">
+    <article class="chart-card span-2">
+      <header class="chart-head">
+        <h3>🕒 Recent registrations</h3>
+        <a class="link" (click)="go('/admin/approvals')">View all →</a>
+      </header>
+      <div class="empty" *ngIf="!recent.length">No registrations yet.</div>
+      <table class="recent-table" *ngIf="recent.length">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>UTR</th>
+            <th class="ta-right">Amount</th>
+            <th>Status</th>
+            <th>KYC</th>
+            <th>Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of recent">
+            <td>
+              <div class="usr">
+                <strong>{{ (r.user?.fname || '') + ' ' + (r.user?.lname || '') | slice:0:30 }}</strong>
+                <span class="muted small">{{ r.user?.email || r.user?.mobileNumber || '—' }}</span>
+              </div>
+            </td>
+            <td class="code">{{ r.utrNumber || '—' }}</td>
+            <td class="ta-right">{{ inr(r.amountPaid || 0) }}</td>
+            <td>
+              <span class="pill"
+                    [class.pending]="r.paymentStatus === 'PENDING'"
+                    [class.completed]="r.paymentStatus === 'COMPLETED'"
+                    [class.failed]="r.paymentStatus === 'FAILED'">
+                {{ r.paymentStatus || '—' }}
+              </span>
+            </td>
+            <td>
+              <span class="pill small"
+                    [class.approved]="r.user?.kyc?.status === 'APPROVED'"
+                    [class.pending]="(r.user?.kyc?.status || 'PENDING') === 'PENDING'"
+                    [class.rejected]="r.user?.kyc?.status === 'REJECTED'">
+                {{ r.user?.kyc?.status || 'PENDING' }}
+              </span>
+            </td>
+            <td class="muted small">{{ r.createdAt | date:'dd MMM, HH:mm' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+
+    <article class="chart-card quick-card">
+      <header class="chart-head">
+        <h3>⚡ Quick links</h3>
+      </header>
+      <div class="quick-grid">
+        <a class="quick" *ngFor="let q of quickLinks" (click)="go(q.url)">
+          <mat-icon>{{ q.icon }}</mat-icon>
+          <div class="qtext">
+            <strong>{{ q.label }}</strong>
+            <small>{{ q.desc }}</small>
+          </div>
+        </a>
+      </div>
+    </article>
+  </section>
+</div>

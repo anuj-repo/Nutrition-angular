@@ -1,0 +1,18 @@
+<div class="cookie-banner" *ngIf="visible">
+  <div class="cb-content">
+    <div class="cb-text">
+      🍪 We use cookies to improve your experience. Essential cookies are always on.
+      <a href="javascript:void(0)" (click)="showCustom = !showCustom">Customize</a>
+    </div>
+    <div class="cb-actions">
+      <button mat-button (click)="rejectAll()">Reject All</button>
+      <button mat-raised-button color="primary" (click)="acceptAll()">Accept All</button>
+    </div>
+  </div>
+  <div class="cb-custom" *ngIf="showCustom">
+    <label><input type="checkbox" [checked]="true" disabled> Essential (always on)</label>
+    <label><input type="checkbox" [(ngModel)]="prefs.analytics"> Analytics</label>
+    <label><input type="checkbox" [(ngModel)]="prefs.marketing"> Marketing</label>
+    <button mat-stroked-button color="primary" (click)="save()">Save Preferences</button>
+  </div>
+</div>

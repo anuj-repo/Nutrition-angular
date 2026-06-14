@@ -1,0 +1,106 @@
+/* Brand-aligned cookie banner — matches dark navy + gold palette in styles.css */
+.cookie-banner {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  z-index: 1200;
+  background: var(--grad-dark, linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%));
+  color: #ffffff;
+  padding: 16px 24px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 215, 0, 0.18);
+  box-shadow: 0 14px 36px rgba(15, 52, 96, 0.35), 0 -2px 12px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(2px);
+}
+
+.cb-content {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cb-text {
+  flex: 1;
+  min-width: 220px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #ffffff;
+}
+
+.cb-text a {
+  color: var(--brand-gold, #ffd700);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-left: 4px;
+}
+.cb-text a:hover { color: var(--brand-gold-2, #ff9800); }
+
+.cb-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* "Reject All" — quiet ghost button on dark bg */
+.cb-actions button[mat-button] {
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  border-radius: 10px !important;
+}
+.cb-actions button[mat-button]:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 215, 0, 0.6) !important;
+}
+
+/* "Accept All" — gold gradient CTA */
+.cb-actions button[mat-raised-button] {
+  background: linear-gradient(135deg, #ffd700 0%, #ff9800 100%) !important;
+  color: #1a1a2e !important;
+  font-weight: 700 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 4px 14px rgba(255, 152, 0, 0.4) !important;
+}
+
+/* Customize panel */
+.cb-custom {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding: 14px 0 4px;
+  margin: 12px auto 0;
+  max-width: 1200px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  align-items: center;
+}
+
+.cb-custom label {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 13px;
+  color: #e8ecf3;
+}
+
+.cb-custom input[type='checkbox'] {
+  accent-color: var(--brand-gold, #ffd700);
+}
+
+.cb-custom button {
+  color: var(--brand-gold, #ffd700) !important;
+  border-color: rgba(255, 215, 0, 0.5) !important;
+  border-radius: 10px !important;
+}
+.cb-custom button:hover {
+  background: rgba(255, 215, 0, 0.08) !important;
+}
+
+@media (max-width: 600px) {
+  .cookie-banner { left: 8px; right: 8px; bottom: 8px; padding: 14px 16px; border-radius: 12px; }
+  .cb-actions { width: 100%; }
+  .cb-actions button { flex: 1; }
+}

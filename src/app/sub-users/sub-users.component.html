@@ -1,0 +1,64 @@
+<div class="su-container">
+  <div class="page-header">
+    <h2>👥 Sub-Users</h2>
+    <button mat-raised-button color="primary" (click)="showForm = !showForm">
+      <mat-icon>add</mat-icon> {{ showForm ? 'Cancel' : 'Add Sub-User' }}
+    </button>
+  </div>
+
+  <div class="alert success" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="alert error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <mat-card *ngIf="showForm" class="form-card">
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="addSub()">
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="firstName">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="lastName">
+          </mat-form-field>
+        </div>
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Mobile</mat-label>
+            <input matInput formControlName="mobNumber" appDigitsOnly maxlength="10" inputmode="numeric">
+          </mat-form-field>
+        </div>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Role</mat-label>
+          <mat-select formControlName="role">
+            <mat-option value="SUB_USER">Sub-User</mat-option>
+            <mat-option value="MANAGER">Manager</mat-option>
+            <mat-option value="VIEWER">Viewer</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Send Invitation</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <table mat-table [dataSource]="subUsers" class="full-width" *ngIf="subUsers.length">
+    <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let u">{{ u.fname }} {{ u.lname }}</td></ng-container>
+    <ng-container matColumnDef="email"><th mat-header-cell *matHeaderCellDef>Email</th>
+      <td mat-cell *matCellDef="let u">{{ u.email }}</td></ng-container>
+    <ng-container matColumnDef="role"><th mat-header-cell *matHeaderCellDef>Role</th>
+      <td mat-cell *matCellDef="let u">{{ u.role }}</td></ng-container>
+    <ng-container matColumnDef="status"><th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let u">{{ u.status }}</td></ng-container>
+    <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let u"><button mat-button color="primary" (click)="resend(u)">Resend Link</button></td></ng-container>
+    <tr mat-header-row *matHeaderRowDef="['name','email','role','status','actions']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['name','email','role','status','actions']"></tr>
+  </table>
+
+  <p *ngIf="!subUsers.length" class="empty">No sub-users yet.</p>
+</div>

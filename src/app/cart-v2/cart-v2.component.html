@@ -1,0 +1,41 @@
+<div class="cart-container">
+  <div class="page-header">
+    <h2>🛒 My Cart</h2>
+    <button mat-stroked-button color="warn" (click)="clearCart()" *ngIf="items.length"><mat-icon>delete_sweep</mat-icon> Clear Cart</button>
+  </div>
+
+  <div class="alert success" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="alert error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <div *ngIf="items.length" class="items">
+    <mat-card *ngFor="let item of items" class="item-card">
+      <mat-card-content>
+        <div class="item-row">
+          <img *ngIf="item.product?.productImages?.length" [src]="item.product.productImages[0].url" alt="" class="thumb">
+          <div class="item-info">
+            <h4>{{ item.product?.productName || item.productName }}</h4>
+            <p class="muted">{{ item.product?.productDescription }}</p>
+            <p class="price">₹{{ item.product?.productDiscountedPrice || item.price }}</p>
+          </div>
+          <div class="qty-controls">
+            <button mat-icon-button (click)="changeQty(item, -1)" [disabled]="(item.quantity||1) <= 1"><mat-icon>remove</mat-icon></button>
+            <span class="qty">{{ item.quantity || 1 }}</span>
+            <button mat-icon-button (click)="changeQty(item, 1)"><mat-icon>add</mat-icon></button>
+          </div>
+          <div class="line-total">₹{{ ((item.product?.productDiscountedPrice || item.price || 0) * (item.quantity || 1)) | number }}</div>
+          <button mat-icon-button color="warn" (click)="remove(item)"><mat-icon>delete</mat-icon></button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <mat-card *ngIf="items.length" class="summary-card">
+    <mat-card-content>
+      <div class="summary-row"><span>Total Items:</span><strong>{{ items.length }}</strong></div>
+      <div class="summary-row grand"><span>Grand Total:</span><strong>₹{{ total() | number }}</strong></div>
+      <button mat-raised-button color="primary" (click)="checkout()" class="checkout-btn">Proceed to Checkout</button>
+    </mat-card-content>
+  </mat-card>
+
+  <p *ngIf="!items.length && !loading" class="empty">Your cart is empty. <a routerLink="/">Browse products →</a></p>
+</div>

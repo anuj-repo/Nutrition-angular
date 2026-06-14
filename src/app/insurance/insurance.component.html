@@ -1,0 +1,187 @@
+<div class="ins-container">
+  <div class="page-header">
+    <h2>🏥 Insurance Center</h2>
+    <p class="subtitle">Health, Disability & Accidental coverage for our team</p>
+  </div>
+
+  <mat-card class="elig-card">
+    <mat-card-content>
+      <h3>📊 Your Eligibility</h3>
+      <div class="elig-grid">
+        <div><span>Active Team:</span> <strong>{{ eligibility.activeTeam || 0 }}</strong></div>
+        <div><span>Required:</span> <strong>{{ eligibility.requiredTeam || 50 }}</strong></div>
+        <div>
+          <span>Status:</span>
+          <strong [class.eligible]="eligibility.eligible" [class.not-eligible]="!eligibility.eligible">
+            {{ eligibility.eligible ? 'Eligible ✓' : 'Not yet eligible' }}
+          </strong>
+        </div>
+      </div>
+      <button mat-raised-button color="primary" (click)="autoEnroll()" *ngIf="eligibility.eligible && !myInsurance.length">
+        Auto-Enroll Now
+      </button>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="alert success" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="alert error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <div class="tab-nav">
+    <button mat-button [class.active-tab]="selectedTab==='plans'" (click)="switchTab('plans')">Plans</button>
+    <button mat-button [class.active-tab]="selectedTab==='mine'" (click)="switchTab('mine')">My Coverage</button>
+    <button mat-button [class.active-tab]="selectedTab==='claim'" (click)="switchTab('claim')">File Claim</button>
+    <button mat-button [class.active-tab]="selectedTab==='claims'" (click)="switchTab('claims')">My Claims</button>
+    <button mat-button [class.active-tab]="selectedTab==='nominee'" (click)="switchTab('nominee')">Nominee</button>
+  </div>
+
+  <mat-card *ngIf="selectedTab==='plans'" class="tab-content">
+    <mat-card-content>
+      <h3>Available Plans</h3>
+      <div class="plan-grid">
+        <mat-card *ngFor="let p of plans" class="plan-card">
+          <mat-card-content>
+            <div class="plan-icon">🏥</div>
+            <h4>{{ p.planName }}</h4>
+            <p class="plan-cover">Coverage: ₹{{ p.coverageAmount | number }}</p>
+            <p class="plan-desc">{{ p.description }}</p>
+            <p>Eligibility: {{ p.eligibilityCriteria }}</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <p *ngIf="!plans.length" class="muted">No plans available yet.</p>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="selectedTab==='mine'" class="tab-content">
+    <mat-card-content>
+      <h3>My Coverage</h3>
+      <table mat-table [dataSource]="myInsurance" class="full-width" *ngIf="myInsurance.length">
+        <ng-container matColumnDef="plan"><th mat-header-cell *matHeaderCellDef>Plan</th>
+          <td mat-cell *matCellDef="let i">{{ i.planName || i.insurancePlan?.planName }}</td></ng-container>
+        <ng-container matColumnDef="coverage"><th mat-header-cell *matHeaderCellDef>Coverage</th>
+          <td mat-cell *matCellDef="let i">₹{{ i.coverageAmount | number }}</td></ng-container>
+        <ng-container matColumnDef="start"><th mat-header-cell *matHeaderCellDef>Start</th>
+          <td mat-cell *matCellDef="let i">{{ i.startDate | date }}</td></ng-container>
+        <ng-container matColumnDef="end"><th mat-header-cell *matHeaderCellDef>Expires</th>
+          <td mat-cell *matCellDef="let i">{{ i.endDate | date }}</td></ng-container>
+        <ng-container matColumnDef="status"><th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let i">{{ i.status }}</td></ng-container>
+        <tr mat-header-row *matHeaderRowDef="['plan','coverage','start','end','status']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['plan','coverage','start','end','status']"></tr>
+      </table>
+      <p *ngIf="!myInsurance.length" class="muted">No active coverage.</p>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="selectedTab==='claim'" class="tab-content">
+    <mat-card-content>
+      <h3>File Insurance Claim</h3>
+      <form [formGroup]="claimForm" (ngSubmit)="submitClaim()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Coverage / Insurance</mat-label>
+          <mat-select formControlName="userInsuranceId">
+            <mat-option *ngFor="let i of myInsurance" [value]="i.id">{{ i.planName || i.insurancePlan?.planName }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Claimed Amount (₹)</mat-label>
+          <input matInput type="number" formControlName="claimedAmount">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description" rows="3"></textarea>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Incident Date</mat-label>
+          <input matInput [matDatepicker]="pk" formControlName="incidentDate">
+          <mat-datepicker-toggle matSuffix [for]="pk"></mat-datepicker-toggle>
+          <mat-datepicker #pk></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Supporting Doc URLs (comma-separated)</mat-label>
+          <input matInput formControlName="supportingDocs">
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Submit Claim</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="selectedTab==='claims'" class="tab-content">
+    <mat-card-content>
+      <h3>My Claims</h3>
+      <table mat-table [dataSource]="myClaims" class="full-width" *ngIf="myClaims.length">
+        <ng-container matColumnDef="date"><th mat-header-cell *matHeaderCellDef>Claim Date</th>
+          <td mat-cell *matCellDef="let c">{{ c.claimDate | date }}</td></ng-container>
+        <ng-container matColumnDef="amount"><th mat-header-cell *matHeaderCellDef>Amount</th>
+          <td mat-cell *matCellDef="let c">₹{{ c.claimedAmount | number }}</td></ng-container>
+        <ng-container matColumnDef="approved"><th mat-header-cell *matHeaderCellDef>Approved</th>
+          <td mat-cell *matCellDef="let c">₹{{ c.approvedAmount || 0 | number }}</td></ng-container>
+        <ng-container matColumnDef="status"><th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let c">{{ c.status }}</td></ng-container>
+        <tr mat-header-row *matHeaderRowDef="['date','amount','approved','status']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['date','amount','approved','status']"></tr>
+      </table>
+      <p *ngIf="!myClaims.length" class="muted">No claims yet.</p>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="selectedTab==='nominee'" class="tab-content">
+    <mat-card-content>
+      <h3>Nominee Details</h3>
+      <p class="muted">Designate a nominee for insurance benefit transfer.</p>
+      <form [formGroup]="nomineeForm" (ngSubmit)="saveNominee()">
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Relationship</mat-label>
+            <mat-select formControlName="relationship">
+              <mat-option value="Spouse">Spouse</mat-option>
+              <mat-option value="Parent">Parent</mat-option>
+              <mat-option value="Child">Child</mat-option>
+              <mat-option value="Sibling">Sibling</mat-option>
+              <mat-option value="Other">Other</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Date of Birth</mat-label>
+            <input matInput [matDatepicker]="pk2" formControlName="dob">
+            <mat-datepicker-toggle matSuffix [for]="pk2"></mat-datepicker-toggle>
+            <mat-datepicker #pk2></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Mobile</mat-label>
+            <input matInput formControlName="mobile" appDigitsOnly maxlength="10" inputmode="numeric">
+          </mat-form-field>
+        </div>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Address</mat-label>
+          <input matInput formControlName="addressLine">
+        </mat-form-field>
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>City</mat-label>
+            <input matInput formControlName="city">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>State</mat-label>
+            <input matInput formControlName="state">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Pincode</mat-label>
+            <input matInput formControlName="pincode" maxlength="6">
+          </mat-form-field>
+        </div>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Share Percent (%)</mat-label>
+          <input matInput type="number" formControlName="sharePercent" min="1" max="100">
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Save Nominee</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

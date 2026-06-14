@@ -1,0 +1,20 @@
+<div class="ann-container">
+  <div class="page-header"><h2>📣 Announcements</h2></div>
+
+  <mat-card *ngFor="let a of list" class="ann-card">
+    <mat-card-content>
+      <div class="ann-row">
+        <div class="ann-icon">📢</div>
+        <div class="ann-body">
+          <h3>{{ a.title }}</h3>
+          <p>{{ a.message || a.content }}</p>
+          <p class="ann-meta">
+            <span *ngIf="a.priority" class="badge" [ngClass]="a.priority?.toLowerCase()">{{ a.priority }}</span>
+            <span class="time">{{ a.createdAt | date:'medium' }}</span>
+          </p>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <p *ngIf="!list.length" class="empty">No announcements at the moment.</p>
+</div>

@@ -1,0 +1,65 @@
+<div class="support-container">
+  <div class="page-header">
+    <h2>🎫 Support Tickets</h2>
+    <button mat-raised-button color="primary" (click)="toggleForm()">
+      <mat-icon>add</mat-icon> {{ showForm ? 'Cancel' : 'New Ticket' }}
+    </button>
+  </div>
+
+  <div class="alert success" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="alert error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <mat-card class="form-card" *ngIf="showForm">
+    <mat-card-content>
+      <h3>Create New Ticket</h3>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Subject</mat-label>
+          <input matInput formControlName="subject">
+        </mat-form-field>
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="category">
+              <mat-option value="GENERAL">General</mat-option>
+              <mat-option value="PAYMENT">Payment</mat-option>
+              <mat-option value="ORDER">Order</mat-option>
+              <mat-option value="ACCOUNT">Account</mat-option>
+              <mat-option value="TECHNICAL">Technical</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Priority</mat-label>
+            <mat-select formControlName="priority">
+              <mat-option value="LOW">Low</mat-option>
+              <mat-option value="NORMAL">Normal</mat-option>
+              <mat-option value="HIGH">High</mat-option>
+              <mat-option value="URGENT">Urgent</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description" rows="5"></textarea>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Create Ticket</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="tickets-list" *ngIf="tickets.length">
+    <mat-card *ngFor="let t of tickets" class="ticket-card" [routerLink]="['/support', t.id]">
+      <mat-card-content>
+        <div class="t-row">
+          <div>
+            <div class="t-subject">{{ t.subject }}</div>
+            <div class="t-meta">#{{ t.id }} · {{ t.category }} · {{ t.createdAt | date:'medium' }}</div>
+          </div>
+          <span class="status-badge" [ngClass]="t.status?.toLowerCase()">{{ t.status }}</span>
+          <span class="priority-badge" [ngClass]="t.priority?.toLowerCase()">{{ t.priority }}</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <p *ngIf="!tickets.length" class="empty">No tickets yet.</p>
+</div>

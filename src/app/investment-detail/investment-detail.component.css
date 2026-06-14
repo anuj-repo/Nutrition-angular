@@ -1,0 +1,15 @@
+.inv-container { padding: 24px; max-width: 1000px; margin: 0 auto; }
+.page-header { text-align: center; margin: 16px 0; }
+.page-header h2 { color: #1b5e20; }
+.summary-row { display: flex; gap: 16px; margin-bottom: 24px; }
+.summary-card { flex: 1; border-radius: 12px; text-align: center; }
+.summary-card mat-card-content { padding: 20px; }
+.card-label { display: block; color: #666; font-size: 13px; }
+.card-value { display: block; font-size: 22px; font-weight: 700; margin-top: 4px; }
+.card-value.paid { color: #2e7d32; }
+.card-value.due { color: #e65100; }
+.full-width { width: 100%; }
+.badge { padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500; }
+.badge.paid { background: #e8f5e9; color: #2e7d32; }
+.badge.due { background: #fff3e0; color: #e65100; }
+.empty { text-align: center; padding: 40px; color: #888; }

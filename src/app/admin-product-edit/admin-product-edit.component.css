@@ -1,0 +1,11 @@
+.ape-container { padding: 24px; max-width: 800px; margin: 0 auto; }
+.form-card { border-radius: 12px; margin-top: 12px; }
+.form-card h2 { color: #1b5e20; margin-top: 0; }
+.full-width { width: 100%; }
+.form-row { display: flex; gap: 16px; }
+.form-row mat-form-field { flex: 1; }
+.actions { display: flex; gap: 8px; margin-top: 16px; }
+.alert { padding: 10px 14px; border-radius: 6px; margin-bottom: 12px; }
+.alert.success { background: #e8f5e9; color: #2e7d32; }
+.alert.error { background: #ffebee; color: #c62828; }
+@media (max-width: 768px) { .form-row { flex-direction: column; gap: 0; } }

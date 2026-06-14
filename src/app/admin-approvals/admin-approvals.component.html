@@ -1,0 +1,412 @@
+<div class="aa-container">
+  <div class="page-header">
+    <h2>✅ Admin Approvals</h2>
+    <p class="muted">Verify registration payments, approve withdrawals, and toggle user activation.</p>
+  </div>
+
+  <div class="tab-nav">
+    <button mat-button [class.active-tab]="selectedTab==='registrations'"
+            (click)="switchTab('registrations')">📝 Registrations</button>
+    <button mat-button [class.active-tab]="selectedTab==='withdrawals'"
+            (click)="switchTab('withdrawals')">💸 Withdrawals</button>
+    <button mat-button [class.active-tab]="selectedTab==='pending'"
+            (click)="switchTab('pending')">📦 Pending Payouts</button>
+  </div>
+
+  <!-- ============================================================
+       REGISTRATIONS TAB — Verify UTR & approve / reject signups
+       ============================================================ -->
+  <ng-container *ngIf="selectedTab==='registrations'">
+
+    <!-- Quick verify by UTR -->
+    <mat-card class="utr-card">
+      <mat-card-content>
+        <div class="utr-head">
+          <h3>🔍 Quick verify by UTR / Transaction ID</h3>
+          <p class="muted">Paste the UTR from the bank statement and the actual amount credited. We'll record the payment, and activate the user once the full amount is met.</p>
+        </div>
+        <div class="utr-row">
+          <mat-form-field appearance="outline" class="utr-input">
+            <mat-label>UTR / Transaction ID</mat-label>
+            <mat-icon matPrefix>receipt_long</mat-icon>
+            <input matInput [(ngModel)]="utrInput" placeholder="e.g. 412345678910"
+                   (keyup.enter)="verifyByUtr()" maxlength="30">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="amount-input">
+            <mat-label>Amount Paid (₹)</mat-label>
+            <mat-icon matPrefix>currency_rupee</mat-icon>
+            <input matInput type="number" min="0" step="0.01"
+                   [(ngModel)]="utrAmountInput"
+                   placeholder="2280"
+                   (keyup.enter)="verifyByUtr()">
+          </mat-form-field>
+
+          <button mat-raised-button class="verify-btn" [disabled]="utrBusy"
+                  (click)="verifyByUtr()">
+            <mat-icon>check_circle</mat-icon>
+            {{ utrBusy ? 'Verifying...' : 'Verify & Activate' }}
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Filter pills + table -->
+    <mat-card class="tab-content">
+      <mat-card-content>
+        <div class="filter-row">
+          <h3>Registration Requests</h3>
+          <div class="filter-group">
+            <button class="filter-chip" [class.active]="registrationFilter===''"
+                    (click)="setRegFilter('')">All</button>
+            <button class="filter-chip" [class.active]="registrationFilter==='PENDING'"
+                    (click)="setRegFilter('PENDING')">Pending</button>
+            <button class="filter-chip" [class.active]="registrationFilter==='COMPLETED'"
+                    (click)="setRegFilter('COMPLETED')">Approved</button>
+            <button class="filter-chip" [class.active]="registrationFilter==='FAILED'"
+                    (click)="setRegFilter('FAILED')">Rejected</button>
+          </div>
+          <button mat-icon-button matTooltip="Refresh" (click)="loadRegistrations()">
+            <mat-icon>refresh</mat-icon>
+          </button>
+        </div>
+
+        <div class="state-block" *ngIf="loadingRegs">
+          <mat-icon class="spin">autorenew</mat-icon>
+          <p>Loading registrations...</p>
+        </div>
+
+        <div class="state-block empty" *ngIf="!loadingRegs && registrations.length === 0">
+          <span class="empty-icon">📭</span>
+          <h4>No {{ registrationFilter ? registrationFilter.toLowerCase() : '' }} registrations</h4>
+          <p>When users submit a UTR after payment, they'll show up here for verification.</p>
+        </div>
+
+        <div class="reg-grid" *ngIf="!loadingRegs && registrations.length > 0">
+          <article class="reg-card" *ngFor="let r of registrations"
+                   [class.is-pending]="r.paymentStatus==='PENDING'"
+                   [class.is-completed]="r.paymentStatus==='COMPLETED'"
+                   [class.is-failed]="r.paymentStatus==='FAILED'">
+
+            <header class="reg-head">
+              <div>
+                <h4 class="reg-name">{{ r.user?.fname }} {{ r.user?.lname }}</h4>
+                <p class="reg-email">{{ r.user?.email || '—' }} <span *ngIf="r.user?.mobileNumber">· {{ r.user.mobileNumber }}</span></p>
+              </div>
+              <span class="status-pill"
+                    [class.pending]="r.paymentStatus==='PENDING'"
+                    [class.completed]="r.paymentStatus==='COMPLETED'"
+                    [class.failed]="r.paymentStatus==='FAILED'">
+                {{ r.paymentStatus }}
+              </span>
+            </header>
+
+            <div class="reg-body">
+              <div class="kv">
+                <span class="k">UTR / Txn ID</span>
+                <span class="v code">{{ r.utrNumber || '—' }}</span>
+              </div>
+              <div class="kv">
+                <span class="k">Submitted</span>
+                <span class="v">{{ r.createdAt | date:'medium' }}</span>
+              </div>
+              <div class="kv" *ngIf="r.user?.referralCode">
+                <span class="k">Referral</span>
+                <span class="v code">{{ r.user.referralCode }}</span>
+              </div>
+
+              <!-- Amount summary row -->
+              <div class="amount-summary">
+                <div class="amount-cell due">
+                  <span class="amt-label">Amount to pay</span>
+                  <span class="amt-value">₹{{ (r.amountToPay || 0) | number }}</span>
+                </div>
+                <div class="amount-cell paid">
+                  <span class="amt-label">Amount paid</span>
+                  <span class="amt-value">₹{{ (r.amountPaid || 0) | number }}</span>
+                </div>
+                <div class="amount-cell pending"
+                     [class.cleared]="(r.amountPending || 0) === 0"
+                     [class.shortfall]="(r.amountPending || 0) > 0">
+                  <span class="amt-label">Pending</span>
+                  <span class="amt-value">₹{{ (r.amountPending || 0) | number }}</span>
+                </div>
+              </div>
+
+              <!-- Inline amount editor: only when not yet fully paid -->
+              <div class="amount-editor" *ngIf="r.paymentStatus === 'PENDING' || (r.amountPending || 0) > 0">
+                <mat-form-field appearance="outline" class="row-amount">
+                  <mat-label>Record verified amount (₹)</mat-label>
+                  <mat-icon matPrefix>currency_rupee</mat-icon>
+                  <input matInput type="number" min="0" step="0.01"
+                         [(ngModel)]="r._amountInput"
+                         [placeholder]="(r.amountToPay || 2280).toString()">
+                </mat-form-field>
+                <button mat-raised-button class="ok-btn small" [disabled]="r._busy"
+                        (click)="saveRowAmount(r)">
+                  <mat-icon>save</mat-icon>
+                  {{ r._busy ? 'Saving...' : 'Save' }}
+                </button>
+              </div>
+
+              <!-- KYC accordion -->
+              <div class="kyc-block" *ngIf="r.user?.kyc">
+                <button class="kyc-toggle" type="button" (click)="toggleKyc(r)">
+                  <mat-icon>{{ r._kycOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
+                  <span>KYC details</span>
+                  <span class="kyc-pill"
+                        [class.pending]="r.user.kyc.status === 'PENDING'"
+                        [class.approved]="r.user.kyc.status === 'APPROVED'"
+                        [class.rejected]="r.user.kyc.status === 'REJECTED'">
+                    {{ r.user.kyc.status || 'NOT_SUBMITTED' }}
+                  </span>
+                </button>
+
+                <div class="kyc-detail" *ngIf="r._kycOpen">
+                  <div class="kyc-grid">
+                    <div class="kyc-cell">
+                      <span class="k">PAN</span>
+                      <span class="v code">{{ r.user.kyc.panNumber || '—' }}</span>
+                    </div>
+                    <div class="kyc-cell">
+                      <span class="k">Aadhaar</span>
+                      <span class="v code">{{ r.user.kyc.aadhaarNumber || '—' }}</span>
+                    </div>
+                    <div class="kyc-cell">
+                      <span class="k">Account holder</span>
+                      <span class="v">{{ r.user.kyc.accountHolderName || '—' }}</span>
+                    </div>
+                    <div class="kyc-cell">
+                      <span class="k">Bank</span>
+                      <span class="v">{{ r.user.kyc.bankName || '—' }}</span>
+                    </div>
+                    <div class="kyc-cell">
+                      <span class="k">Account #</span>
+                      <span class="v code">{{ r.user.kyc.accountNumber || '—' }}</span>
+                    </div>
+                    <div class="kyc-cell">
+                      <span class="k">IFSC</span>
+                      <span class="v code">{{ r.user.kyc.ifscCode || '—' }}</span>
+                    </div>
+                  </div>
+
+                  <div class="kyc-thumbs">
+                    <a class="thumb" *ngIf="(r.user.kyc.docTypes || []).includes('PAN')"
+                       href="#" (click)="openKycDoc(r.user.id, 'PAN', $event)"
+                       matTooltip="Open PAN document">
+                      <ng-container *ngIf="kycDocState(r.user.id, 'PAN') as d">
+                        <img *ngIf="d.objectUrl && !d.isPdf" [src]="d.safeUrl" alt="PAN">
+                        <div *ngIf="d.objectUrl && d.isPdf" class="thumb-pdf">
+                          <mat-icon>picture_as_pdf</mat-icon>
+                        </div>
+                        <div *ngIf="d.loading" class="thumb-loading">
+                          <mat-icon>hourglass_top</mat-icon>
+                        </div>
+                        <div *ngIf="d.error" class="thumb-error" [matTooltip]="d.error">
+                          <mat-icon>broken_image</mat-icon>
+                        </div>
+                      </ng-container>
+                      <span>PAN</span>
+                    </a>
+                    <a class="thumb" *ngIf="(r.user.kyc.docTypes || []).includes('AADHAAR')"
+                       href="#" (click)="openKycDoc(r.user.id, 'AADHAAR', $event)"
+                       matTooltip="Open Aadhaar document">
+                      <ng-container *ngIf="kycDocState(r.user.id, 'AADHAAR') as d">
+                        <img *ngIf="d.objectUrl && !d.isPdf" [src]="d.safeUrl" alt="Aadhaar">
+                        <div *ngIf="d.objectUrl && d.isPdf" class="thumb-pdf">
+                          <mat-icon>picture_as_pdf</mat-icon>
+                        </div>
+                        <div *ngIf="d.loading" class="thumb-loading">
+                          <mat-icon>hourglass_top</mat-icon>
+                        </div>
+                        <div *ngIf="d.error" class="thumb-error" [matTooltip]="d.error">
+                          <mat-icon>broken_image</mat-icon>
+                        </div>
+                      </ng-container>
+                      <span>Aadhaar</span>
+                    </a>
+                    <a class="thumb" *ngIf="(r.user.kyc.docTypes || []).includes('BANK_PROOF')"
+                       href="#" (click)="openKycDoc(r.user.id, 'BANK_PROOF', $event)"
+                       matTooltip="Open bank proof document">
+                      <ng-container *ngIf="kycDocState(r.user.id, 'BANK_PROOF') as d">
+                        <img *ngIf="d.objectUrl && !d.isPdf" [src]="d.safeUrl" alt="Bank proof">
+                        <div *ngIf="d.objectUrl && d.isPdf" class="thumb-pdf">
+                          <mat-icon>picture_as_pdf</mat-icon>
+                        </div>
+                        <div *ngIf="d.loading" class="thumb-loading">
+                          <mat-icon>hourglass_top</mat-icon>
+                        </div>
+                        <div *ngIf="d.error" class="thumb-error" [matTooltip]="d.error">
+                          <mat-icon>broken_image</mat-icon>
+                        </div>
+                      </ng-container>
+                      <span>Bank proof</span>
+                    </a>
+                    <p class="no-thumbs" *ngIf="!(r.user.kyc.docTypes || []).length">
+                      No KYC documents uploaded.
+                    </p>
+                  </div>
+
+                  <p class="kyc-rejection" *ngIf="r.user.kyc.rejectionReason && r.user.kyc.status === 'REJECTED'">
+                    <mat-icon>error</mat-icon> {{ r.user.kyc.rejectionReason }}
+                  </p>
+
+                  <div class="kyc-actions" *ngIf="r.user.kyc.status === 'PENDING' && r.user.id">
+                    <button mat-raised-button class="ok-btn small"
+                            (click)="reviewKyc(r.user.id!, 'APPROVED')">
+                      <mat-icon>check</mat-icon> Approve KYC
+                    </button>
+                    <button mat-stroked-button class="bad-btn"
+                            (click)="rejectKycPrompt(r)">
+                      <mat-icon>close</mat-icon> Reject KYC
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <footer class="reg-actions">
+              <!-- Approve / Reject for PENDING rows -->
+              <ng-container *ngIf="r.paymentStatus==='PENDING'">
+                <button mat-raised-button class="ok-btn" (click)="approveRegistration(r)">
+                  <mat-icon>check</mat-icon> Approve & Activate
+                </button>
+                <button mat-stroked-button class="bad-btn" (click)="rejectRegistration(r)">
+                  <mat-icon>close</mat-icon> Reject
+                </button>
+              </ng-container>
+
+              <!-- Active toggle for already-approved users -->
+              <label class="toggle"
+                     [matTooltip]="r.user?.active ? 'Deactivate user' : 'Activate user'"
+                     *ngIf="r.user?.id">
+                <input type="checkbox"
+                       [checked]="!!r.user?.active"
+                       (change)="toggleActive(r, $event)">
+                <span class="track"><span class="thumb"></span></span>
+                <span class="toggle-label">{{ r.user?.active ? 'Active' : 'Inactive' }}</span>
+              </label>
+            </footer>
+          </article>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
+
+  <!-- ============================================================
+       WITHDRAWALS TAB
+       ============================================================ -->
+  <p class="muted message-line" *ngIf="message && selectedTab !== 'registrations'">{{ message }}</p>
+
+  <mat-card *ngIf="selectedTab==='withdrawals'" class="tab-content">
+    <mat-card-content>
+      <h3>Withdrawal Requests</h3>
+      <table mat-table [dataSource]="withdrawals" class="full-width" *ngIf="withdrawals.length">
+        <ng-container matColumnDef="user"><th mat-header-cell *matHeaderCellDef>User</th>
+          <td mat-cell *matCellDef="let w">{{ w.user?.fname || '' }} {{ w.user?.lname || '' }} (#{{ w.userId || w.user?.id }})</td></ng-container>
+        <ng-container matColumnDef="amt"><th mat-header-cell *matHeaderCellDef>Amount</th>
+          <td mat-cell *matCellDef="let w">₹{{ (w.amount || 0) | number }}</td></ng-container>
+        <ng-container matColumnDef="net"><th mat-header-cell *matHeaderCellDef>Net (after TDS)</th>
+          <td mat-cell *matCellDef="let w">₹{{ (w.netAmount || 0) | number }}</td></ng-container>
+        <ng-container matColumnDef="bank"><th mat-header-cell *matHeaderCellDef>Bank Details</th>
+          <td mat-cell *matCellDef="let w">{{ w.bankName || '—' }} · {{ w.accountNumber || '—' }}</td></ng-container>
+        <ng-container matColumnDef="date"><th mat-header-cell *matHeaderCellDef>Requested</th>
+          <td mat-cell *matCellDef="let w">{{ w.createdAt | date:'medium' }}</td></ng-container>
+        <ng-container matColumnDef="status"><th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let w">
+            <span class="status-pill"
+                  [class.pending]="w.requestStatus==='PENDING'"
+                  [class.completed]="w.requestStatus==='PAID'"
+                  [class.failed]="w.requestStatus==='REJECTED'">
+              {{ w.requestStatus }}
+            </span>
+          </td></ng-container>
+        <ng-container matColumnDef="utr"><th mat-header-cell *matHeaderCellDef>UTR</th>
+          <td mat-cell *matCellDef="let w">{{ w.utrNumber || '—' }}</td></ng-container>
+        <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let w">
+            <button mat-button color="primary" (click)="approve(w)" *ngIf="w.requestStatus==='PENDING'">Approve</button>
+            <button mat-button color="warn" (click)="reject(w)" *ngIf="w.requestStatus==='PENDING'">Reject</button>
+            <span *ngIf="w.requestStatus!=='PENDING'">—</span>
+          </td></ng-container>
+        <tr mat-header-row *matHeaderRowDef="['user','amt','net','bank','date','status','utr','actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['user','amt','net','bank','date','status','utr','actions']"></tr>
+      </table>
+      <p *ngIf="!withdrawals.length" class="empty">No withdrawal requests.</p>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="selectedTab==='pending'" class="tab-content">
+    <mat-card-content>
+      <div class="header-row">
+        <h3>💳 Commission Distribution & Payout Processing</h3>
+      </div>
+
+      <div class="payout-section">
+        <h4>📊 Pending Commission Report</h4>
+        <p class="muted">Review pending withdrawals and process payouts for users.</p>
+
+        <div class="state-block" *ngIf="!pending.length">
+          <span class="empty-icon">✅</span>
+          <h4>No pending payouts</h4>
+          <p>All withdrawal requests have been processed.</p>
+        </div>
+
+        <div class="payout-grid" *ngIf="pending.length">
+          <article class="payout-card" *ngFor="let p of pending">
+            <header class="payout-head">
+              <div>
+                <h4>{{ p.user?.fname || '' }} {{ p.user?.lname || '' }}</h4>
+                <p class="reg-email">{{ p.user?.email || '—' }} · User #{{ p.userId || p.user?.id }}</p>
+              </div>
+              <span class="status-pill pending">{{ p.requestStatus || 'PENDING' }}</span>
+            </header>
+            <div class="payout-body">
+              <div class="kv">
+                <span class="k">Requested Amount</span>
+                <span class="v">₹{{ (p.amount || 0) | number }}</span>
+              </div>
+              <div class="kv">
+                <span class="k">TDS (5%)</span>
+                <span class="v">₹{{ (p.tdsAmount || 0) | number }}</span>
+              </div>
+              <div class="kv">
+                <span class="k">Net Payable</span>
+                <span class="v"><strong>₹{{ (p.netAmount || 0) | number }}</strong></span>
+              </div>
+              <div class="kv">
+                <span class="k">Bank</span>
+                <span class="v">{{ p.bankName || '—' }} · {{ p.accountNumber || '—' }} · {{ p.ifscCode || '—' }}</span>
+              </div>
+              <div class="kv">
+                <span class="k">Requested On</span>
+                <span class="v">{{ p.createdAt | date:'medium' }}</span>
+              </div>
+            </div>
+            <footer class="payout-actions">
+              <mat-form-field appearance="outline" class="utr-input">
+                <mat-label>UTR / Transaction #</mat-label>
+                <input matInput [(ngModel)]="p._utr" placeholder="Enter UTR after transfer">
+              </mat-form-field>
+              <button mat-raised-button class="ok-btn" [disabled]="!p._utr"
+                      (click)="approvePayout(p)">
+                <mat-icon>check</mat-icon> Approve & Pay
+              </button>
+              <button mat-stroked-button class="bad-btn" (click)="rejectPayout(p)">
+                <mat-icon>close</mat-icon> Reject
+              </button>
+            </footer>
+          </article>
+        </div>
+      </div>
+
+      <div class="payout-section" style="margin-top: 24px;">
+        <h4>⚡ Batch Process All Pending</h4>
+        <p class="muted">Mark all pending withdrawals as queued for the next bank batch.</p>
+        <button mat-raised-button color="primary" (click)="processPayouts()">
+          <mat-icon>send</mat-icon> Process All Payouts
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

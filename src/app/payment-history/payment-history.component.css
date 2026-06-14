@@ -1,0 +1,11 @@
+.ph-container { padding: 24px; max-width: 1100px; margin: 0 auto; }
+.page-header { text-align: center; margin-bottom: 16px; }
+.page-header h2 { color: #1b5e20; }
+.muted { color: #888; }
+.muted strong { color: #2e7d32; }
+.full-width { width: 100%; }
+.badge { padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500; }
+.badge.success, .badge.completed, .badge.paid { background: #e8f5e9; color: #2e7d32; }
+.badge.pending, .badge.processing { background: #fff3e0; color: #e65100; }
+.badge.failed, .badge.cancelled { background: #ffebee; color: #c62828; }
+.empty { text-align: center; padding: 40px; color: #888; }

@@ -1,0 +1,76 @@
+<section class="home-hero brand-bg">
+   <div class="hero-inner">
+      <div class="hero-badge">🌿 Premium Wellness Brand</div>
+      <h1 class="hero-title">Nutrition Forever <span>Wellness</span></h1>
+      <p class="hero-product">Featuring <strong>Stamina Core+</strong></p>
+      <p class="hero-tag">A premium wellness brand · Health + Wealth + Security</p>
+      <p class="hero-tag-hi">अपने शरीर की असली शक्ति को जगाएं</p>
+
+      <div class="hero-search">
+         <mat-form-field appearance="outline" class="search-field">
+            <mat-icon matPrefix>search</mat-icon>
+            <mat-label>Search any Product</mat-label>
+            <input #searchkeyword (keyup)="searchByKeyword(searchkeyword.value)" matInput name="searchKey"
+               id="searchKey" placeholder="Try 'Stamina Core Plus'">
+         </mat-form-field>
+      </div>
+
+      <div class="hero-promises">
+         <span class="promise-pill">💊 120 Capsules</span>
+         <span class="promise-pill">🌿 100% Natural</span>
+         <span class="promise-pill">🏆 GMP · FSSAI</span>
+         <span class="promise-pill">🚚 Pan-India Delivery</span>
+      </div>
+   </div>
+</section>
+
+<section class="products-section">
+   <div class="products-inner">
+      <div class="products-heading">
+         <h2 class="section-title-brand">Featured Products</h2>
+         <p class="section-subtitle-brand">Curated wellness products to transform your life.</p>
+      </div>
+
+      <div class="product-grid">
+         <div class="product-card" *ngFor="let p of productDetails">
+            <div class="product-image-wrap">
+               <img *ngIf="p.productImages?.length > 0" [src]="p.productImages[0].url" [alt]="p.productName">
+               <span class="discount-tag"
+                  *ngIf="p.productActualPrice && p.productDiscountedPrice && p.productActualPrice > p.productDiscountedPrice">
+                  Save ₹{{ p.productActualPrice - p.productDiscountedPrice }}
+               </span>
+            </div>
+
+            <div class="product-body">
+               <h3 class="product-name">{{ p.productName }}</h3>
+               <p class="product-desc">{{ p.productDescription }}</p>
+
+               <div class="price-row">
+                  <span class="price-now">₹{{ p.productDiscountedPrice }}</span>
+                  <span class="price-was"
+                     *ngIf="p.productActualPrice && p.productActualPrice !== p.productDiscountedPrice">
+                     ₹{{ p.productActualPrice }}
+                  </span>
+               </div>
+
+               <button type="button" mat-raised-button class="view-btn"
+                  (click)="showProductDetails(p.productId)">
+                  <mat-icon>visibility</mat-icon> View Details
+               </button>
+            </div>
+         </div>
+      </div>
+
+      <div class="empty-state" *ngIf="productDetails?.length === 0">
+         <div class="empty-icon">🛒</div>
+         <h3>No products found</h3>
+         <p>Try a different search term.</p>
+      </div>
+
+      <div class="load-more-wrap" *ngIf="showLoadButton">
+         <button type="button" mat-raised-button class="btn-gold load-more-btn" (click)="loadMoreProduct()">
+            <mat-icon>expand_more</mat-icon> Load More
+         </button>
+      </div>
+   </div>
+</section>

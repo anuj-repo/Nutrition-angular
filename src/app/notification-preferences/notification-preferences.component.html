@@ -1,0 +1,39 @@
+<div class="prefs-container">
+  <div class="page-header"><h2>⚙️ Notification Preferences</h2></div>
+
+  <div class="alert success" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="alert error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <mat-card *ngIf="!loading">
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="save()">
+        <div class="pref-row">
+          <label><input type="checkbox" formControlName="emailEnabled"> 📧 Email Notifications</label>
+        </div>
+        <div class="pref-row">
+          <label><input type="checkbox" formControlName="smsEnabled"> 📱 SMS Notifications</label>
+        </div>
+        <div class="pref-row">
+          <label><input type="checkbox" formControlName="pushEnabled"> 🔔 Push Notifications</label>
+        </div>
+        <div class="pref-row">
+          <label><input type="checkbox" formControlName="whatsappEnabled"> 💬 WhatsApp Notifications</label>
+        </div>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Preferred Language</mat-label>
+          <mat-select formControlName="preferredLang">
+            <mat-option value="EN">English</mat-option>
+            <mat-option value="HI">हिंदी</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="saving">
+          <mat-icon>save</mat-icon> {{ saving ? 'Saving...' : 'Save Preferences' }}
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <p *ngIf="loading" class="loading">Loading preferences...</p>
+</div>

@@ -1,0 +1,26 @@
+.ins-container { padding: 24px; max-width: 1100px; margin: 0 auto; }
+.page-header { text-align: center; margin-bottom: 16px; }
+.page-header h2 { color: #1b5e20; }
+.subtitle { color: #666; }
+.elig-card { border-radius: 12px; margin-bottom: 16px; background: linear-gradient(135deg, #e8f5e9, #c8e6c9); }
+.elig-grid { display: flex; gap: 24px; flex-wrap: wrap; margin: 12px 0; }
+.elig-grid > div { display: flex; flex-direction: column; }
+.elig-grid span { font-size: 12px; color: #666; }
+.elig-grid strong { font-size: 18px; }
+.eligible { color: #2e7d32; }
+.not-eligible { color: #e65100; }
+.tab-nav { display: flex; gap: 8px; margin-bottom: 16px; border-bottom: 2px solid #e0e0e0; padding-bottom: 8px; flex-wrap: wrap; }
+.active-tab { color: #2e7d32 !important; border-bottom: 3px solid #4caf50; }
+.tab-content { border-radius: 12px; }
+.full-width { width: 100%; }
+.form-row { display: flex; gap: 16px; flex-wrap: wrap; }
+.form-row mat-form-field { flex: 1; min-width: 200px; }
+.muted { color: #888; }
+.alert { padding: 10px 14px; border-radius: 6px; margin-bottom: 12px; }
+.alert.success { background: #e8f5e9; color: #2e7d32; }
+.alert.error { background: #ffebee; color: #c62828; }
+.plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.plan-card { text-align: center; border-radius: 12px; }
+.plan-icon { font-size: 36px; margin-bottom: 8px; }
+.plan-cover { font-size: 18px; font-weight: 700; color: #2e7d32; }
+.plan-desc { color: #555; }

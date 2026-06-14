@@ -1,0 +1,46 @@
+<div class="fb-container">
+  <div class="page-header"><h2>💬 Feedback</h2></div>
+
+  <div class="alert success" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="alert error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <mat-card class="form-card">
+    <mat-card-content>
+      <h3>Share Your Feedback</h3>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="rating-row">
+          <span>Rating:</span>
+          <span *ngFor="let n of [1,2,3,4,5]" class="star" [class.filled]="form.value.rating >= n" (click)="setRating(n)">★</span>
+        </div>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Category</mat-label>
+          <mat-select formControlName="category">
+            <mat-option value="GENERAL">General</mat-option>
+            <mat-option value="PRODUCT">Product</mat-option>
+            <mat-option value="PLATFORM">Platform/Website</mat-option>
+            <mat-option value="SUPPORT">Support</mat-option>
+            <mat-option value="SUGGESTION">Suggestion</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Your Feedback</mat-label>
+          <textarea matInput formControlName="message" rows="5"></textarea>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Submit Feedback</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <h3 class="section-title">My Past Feedback</h3>
+  <mat-card *ngFor="let f of myFeedback" class="fb-row">
+    <mat-card-content>
+      <div class="fb-header">
+        <span class="stars">{{ '★'.repeat(f.rating || 0) }}{{ '☆'.repeat(5 - (f.rating || 0)) }}</span>
+        <span class="cat">{{ f.category }}</span>
+        <span class="time">{{ f.createdAt | date:'medium' }}</span>
+      </div>
+      <p>{{ f.message }}</p>
+    </mat-card-content>
+  </mat-card>
+  <p *ngIf="!myFeedback.length" class="empty">No previous feedback.</p>
+</div>

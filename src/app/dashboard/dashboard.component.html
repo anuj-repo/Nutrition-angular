@@ -1,0 +1,212 @@
+<div class="dashboard-container">
+  <!-- Welcome Section -->
+  <div class="welcome-section">
+    <div class="welcome-row">
+      <div class="welcome-text">
+        <p class="hello-line">{{ greeting }}, <span class="user-name">{{ firstName }}</span> 👋</p>
+        <h2 class="welcome-headline">Welcome back to your Wellness Hub</h2>
+        <p class="subtitle">
+          <span class="today">{{ todayLabel }}</span>
+          <span class="dot">·</span>
+          <span class="motivation">{{ motivationalLine }}</span>
+        </p>
+      </div>
+      <div class="welcome-meta">
+        <div class="meta-pill rank-pill" *ngIf="dashboardStats.currentRank">
+          <span class="meta-icon">🏆</span>
+          <div>
+            <span class="meta-label">Current Rank</span>
+            <span class="meta-value">{{ dashboardStats.currentRank }}</span>
+          </div>
+        </div>
+        <div class="meta-pill code-pill" *ngIf="referralCode">
+          <span class="meta-icon">🎁</span>
+          <div>
+            <span class="meta-label">Your Referral Code</span>
+            <span class="meta-value">{{ referralCode }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-grid">
+    <mat-card class="stat-card earnings-card">
+      <mat-card-content>
+        <div class="stat-icon">💰</div>
+        <div class="stat-info">
+          <h3>Total Earnings</h3>
+          <p class="stat-value">₹{{ dashboardStats.totalEarnings | number }}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card monthly-card">
+      <mat-card-content>
+        <div class="stat-icon">📈</div>
+        <div class="stat-info">
+          <h3>Wallet Balance</h3>
+          <p class="stat-value">₹{{ dashboardStats.walletBalance | number }}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card team-card">
+      <mat-card-content>
+        <div class="stat-icon">👥</div>
+        <div class="stat-info">
+          <h3>Total Team Size</h3>
+          <p class="stat-value">{{ dashboardStats.totalTeamSize }}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card referral-card">
+      <mat-card-content>
+        <div class="stat-icon">🤝</div>
+        <div class="stat-info">
+          <h3>Direct Referrals</h3>
+          <p class="stat-value">{{ dashboardStats.directReferrals }}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card rank-card">
+      <mat-card-content>
+        <div class="stat-icon">🏆</div>
+        <div class="stat-info">
+          <h3>Current Rank</h3>
+          <p class="stat-value rank-text">{{ dashboardStats.currentRank }}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card bonus-card">
+      <mat-card-content>
+        <div class="stat-icon">🔄</div>
+        <div class="stat-info">
+          <h3>Repurchase Bonus</h3>
+          <p class="stat-value">₹{{ dashboardStats.repurchaseBonus | number }}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions">
+    <h3>Quick Actions</h3>
+    <div class="action-buttons">
+      <button mat-raised-button color="primary" routerLink="/add-member">
+        <mat-icon>person_add</mat-icon> Add New Member
+      </button>
+      <button mat-raised-button color="accent" routerLink="/myTeam">
+        <mat-icon>account_tree</mat-icon> View My Team
+      </button>
+      <button mat-raised-button color="warn" routerLink="/earnings">
+        <mat-icon>account_balance_wallet</mat-icon> View Earnings
+      </button>
+      <button mat-raised-button routerLink="/rewards">
+        <mat-icon>emoji_events</mat-icon> View Rewards
+      </button>
+    </div>
+  </div>
+
+  <!-- Referral Code Section -->
+  <mat-card class="referral-section">
+    <mat-card-content>
+      <h3>📋 Your Referral Code &amp; Link</h3>
+
+      <ng-container *ngIf="referralCode; else noReferral">
+        <div class="referral-code-box">
+          <span class="referral-code">{{ referralCode }}</span>
+          <button mat-icon-button (click)="copyReferralCode()" matTooltip="Copy code">
+            <mat-icon>content_copy</mat-icon>
+          </button>
+        </div>
+
+        <div class="referral-link-box" *ngIf="referralLink">
+          <span class="referral-link" [matTooltip]="referralLink">{{ referralLink }}</span>
+          <button mat-icon-button (click)="copyReferralLink()" matTooltip="Copy link">
+            <mat-icon>link</mat-icon>
+          </button>
+        </div>
+
+        <p class="referral-hint">Share this with friends and family — earn 20% commission on every Level 1 join.</p>
+      </ng-container>
+
+      <ng-template #noReferral>
+        <div class="referral-empty">
+          <span class="empty-icon">⏳</span>
+          <div>
+            <strong>Your referral code is being generated.</strong>
+            <p>Refresh in a moment, or sign out and back in. If it still doesn't appear, contact support.</p>
+          </div>
+          <button mat-stroked-button color="primary" (click)="loadDashboard()">
+            <mat-icon>refresh</mat-icon> Refresh
+          </button>
+        </div>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Earnings Graph (last 6 months) -->
+  <mat-card class="commission-preview" *ngIf="earningsGraph.length > 0">
+    <mat-card-content>
+      <h3>📊 Last 6 Months Earnings</h3>
+      <div class="commission-levels">
+        <div class="level-item" *ngFor="let g of earningsGraph">
+          <span class="level-label">{{ g.label }}</span>
+          <div class="level-bar">
+            <div class="level-fill" [style.width.%]="getMonthBarWidth(g.amount)"></div>
+          </div>
+          <span class="level-percent">₹{{ g.amount | number }}</span>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Commission Structure Preview -->
+  <mat-card class="commission-preview">
+    <mat-card-content>
+      <h3>▪ Commission Structure (60% Total)</h3>
+      <div class="commission-levels">
+        <div class="level-item" *ngFor="let level of commissionLevels.slice(0, 5)">
+          <span class="level-label">Level {{ level.level }}</span>
+          <div class="level-bar">
+            <div class="level-fill" [style.width]="level.percentage * 3 + 'px'"></div>
+          </div>
+          <span class="level-percent">{{ level.percentage }}%</span>
+        </div>
+      </div>
+      <button mat-button color="primary" routerLink="/commission">View Full Structure →</button>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Recent Earnings -->
+  <mat-card class="recent-earnings" *ngIf="recentEarnings.length > 0">
+    <mat-card-content>
+      <h3>📊 Recent Commission Transactions</h3>
+      <table mat-table [dataSource]="recentEarnings" class="earnings-table">
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>Date</th>
+          <td mat-cell *matCellDef="let row">{{ row.date | date:'mediumDate' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef>Type</th>
+          <td mat-cell *matCellDef="let row">{{ row.type }}</td>
+        </ng-container>
+        <ng-container matColumnDef="level">
+          <th mat-header-cell *matHeaderCellDef>Level</th>
+          <td mat-cell *matCellDef="let row">L{{ row.level }}</td>
+        </ng-container>
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef>Amount</th>
+          <td mat-cell *matCellDef="let row">₹{{ row.amount | number }}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="['date', 'type', 'level', 'amount']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['date', 'type', 'level', 'amount']"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

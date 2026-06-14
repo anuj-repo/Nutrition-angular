@@ -1,0 +1,294 @@
+<div class="investment-container">
+  <div class="page-header">
+    <h2>📈 Investment Plan / निवेश योजना</h2>
+    <div class="highlight-badge">
+      <span class="big-text">10% ASSURED RETURNS!</span>
+      <span class="hindi-text">10% गारंटीड रिटर्न!</span>
+    </div>
+  </div>
+
+  <!-- Key Features -->
+  <div class="features-row">
+    <mat-card class="feature-card">
+      <mat-card-content>
+        <div class="feature-icon">📈</div>
+        <div class="feature-text">10% Assured Annual Interest</div>
+        <div class="feature-hindi">गारंटीड वार्षिक ब्याज</div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="feature-card">
+      <mat-card-content>
+        <div class="feature-icon">🔒</div>
+        <div class="feature-text">100% Safe & Guaranteed</div>
+        <div class="feature-hindi">100% सुरक्षित और गारंटीड</div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="feature-card">
+      <mat-card-content>
+        <div class="feature-icon">🏦</div>
+        <div class="feature-text">Better than Bank FD</div>
+        <div class="feature-hindi">बैंक FD से बेहतर</div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Tab Navigation -->
+  <div class="tab-nav">
+    <button mat-button [class.active-tab]="selectedTab === 'calculator'" (click)="switchTab('calculator')">
+      🧮 Calculator
+    </button>
+    <button mat-button [class.active-tab]="selectedTab === 'invest'" (click)="switchTab('invest')">
+      💰 Invest Now
+    </button>
+    <button mat-button [class.active-tab]="selectedTab === 'my-investments'" (click)="switchTab('my-investments')">
+      📋 My Investments
+    </button>
+  </div>
+
+  <!-- Calculator Tab -->
+  <mat-card class="tab-content" *ngIf="selectedTab === 'calculator'">
+    <mat-card-content>
+      <h3>🧮 Investment Calculator</h3>
+      <p class="calc-subtitle">See Your Money Grow / देखें आपका पैसा कैसे बढ़ता है</p>
+
+      <div class="calculator-section">
+        <div class="calc-inputs">
+          <mat-form-field appearance="outline" class="calc-input">
+            <mat-label>Investment Amount (₹)</mat-label>
+            <input matInput type="number" [(ngModel)]="calculatorAmount" (change)="calculate()" min="1000">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="calc-input">
+            <mat-label>Annual Rate (%)</mat-label>
+            <input matInput type="number" [(ngModel)]="calculatorRate" (change)="calculate()" min="0">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="calc-input">
+            <mat-label>Tenure (Months)</mat-label>
+            <input matInput type="number" [(ngModel)]="calculatorMonths" (change)="calculate()" min="1">
+          </mat-form-field>
+        </div>
+
+        <div class="calc-results">
+          <div class="calc-result-item">
+            <span class="result-label">Annual Return</span>
+            <span class="result-value">₹{{ calculatedAnnualReturn | number }}</span>
+          </div>
+          <div class="calc-result-item">
+            <span class="result-label">Monthly Benefit</span>
+            <span class="result-value highlight">₹{{ calculatedMonthlyReturn | number }}</span>
+          </div>
+          <div class="calc-result-item">
+            <span class="result-label">Maturity Amount</span>
+            <span class="result-value highlight">₹{{ calculatedMaturity | number }}</span>
+          </div>
+        </div>
+      </div>
+
+      <h4>📊 Quick Reference (10% annual)</h4>
+      <table mat-table [dataSource]="calculatorExamples" class="calc-table">
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef>Investment</th>
+          <td mat-cell *matCellDef="let row">₹{{ row.amount | number }}</td>
+        </ng-container>
+        <ng-container matColumnDef="annual">
+          <th mat-header-cell *matHeaderCellDef>Annual Return</th>
+          <td mat-cell *matCellDef="let row">₹{{ row.annual | number }}</td>
+        </ng-container>
+        <ng-container matColumnDef="monthly">
+          <th mat-header-cell *matHeaderCellDef>Monthly Benefit</th>
+          <td mat-cell *matCellDef="let row" class="highlight-cell">₹{{ row.monthly | number }}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="['amount', 'annual', 'monthly']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['amount', 'annual', 'monthly']"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Invest Now Tab -->
+  <mat-card class="tab-content" *ngIf="selectedTab === 'invest'">
+    <mat-card-content>
+      <h3>💰 Create New Investment</h3>
+
+      <div class="alert success" *ngIf="successMessage">
+        <mat-icon>check_circle</mat-icon> {{ successMessage }}
+      </div>
+      <div class="alert error" *ngIf="errorMessage">
+        <mat-icon>error</mat-icon> {{ errorMessage }}
+      </div>
+
+      <div class="no-data" *ngIf="plans.length === 0">
+        <p>📭 No active investment plans available. Please check back later.</p>
+      </div>
+
+      <form [formGroup]="investmentForm" (ngSubmit)="onInvest()" *ngIf="plans.length > 0">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Investment Plan</mat-label>
+          <mat-select formControlName="planId">
+            <mat-option *ngFor="let p of plans" [value]="p.id">
+              {{ p.planName }} ({{ p.annualRate || p.interestRate }}% / {{ p.tenureMonths }} months)
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Investment Amount (₹)</mat-label>
+          <input matInput type="number" formControlName="amount" placeholder="Minimum ₹10,000">
+          <mat-error *ngIf="investmentForm.get('amount').hasError('min')">Minimum ₹10,000</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Tenure (Months)</mat-label>
+          <mat-select formControlName="tenureMonths">
+            <mat-option [value]="6">6 Months</mat-option>
+            <mat-option [value]="12">12 Months (1 Year)</mat-option>
+            <mat-option [value]="24">24 Months (2 Years)</mat-option>
+            <mat-option [value]="36">36 Months (3 Years)</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div class="invest-preview" *ngIf="investmentForm.get('amount').value >= 10000">
+          <p>Expected Annual Return: <strong>₹{{ (investmentForm.get('amount').value * 0.10) | number }}</strong></p>
+        </div>
+
+        <!-- Payment Details Section -->
+        <h4 class="section-title">💳 Payment Details</h4>
+        <p class="payment-note">Transfer the investment amount to the following account and provide the UTR / Transaction ID below.</p>
+
+        <div class="payment-info-box">
+          <div class="payment-options">
+            <div class="pay-option qr-option">
+              <h4>📱 Pay via UPI / QR</h4>
+              <div class="upi-id">
+                <span class="upi-label">UPI ID</span>
+                <span class="upi-value">nutritionforever@upi</span>
+              </div>
+            </div>
+
+            <div class="pay-option bank-option">
+              <h4>🏦 Bank Transfer</h4>
+              <ul class="bank-details">
+                <li><strong>Account name:</strong> Nutrition Forever Wellness Pvt. Ltd.</li>
+                <li><strong>Bank:</strong> State Bank of India</li>
+                <li><strong>Account:</strong> 123456789</li>
+                <li><strong>IFSC:</strong> SBIN0000633</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>UTR / Transaction ID</mat-label>
+          <mat-icon matPrefix>receipt_long</mat-icon>
+          <input matInput formControlName="utrNumber" placeholder="e.g. 412345678910" maxlength="30">
+          <mat-error *ngIf="investmentForm.get('utrNumber')?.hasError('required')">UTR is required</mat-error>
+          <mat-error *ngIf="investmentForm.get('utrNumber')?.hasError('minlength')">Min 6 characters</mat-error>
+          <mat-error *ngIf="investmentForm.get('utrNumber')?.hasError('pattern')">Only letters and numbers</mat-error>
+        </mat-form-field>
+
+        <div class="upload-section">
+          <label class="upload-label">📸 Upload Payment Screenshot (optional)</label>
+          <input type="file" #screenshotInput accept="image/*,application/pdf"
+                 (change)="onScreenshotFile(screenshotInput)" class="file-input">
+          <div class="upload-btn-row">
+            <button type="button" mat-stroked-button (click)="screenshotInput.click()" *ngIf="!screenshotFile">
+              <mat-icon>upload</mat-icon> Choose Screenshot
+            </button>
+            <div class="file-selected" *ngIf="screenshotFile">
+              <mat-icon>check_circle</mat-icon>
+              <span>{{ screenshotFile.name }}</span>
+              <button type="button" mat-icon-button (click)="clearScreenshot()"><mat-icon>close</mat-icon></button>
+            </div>
+          </div>
+        </div>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting" class="invest-btn">
+          {{ isSubmitting ? 'Processing...' : 'Invest Now / अभी निवेश करें' }}
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- My Investments Tab -->
+  <mat-card class="tab-content" *ngIf="selectedTab === 'my-investments'">
+    <mat-card-content>
+      <h3>📋 My Investments</h3>
+
+      <div class="alert success" *ngIf="successMessage">
+        <mat-icon>check_circle</mat-icon> {{ successMessage }}
+      </div>
+      <div class="alert error" *ngIf="errorMessage">
+        <mat-icon>error</mat-icon> {{ errorMessage }}
+      </div>
+
+      <div class="investments-grid" *ngIf="myInvestments.length > 0">
+        <mat-card class="investment-card" *ngFor="let inv of myInvestments">
+          <mat-card-content>
+            <div class="inv-header">
+              <h4>{{ inv.plan?.planName || 'Investment' }}</h4>
+              <span class="inv-status" [ngClass]="(inv.investmentStatus || inv.status || '').toLowerCase()">
+                {{ inv.investmentStatus || inv.status }}
+              </span>
+            </div>
+
+            <div class="inv-details">
+              <div class="inv-row">
+                <span>Principal Amount</span>
+                <strong>₹{{ (inv.principalAmount || inv.investedAmount || 0) | number }}</strong>
+              </div>
+              <div class="inv-row">
+                <span>Rate</span>
+                <strong>{{ inv.appliedRate || 10 }}% p.a.</strong>
+              </div>
+              <div class="inv-row">
+                <span>Tenure</span>
+                <strong>{{ inv.tenureMonths }} months</strong>
+              </div>
+              <div class="inv-row">
+                <span>Start Date</span>
+                <strong>{{ inv.startDate | date:'mediumDate' }}</strong>
+              </div>
+              <div class="inv-row">
+                <span>Maturity Date</span>
+                <strong>{{ inv.maturityDate | date:'mediumDate' }}</strong>
+              </div>
+              <div class="inv-row">
+                <span>Returns Paid So Far</span>
+                <strong class="green">₹{{ (inv.totalReturnsPaid || 0) | number }}</strong>
+              </div>
+              <div class="inv-row">
+                <span>Maturity Amount</span>
+                <strong class="highlight">₹{{ (inv.maturityAmount || ((inv.principalAmount || 0) + ((inv.principalAmount || 0) * (inv.appliedRate || 10) / 100 * (inv.tenureMonths || 12) / 12))) | number }}</strong>
+              </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="inv-progress" *ngIf="inv.investmentStatus === 'ACTIVE' || inv.status === 'ACTIVE'">
+              <div class="progress-label">
+                <span>Progress</span>
+                <span>{{ getProgress(inv) }}%</span>
+              </div>
+              <mat-progress-bar mode="determinate" [value]="getProgress(inv)"></mat-progress-bar>
+            </div>
+
+            <div class="inv-actions">
+              <button mat-stroked-button color="warn"
+                      *ngIf="inv.investmentStatus === 'ACTIVE' || inv.status === 'ACTIVE'"
+                      (click)="withdraw(inv.id)">
+                <mat-icon>account_balance_wallet</mat-icon> Request Withdrawal
+              </button>
+              <button mat-stroked-button color="primary" [routerLink]="['/investment', inv.id]">
+                <mat-icon>visibility</mat-icon> View Schedule
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="no-data" *ngIf="myInvestments.length === 0">
+        <p>📈 No investments yet. Start investing to earn 10% assured returns!</p>
+        <button mat-raised-button color="primary" (click)="switchTab('invest')">Make Your First Investment</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

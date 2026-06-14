@@ -1,0 +1,80 @@
+<div class="amt-container">
+  <div class="page-header"><h2>⚡ Manual Triggers</h2></div>
+
+  <div class="alert success" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="alert error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <div class="tab-nav">
+    <button mat-button [class.active-tab]="selectedTab==='commission'" (click)="switchTab('commission')">Manual Commission</button>
+    <button mat-button [class.active-tab]="selectedTab==='receipt'" (click)="switchTab('receipt')">Upload Payment Receipt</button>
+  </div>
+
+  <mat-card *ngIf="selectedTab==='commission'" class="tab-content">
+    <mat-card-content>
+      <h3>💰 Trigger Commission Distribution</h3>
+      <p class="muted">Use to manually distribute commission for a registration or repurchase event.</p>
+      <form [formGroup]="commissionForm" (ngSubmit)="triggerCommission()">
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>User ID</mat-label>
+            <input matInput type="number" formControlName="userId">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Business Volume (₹)</mat-label>
+            <input matInput type="number" formControlName="businessVolume">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Type</mat-label>
+            <mat-select formControlName="type">
+              <mat-option value="REGISTRATION">Registration</mat-option>
+              <mat-option value="REPURCHASE">Repurchase</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <button mat-raised-button color="primary" type="submit">Trigger Distribution</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="selectedTab==='receipt'" class="tab-content">
+    <mat-card-content>
+      <h3>📄 Upload Payment Receipt</h3>
+      <p class="muted">Manual upload for offline payments / registration.</p>
+      <form [formGroup]="receiptForm" (ngSubmit)="uploadReceipt()">
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>User ID</mat-label>
+            <input matInput type="number" formControlName="userId">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Transaction ID</mat-label>
+            <input matInput formControlName="transactionId">
+          </mat-form-field>
+        </div>
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Amount (₹)</mat-label>
+            <input matInput type="number" formControlName="amount">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Payment Mode</mat-label>
+            <mat-select formControlName="paymentMode">
+              <mat-option value="UPI">UPI</mat-option>
+              <mat-option value="NEFT">NEFT/RTGS</mat-option>
+              <mat-option value="CASH">Cash</mat-option>
+              <mat-option value="CARD">Card</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Remarks</mat-label>
+          <input matInput formControlName="remarks">
+        </mat-form-field>
+        <p>Receipt image(s):</p>
+        <input type="file" multiple accept="image/*,.pdf" (change)="onReceiptFiles($event)">
+        <p *ngIf="receiptFiles.length" class="muted">📎 {{ receiptFiles.length }} file(s) selected</p>
+        <button mat-raised-button color="primary" type="submit">Upload Receipt</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

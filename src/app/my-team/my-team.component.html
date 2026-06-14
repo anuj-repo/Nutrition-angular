@@ -1,0 +1,245 @@
+<section class="team-page">
+  <!-- Hero / summary -->
+  <header class="team-hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <p class="eyebrow">👥 My Team</p>
+        <h1>Your downline at a glance</h1>
+        <p class="lead">Track the members you've sponsored, see their status, and copy referral codes in one place.</p>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-pill">
+          <span class="stat-icon">👨‍👩‍👧‍👦</span>
+          <div>
+            <span class="stat-label">Total Members</span>
+            <span class="stat-value">{{ totalMembers }}</span>
+          </div>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-icon">🟢</span>
+          <div>
+            <span class="stat-label">Active</span>
+            <span class="stat-value">{{ activeMembers }}</span>
+          </div>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-icon">⏸️</span>
+          <div>
+            <span class="stat-label">Inactive</span>
+            <span class="stat-value">{{ totalMembers - activeMembers }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Toolbar -->
+  <div class="team-toolbar">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search by name, email, mobile or code</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput [(ngModel)]="searchTerm" (ngModelChange)="applyFilters()" placeholder="e.g. Hanuman, 99887...">
+      <button mat-icon-button matSuffix *ngIf="searchTerm" (click)="searchTerm=''; applyFilters()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <div class="toolbar-actions">
+      <div class="filter-group">
+        <button class="filter-chip" [class.active]="statusFilter==='all'"
+                (click)="setStatusFilter('all')">All</button>
+        <button class="filter-chip" [class.active]="statusFilter==='active'"
+                (click)="setStatusFilter('active')">Active</button>
+        <button class="filter-chip" [class.active]="statusFilter==='inactive'"
+                (click)="setStatusFilter('inactive')">Inactive</button>
+      </div>
+
+      <div class="view-toggle">
+        <button class="view-btn" [class.active]="viewMode==='cards'" (click)="viewMode='cards'"
+                matTooltip="Card view">
+          <mat-icon>grid_view</mat-icon>
+        </button>
+        <button class="view-btn" [class.active]="viewMode==='tree'" (click)="viewMode='tree'"
+                matTooltip="Hierarchy view">
+          <mat-icon>account_tree</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="state-block" *ngIf="loading">
+    <mat-icon class="spin">autorenew</mat-icon>
+    <p>Loading your team...</p>
+  </div>
+
+  <!-- Empty / no match -->
+  <div class="state-block empty" *ngIf="!loading && filteredMembers.length === 0">
+    <span class="empty-icon">🌱</span>
+    <h3 *ngIf="totalMembers === 0">No team members yet</h3>
+    <h3 *ngIf="totalMembers > 0">No matches for "{{ searchTerm }}"</h3>
+    <p *ngIf="totalMembers === 0">
+      Share your referral code to invite your first member and start building your network.
+    </p>
+    <p *ngIf="totalMembers > 0">Try a different search term or clear the filters.</p>
+    <button mat-raised-button class="cta" *ngIf="totalMembers === 0" routerLink="/add-member">
+      <mat-icon>person_add</mat-icon> Add Your First Member
+    </button>
+    <button mat-stroked-button *ngIf="totalMembers > 0"
+            (click)="searchTerm=''; statusFilter='all'; applyFilters()">
+      <mat-icon>filter_alt_off</mat-icon> Clear filters
+    </button>
+  </div>
+
+  <!-- Card view -->
+  <div class="member-grid" *ngIf="!loading && filteredMembers.length > 0 && viewMode==='cards'">
+    <article class="member-card" *ngFor="let m of filteredMembers">
+      <div class="card-head">
+        <div class="avatar" [style.background]="avatarColor(m)">{{ initials(m) }}</div>
+        <div class="head-text">
+          <h3 class="name">{{ m.fname }} {{ m.lname }}</h3>
+          <p class="role">Level {{ m.level || 1 }} member</p>
+        </div>
+        <span class="status-chip" [class.active]="isActive(m)" [class.inactive]="!isActive(m)">
+          <span class="dot"></span>{{ isActive(m) ? 'Active' : 'Inactive' }}
+        </span>
+      </div>
+
+      <ul class="card-meta">
+        <li *ngIf="m.email">
+          <mat-icon>email</mat-icon>
+          <a [href]="'mailto:' + m.email">{{ m.email }}</a>
+        </li>
+        <li *ngIf="m.mobileNumber">
+          <mat-icon>call</mat-icon>
+          <a [href]="'tel:' + m.mobileNumber">{{ m.mobileNumber }}</a>
+        </li>
+        <li *ngIf="m.referralCode">
+          <mat-icon>qr_code_2</mat-icon>
+          <span class="code">{{ m.referralCode }}</span>
+          <button mat-icon-button class="copy-btn" matTooltip="Copy referral code"
+                  (click)="copyCode(m.referralCode)">
+            <mat-icon>content_copy</mat-icon>
+          </button>
+        </li>
+      </ul>
+
+      <div class="card-stats">
+        <div class="stat">
+          <span class="s-label">Total</span>
+          <span class="s-value">₹{{ (m.totalAccountBalance || 0) | number }}</span>
+        </div>
+        <div class="stat">
+          <span class="s-label">Paid</span>
+          <span class="s-value paid">₹{{ (m.paidBalance || 0) | number }}</span>
+        </div>
+        <div class="stat">
+          <span class="s-label">Team</span>
+          <span class="s-value">{{ m.children?.length || 0 }}</span>
+        </div>
+      </div>
+
+      <button class="expand-btn" *ngIf="m.children?.length"
+              (click)="m._open = !m._open">
+        <mat-icon>{{ m._open ? 'expand_less' : 'expand_more' }}</mat-icon>
+        {{ m._open ? 'Hide' : 'Show' }} {{ m.children.length }} downline member{{ m.children.length === 1 ? '' : 's' }}
+      </button>
+
+      <!-- Recursive child list - any level deep -->
+      <ul class="children" *ngIf="m._open && m.children?.length">
+        <ng-container *ngTemplateOutlet="memberTree; context: { $implicit: m.children, depth: 1 }"></ng-container>
+      </ul>
+    </article>
+  </div>
+
+  <!-- Recursive template used by the card-view expander -->
+  <ng-template #memberTree let-list let-depth="depth">
+    <li *ngFor="let c of list; let last = last" class="child-item" [class.is-last]="last">
+      <div class="child-row">
+        <span class="mini-avatar" [style.background]="avatarColor(c)">{{ initials(c) }}</span>
+
+        <div class="child-info">
+          <div class="child-line">
+            <span class="mini-name" [title]="c.fname + ' ' + c.lname">
+              {{ c.fname }} {{ c.lname }}
+            </span>
+            <span class="level-badge">L{{ c.level || depth + 1 }}</span>
+            <span class="status-chip small" [class.active]="isActive(c)" [class.inactive]="!isActive(c)">
+              <span class="dot"></span>{{ isActive(c) ? 'Active' : 'Inactive' }}
+            </span>
+          </div>
+
+          <div class="child-meta">
+            <span *ngIf="c.email" class="meta-item" [matTooltip]="c.email">
+              <mat-icon>email</mat-icon>
+              <a [href]="'mailto:' + c.email">{{ c.email }}</a>
+            </span>
+            <span *ngIf="c.mobileNumber" class="meta-item">
+              <mat-icon>call</mat-icon>
+              <a [href]="'tel:' + c.mobileNumber">{{ c.mobileNumber }}</a>
+            </span>
+            <span *ngIf="c.referralCode" class="code-mini meta-item"
+                  matTooltip="Click to copy" (click)="copyCode(c.referralCode)">
+              <mat-icon>qr_code_2</mat-icon> {{ c.referralCode }}
+            </span>
+          </div>
+        </div>
+
+        <button class="kebab" *ngIf="c.children?.length"
+                type="button"
+                (click)="c._open = !c._open"
+                [matTooltip]="c._open ? 'Collapse downline' : 'Show ' + c.children.length + ' downline'">
+          <span class="count">{{ c.children.length }}</span>
+          <mat-icon>{{ c._open ? 'expand_less' : 'expand_more' }}</mat-icon>
+        </button>
+      </div>
+
+      <ul class="nested-children" *ngIf="c._open && c.children?.length">
+        <ng-container *ngTemplateOutlet="memberTree; context: { $implicit: c.children, depth: depth + 1 }"></ng-container>
+      </ul>
+    </li>
+  </ng-template>
+
+  <!-- Tree view -->
+  <div class="tree-wrap" *ngIf="!loading && filteredMembers.length > 0 && viewMode==='tree'">
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="member-tree">
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+        <div class="tree-row leaf">
+          <button mat-icon-button disabled></button>
+          <div class="avatar small" [style.background]="avatarColor(node)">{{ initials(node) }}</div>
+          <div class="row-info">
+            <span class="row-name">{{ node.fname }} {{ node.lname }}</span>
+            <span class="row-sub">{{ node.email || node.mobileNumber || node.referralCode }}</span>
+          </div>
+          <span class="status-chip small" [class.active]="isActive(node)">
+            <span class="dot"></span>{{ isActive(node) ? 'Active' : 'Inactive' }}
+          </span>
+        </div>
+      </mat-tree-node>
+
+      <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+        <div class="tree-row">
+          <button mat-icon-button matTreeNodeToggle>
+            <mat-icon>
+              {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+            </mat-icon>
+          </button>
+          <div class="avatar small" [style.background]="avatarColor(node)">{{ initials(node) }}</div>
+          <div class="row-info">
+            <span class="row-name">{{ node.fname }} {{ node.lname }}
+              <span class="badge">{{ node.children?.length }}</span>
+            </span>
+            <span class="row-sub">{{ node.email || node.mobileNumber || node.referralCode }}</span>
+          </div>
+          <span class="status-chip small" [class.active]="isActive(node)">
+            <span class="dot"></span>{{ isActive(node) ? 'Active' : 'Inactive' }}
+          </span>
+        </div>
+        <ul [class.hidden]="!treeControl.isExpanded(node)" class="tree-children">
+          <ng-container matTreeNodeOutlet></ng-container>
+        </ul>
+      </mat-nested-tree-node>
+    </mat-tree>
+  </div>
+</section>

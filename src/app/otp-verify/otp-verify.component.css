@@ -1,0 +1,8 @@
+.otp-container { padding: 24px; max-width: 500px; margin: 0 auto; }
+.otp-card { border-radius: 12px; }
+.otp-card h2 { color: #1b5e20; text-align: center; }
+.muted { color: #888; text-align: center; }
+.full-width { width: 100%; }
+.alert { padding: 10px 14px; border-radius: 6px; margin-bottom: 12px; }
+.alert.success { background: #e8f5e9; color: #2e7d32; }
+.alert.error { background: #ffebee; color: #c62828; }

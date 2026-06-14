@@ -1,0 +1,34 @@
+<div class="sponsor-container">
+  <div class="page-header"><h2>🤝 My Sponsor & Directs</h2></div>
+
+  <mat-card class="sponsor-card" *ngIf="sponsor">
+    <mat-card-content>
+      <h3>👤 Your Sponsor</h3>
+      <div class="info-grid">
+        <div><span>Name:</span><strong>{{ sponsor.name }}</strong></div>
+        <div><span>Username:</span><strong>{{ sponsor.username }}</strong></div>
+        <div><span>Referral Code:</span><strong>{{ sponsor.referralCode }}</strong></div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="sponsor-card" *ngIf="!sponsor && !loading">
+    <mat-card-content>
+      <p class="muted">You don't have a sponsor (you joined directly).</p>
+    </mat-card-content>
+  </mat-card>
+
+  <h3 class="section-title">My Direct Referrals ({{ directs.length }})</h3>
+  <div class="directs-grid" *ngIf="directs.length">
+    <mat-card *ngFor="let d of directs" class="direct-card">
+      <mat-card-content>
+        <div class="d-icon">👤</div>
+        <h4>{{ d.name }}</h4>
+        <p class="username">@{{ d.username }}</p>
+        <p class="ref-code">Code: {{ d.referralCode }}</p>
+        <p class="meta" *ngIf="d.children?.length">{{ d.children.length }} downline members</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <p *ngIf="!directs.length && !loading" class="empty">No direct referrals yet. <a routerLink="/add-member">Add your first member!</a></p>
+</div>

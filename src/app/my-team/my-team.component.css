@@ -1,0 +1,782 @@
+/* ===== Page wrapper ===== */
+.team-page {
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 0 64px;
+}
+
+/* ===== Hero ===== */
+.team-hero {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: #fff;
+  padding: 44px 32px 60px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+  border-bottom-left-radius: 28px;
+  border-bottom-right-radius: 28px;
+}
+
+.team-hero::before,
+.team-hero::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.team-hero::before {
+  width: 320px;
+  height: 320px;
+  top: -120px;
+  left: -120px;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.5), transparent 70%);
+}
+
+.team-hero::after {
+  width: 360px;
+  height: 360px;
+  bottom: -160px;
+  right: -120px;
+  background: radial-gradient(circle, rgba(0, 212, 170, 0.45), transparent 70%);
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: #00d4aa;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  font-size: 14px;
+}
+
+.team-hero h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 800;
+  color: #ffd700;
+  letter-spacing: 0.4px;
+}
+
+.team-hero .lead {
+  margin: 0;
+  color: #d8dee9;
+  font-size: 14px;
+  max-width: 540px;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.stat-pill {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 215, 0, 0.25);
+  border-radius: 14px;
+  padding: 10px 18px;
+  backdrop-filter: blur(6px);
+  min-width: 150px;
+}
+
+.stat-pill .stat-icon { font-size: 22px; }
+.stat-pill .stat-label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #00d4aa;
+}
+.stat-pill .stat-value {
+  display: block;
+  font-size: 18px;
+  font-weight: 800;
+  color: #ffd700;
+}
+
+/* ===== Toolbar ===== */
+.team-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 24px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.search-field {
+  flex: 1 1 320px;
+  max-width: 480px;
+}
+
+.search-field ::ng-deep .mat-mdc-form-field-subscript-wrapper { display: none; }
+
+.toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: inline-flex;
+  background: #f4f7fb;
+  border-radius: 999px;
+  padding: 4px;
+  border: 1px solid rgba(15, 52, 96, 0.08);
+}
+
+.filter-chip {
+  border: none;
+  background: transparent;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #5b6b7b;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.filter-chip.active {
+  background: linear-gradient(135deg, #ffd700, #ff9800);
+  color: #1a1a2e;
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.35);
+}
+
+.filter-chip:hover:not(.active) {
+  background: rgba(15, 52, 96, 0.06);
+  color: #0f3460;
+}
+
+.view-toggle {
+  display: inline-flex;
+  background: #f4f7fb;
+  border-radius: 10px;
+  padding: 3px;
+  border: 1px solid rgba(15, 52, 96, 0.08);
+}
+
+.view-btn {
+  border: none;
+  background: transparent;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #5b6b7b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.view-btn:hover { color: #0f3460; }
+
+.view-btn.active {
+  background: #0f3460;
+  color: #ffd700;
+}
+
+/* ===== States ===== */
+.state-block {
+  text-align: center;
+  padding: 60px 24px;
+  color: #5b6b7b;
+}
+
+.state-block .spin {
+  font-size: 36px;
+  height: 36px;
+  width: 36px;
+  color: #0f3460;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.state-block.empty .empty-icon {
+  font-size: 56px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.state-block.empty h3 {
+  margin: 0 0 6px;
+  color: #0f3460;
+  font-size: 20px;
+}
+
+.state-block.empty p {
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: #5b6b7b;
+}
+
+.state-block.empty .cta {
+  background: linear-gradient(135deg, #ffd700, #ff9800) !important;
+  color: #1a1a2e !important;
+  font-weight: 700 !important;
+  border-radius: 10px !important;
+  padding: 6px 22px !important;
+}
+
+/* ===== Card grid ===== */
+.member-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+  padding: 0 24px;
+}
+
+.member-card {
+  background: #fff;
+  border-radius: 18px;
+  border: 1px solid rgba(15, 52, 96, 0.08);
+  box-shadow: 0 6px 22px rgba(15, 52, 96, 0.07);
+  padding: 18px 20px 16px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.member-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(15, 52, 96, 0.16);
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  font-size: 16px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(15, 52, 96, 0.15);
+}
+
+.avatar.small {
+  width: 32px;
+  height: 32px;
+  font-size: 12px;
+}
+
+.head-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.head-text .name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f3460;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.head-text .role {
+  margin: 2px 0 0;
+  color: #5b6b7b;
+  font-size: 12px;
+}
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(198, 40, 40, 0.1);
+  color: #c62828;
+  border: 1px solid rgba(198, 40, 40, 0.25);
+  flex-shrink: 0;
+}
+
+.status-chip.active {
+  background: rgba(0, 137, 123, 0.1);
+  color: #00897b;
+  border-color: rgba(0, 137, 123, 0.3);
+}
+
+.status-chip .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.status-chip.small {
+  padding: 3px 8px;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.status-chip.small.inactive {
+  background: rgba(198, 40, 40, 0.08);
+  color: #c62828;
+  border-color: rgba(198, 40, 40, 0.22);
+}
+
+/* Card meta list */
+.card-meta {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.card-meta li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #2c2c2c;
+  min-width: 0;
+}
+
+.card-meta li mat-icon {
+  font-size: 17px;
+  height: 17px;
+  width: 17px;
+  color: #5b6b7b;
+  flex-shrink: 0;
+}
+
+.card-meta li a {
+  color: #0f3460;
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-meta li a:hover { color: #ff9800; }
+
+.card-meta .code {
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-weight: 700;
+  color: #0f3460;
+  letter-spacing: 1px;
+  background: #fff8e1;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.card-meta .copy-btn {
+  margin-left: auto;
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+}
+
+.card-meta .copy-btn mat-icon {
+  font-size: 16px;
+  height: 16px;
+  width: 16px;
+}
+
+/* Stats row */
+.card-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  background: #f4f7fb;
+  border-radius: 12px;
+  padding: 10px;
+  margin-bottom: 12px;
+}
+
+.card-stats .stat {
+  text-align: center;
+}
+
+.card-stats .s-label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #5b6b7b;
+  margin-bottom: 2px;
+}
+
+.card-stats .s-value {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f3460;
+}
+
+.card-stats .s-value.paid { color: #00897b; }
+
+/* Expand */
+.expand-btn {
+  border: none;
+  background: transparent;
+  color: #0f3460;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 6px 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: auto;
+}
+
+.expand-btn:hover { color: #ff9800; }
+
+.expand-btn mat-icon {
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
+}
+
+.children {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 4px 0 4px 6px;
+  background: #f7faff;
+  border-radius: 10px;
+  border: 1px solid rgba(15, 52, 96, 0.08);
+}
+
+.children > li.child-item {
+  position: relative;
+  padding: 6px 8px 6px 14px;
+}
+
+.children > li.child-item + li.child-item {
+  border-top: 1px dashed rgba(15, 52, 96, 0.10);
+}
+
+/* ---------- One member row ---------- */
+.child-row {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.child-row > .mini-avatar {
+  margin-top: 2px;
+}
+
+.child-info {
+  min-width: 0;       /* allow text/email truncation inside grid */
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Title line: name + level + status. No wrap of just the badge so it can't
+   overlap the chip; if the row is too narrow the chip drops to a new line
+   instead of stacking on top of itself. */
+.child-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  row-gap: 4px;
+}
+
+.mini-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: #0f3460;
+  font-weight: 700;
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.child-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  font-size: 12px;
+  color: #5b6b7b;
+  min-width: 0;
+}
+
+.child-meta .meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.child-meta .meta-item a {
+  color: #2c3a47;
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 220px;
+}
+
+.child-meta .meta-item a:hover { color: #ff9800; }
+
+.child-meta mat-icon {
+  font-size: 13px;
+  height: 13px;
+  width: 13px;
+  color: #90a4ae;
+  flex-shrink: 0;
+}
+
+.code-mini {
+  cursor: pointer;
+  font-family: 'Consolas', 'Courier New', monospace;
+  background: #fff8e1;
+  color: #ff8f00;
+  padding: 1px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+.code-mini:hover { background: #ffe082; }
+
+.level-badge {
+  background: #0f3460;
+  color: #ffd700;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+/* Expand/collapse pill. Sits in its own grid column so it can never
+   overlap the status chip or the email. */
+.kebab {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(15, 52, 96, 0.06);
+  border: 1px solid rgba(15, 52, 96, 0.12);
+  border-radius: 999px;
+  padding: 3px 10px;
+  cursor: pointer;
+  color: #0f3460;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+  transition: all 0.15s;
+  margin-top: 2px;
+}
+
+.kebab:hover {
+  background: linear-gradient(135deg, #ffd700, #ff9800);
+  color: #1a1a2e;
+  border-color: transparent;
+}
+
+.kebab mat-icon {
+  font-size: 16px;
+  height: 16px;
+  width: 16px;
+}
+
+.kebab .count {
+  font-size: 11px;
+  background: #ffd700;
+  color: #1a1a2e;
+  border-radius: 999px;
+  padding: 0 6px;
+  font-weight: 700;
+}
+
+/* ---------- Nested levels ---------- */
+.nested-children {
+  list-style: none;
+  margin: 8px 0 0 0;
+  padding: 0 0 0 18px;
+  position: relative;
+}
+
+/* Single, soft vertical guide rail per nested level. */
+.nested-children::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 0;
+  bottom: 8px;
+  width: 2px;
+  background: rgba(15, 52, 96, 0.10);
+  border-radius: 2px;
+}
+
+.nested-children > li.child-item {
+  position: relative;
+  padding: 6px 8px 6px 14px;
+}
+
+.nested-children > li.child-item + li.child-item {
+  border-top: 1px dashed rgba(15, 52, 96, 0.08);
+}
+
+/* Connector elbow from the rail into each child row. */
+.nested-children > li.child-item::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 22px;
+  width: 14px;
+  height: 2px;
+  background: rgba(15, 52, 96, 0.10);
+  border-radius: 2px;
+}
+
+/* Cap the rail at the last child so it doesn't overshoot. */
+.nested-children > li.child-item.is-last::after {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 22px;
+  bottom: -8px;
+  width: 2px;
+  background: #f7faff;
+}
+
+/* ---------- Mini avatar ---------- */
+.mini-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 11px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(15, 52, 96, 0.15);
+}
+
+/* ===== Tree view ===== */
+.tree-wrap {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid rgba(15, 52, 96, 0.08);
+  box-shadow: 0 6px 22px rgba(15, 52, 96, 0.07);
+  margin: 0 24px;
+  padding: 12px 6px;
+  overflow-x: auto;
+}
+
+.member-tree { background: transparent !important; }
+
+.tree-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  transition: background 0.15s;
+  flex-wrap: nowrap;
+}
+
+.tree-row:hover { background: #f4f7fb; }
+
+.tree-row.leaf { padding-left: 8px; }
+
+.tree-row .row-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.tree-row .row-name {
+  font-weight: 700;
+  color: #0f3460;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tree-row .row-name .badge {
+  font-size: 11px;
+  background: #ffd700;
+  color: #1a1a2e;
+  border-radius: 999px;
+  padding: 1px 8px;
+  font-weight: 700;
+}
+
+.tree-row .row-sub {
+  display: block;
+  font-size: 12px;
+  color: #5b6b7b;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tree-children {
+  list-style: none;
+  margin: 0;
+  padding-left: 28px;
+}
+
+.hidden { display: none; }
+
+/* ===== Mobile ===== */
+@media (max-width: 720px) {
+  .team-hero { padding: 32px 16px 50px; }
+  .team-hero h1 { font-size: 22px; }
+  .team-toolbar { padding: 0 12px; }
+  .member-grid { padding: 0 12px; gap: 14px; }
+  .tree-wrap { margin: 0 12px; }
+  .stat-pill { min-width: 100%; }
+
+  /* Stack the expand pill below the row content on tight widths so it
+     doesn't squeeze the name/email into a single character column. */
+  .child-row {
+    grid-template-columns: 28px minmax(0, 1fr);
+  }
+  .child-row > .kebab {
+    grid-column: 2;
+    justify-self: end;
+    margin-top: 4px;
+  }
+  .child-meta .meta-item a { max-width: 160px; }
+}

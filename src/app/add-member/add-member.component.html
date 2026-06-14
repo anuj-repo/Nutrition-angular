@@ -1,0 +1,471 @@
+<div class="add-member-container">
+  <mat-card class="form-card">
+    <div class="form-header">
+      <h2>🤝 Add New Member / नया सदस्य जोड़ें</h2>
+      <p class="subtitle">Add a new person to your network and earn 20% commission!</p>
+      <p class="subtitle-hindi">अपने नेटवर्क में नया व्यक्ति जोड़ें और 20% कमीशन कमाएं!</p>
+    </div>
+
+    <!-- Referral Code Display / Edit -->
+    <div class="referral-info">
+      <mat-icon>link</mat-icon>
+
+      <ng-container *ngIf="!isEditingReferral">
+        <span class="referral-text">
+          Referral Code: <strong>{{ referralCode || '—' }}</strong>
+          <em class="referral-tag" *ngIf="referralCode && referralCode === myReferralCode">(auto-applied)</em>
+          <em class="referral-tag changed" *ngIf="referralCode && referralCode !== myReferralCode">(custom)</em>
+        </span>
+        <p class="sponsor-feedback checking"
+           *ngIf="referralCode !== myReferralCode && sponsorChecking">
+          ⏳ Verifying referral code...
+        </p>
+        <p class="sponsor-feedback ok"
+           *ngIf="referralCode !== myReferralCode && sponsorValid === true && sponsorName">
+          ✓ Adding under <strong>{{ sponsorName }}</strong>
+          <span *ngIf="sponsorEmail" class="sponsor-email">({{ sponsorEmail }})</span>
+        </p>
+        <p class="sponsor-feedback ok"
+           *ngIf="referralCode !== myReferralCode && sponsorValid === true && !sponsorName">
+          ✓ Valid referral code
+        </p>
+        <p class="sponsor-feedback bad"
+           *ngIf="referralCode !== myReferralCode && sponsorValid === false">
+          ✗ Invalid referral code — double-check before submitting
+        </p>
+        <p class="sponsor-feedback warn"
+           *ngIf="referralCode !== myReferralCode && sponsorError">
+          ⚠ {{ sponsorError }}
+        </p>
+        <button type="button" mat-stroked-button color="primary"
+                class="referral-edit-btn"
+                (click)="startEditReferral()">
+          <mat-icon>edit</mat-icon> Edit
+        </button>
+        <button type="button" mat-button
+                class="referral-reset-btn"
+                *ngIf="referralCode !== myReferralCode && myReferralCode"
+                (click)="resetReferral()">
+          <mat-icon>restart_alt</mat-icon> Reset to mine
+        </button>
+      </ng-container>
+
+      <!-- Sponsor lookup feedback for a custom (non-self) referral code -->
+      <div class="sponsor-feedback-row"
+           *ngIf="!isEditingReferral && referralCode && referralCode !== myReferralCode">
+        <p class="sponsor-feedback checking" *ngIf="sponsorChecking">
+          <mat-icon>hourglass_top</mat-icon> Checking referral code...
+        </p>
+        <p class="sponsor-feedback ok" *ngIf="!sponsorChecking && sponsorValid === true && sponsorName">
+          <mat-icon>check_circle</mat-icon>
+          Referred by <strong>{{ sponsorName }}</strong>
+          <span class="sponsor-email" *ngIf="sponsorEmail"> ({{ sponsorEmail }})</span>
+        </p>
+        <p class="sponsor-feedback ok" *ngIf="!sponsorChecking && sponsorValid === true && !sponsorName">
+          <mat-icon>check_circle</mat-icon> Valid referral code
+        </p>
+        <p class="sponsor-feedback bad" *ngIf="!sponsorChecking && sponsorValid === false">
+          <mat-icon>cancel</mat-icon> Invalid referral code
+        </p>
+        <p class="sponsor-feedback warn" *ngIf="!sponsorChecking && sponsorError">
+          <mat-icon>info</mat-icon> {{ sponsorError }}
+        </p>
+      </div>
+
+      <ng-container *ngIf="isEditingReferral">
+        <mat-form-field appearance="outline" class="referral-edit-field">
+          <mat-label>Referral Code</mat-label>
+          <input matInput
+                 [(ngModel)]="referralEditDraft"
+                 [ngModelOptions]="{standalone: true}"
+                 (keyup.enter)="saveReferral()"
+                 (keyup.escape)="cancelEditReferral()"
+                 placeholder="e.g. ACP2XI"
+                 maxlength="20"
+                 style="text-transform:uppercase">
+          <mat-hint>Leave as is to use your own code.</mat-hint>
+        </mat-form-field>
+        <button type="button" mat-raised-button color="primary"
+                class="referral-save-btn"
+                (click)="saveReferral()">
+          <mat-icon>check</mat-icon> Save
+        </button>
+        <button type="button" mat-button
+                class="referral-cancel-btn"
+                (click)="cancelEditReferral()">
+          Cancel
+        </button>
+      </ng-container>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div class="alert success" *ngIf="successMessage">
+      <mat-icon>check_circle</mat-icon>
+      {{ successMessage }}
+    </div>
+    <div class="alert error" *ngIf="errorMessage">
+      <mat-icon>error</mat-icon>
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="memberForm" (ngSubmit)="onSubmit()">
+      <!-- Personal Information -->
+      <h3 class="section-title">👤 Personal Information / व्यक्तिगत जानकारी</h3>
+      
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>First Name / पहला नाम</mat-label>
+          <input matInput formControlName="firstName" placeholder="Enter first name">
+          <mat-error *ngIf="memberForm.get('firstName').hasError('required')">First name is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Last Name / अंतिम नाम</mat-label>
+          <input matInput formControlName="lastName" placeholder="Enter last name">
+          <mat-error *ngIf="memberForm.get('lastName').hasError('required')">Last name is required</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Email / ईमेल</mat-label>
+          <input matInput formControlName="email" placeholder="email@example.com">
+          <mat-icon matSuffix
+                    *ngIf="emailCtrl?.pending"
+                    class="email-status pending"
+                    matTooltip="Checking availability...">hourglass_top</mat-icon>
+          <mat-icon matSuffix
+                    *ngIf="!emailCtrl?.pending && emailCtrl?.valid && emailCtrl?.value"
+                    class="email-status ok"
+                    matTooltip="Email is available">check_circle</mat-icon>
+          <mat-icon matSuffix
+                    *ngIf="!emailCtrl?.pending && emailCtrl?.hasError('emailTaken')"
+                    class="email-status bad"
+                    matTooltip="Email already registered">cancel</mat-icon>
+          <mat-error *ngIf="memberForm.get('email').hasError('required')">Email is required</mat-error>
+          <mat-error *ngIf="memberForm.get('email').hasError('email')">Enter a valid email</mat-error>
+          <mat-error *ngIf="memberForm.get('email').hasError('emailTaken')">
+            This email is already registered
+          </mat-error>
+          <mat-hint *ngIf="emailCtrl?.pending">Checking availability...</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Mobile Number / मोबाइल नंबर</mat-label>
+          <input matInput formControlName="mobNumber" appDigitsOnly maxlength="10" inputmode="numeric" placeholder="10-digit number">
+          <mat-error *ngIf="memberForm.get('mobNumber').hasError('required')">Mobile number is required</mat-error>
+          <mat-error *ngIf="memberForm.get('mobNumber').hasError('pattern')">Enter valid 10-digit number</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Gender / लिंग</mat-label>
+          <mat-select formControlName="gender">
+            <mat-option value="Male">Male / पुरुष</mat-option>
+            <mat-option value="Female">Female / महिला</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Date of Birth / जन्म तिथि</mat-label>
+          <input matInput [matDatepicker]="picker" [max]="maxDob" formControlName="dob">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="memberForm.get('dob').hasError('required')">Date of birth is required</mat-error>
+          <mat-error *ngIf="memberForm.get('dob').hasError('futureDate')">Date of birth cannot be in the future</mat-error>
+          <mat-error *ngIf="memberForm.get('dob').hasError('minAge')">Must be at least 10 years old</mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Address Information -->
+      <h3 class="section-title">📍 Address / पता</h3>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Address / पता</mat-label>
+        <textarea matInput formControlName="address" rows="2" placeholder="Enter full address"></textarea>
+        <mat-error *ngIf="memberForm.get('address').hasError('required')">Address is required</mat-error>
+      </mat-form-field>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Country / देश</mat-label>
+          <mat-select formControlName="country" (selectionChange)="onCountryChange($event)">
+            <mat-option *ngFor="let country of countries" [value]="country.id">{{ country.countryName }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>State / राज्य</mat-label>
+          <mat-select formControlName="state" (selectionChange)="onStateChange($event)">
+            <mat-option *ngFor="let state of states" [value]="state.id">{{ state.stateName }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>City / शहर</mat-label>
+          <mat-select formControlName="city">
+            <mat-option *ngFor="let city of cities" [value]="city.id">{{ city.cityName }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>ZIP Code / पिन कोड</mat-label>
+          <input matInput formControlName="zipCode" placeholder="6-digit PIN">
+          <mat-error *ngIf="memberForm.get('zipCode').hasError('pattern')">Enter valid 6-digit PIN</mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Payment & Package -->
+      <h3 class="section-title">💊 Package & Payment / पैकेज और भुगतान</h3>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Package / पैकेज</mat-label>
+          <mat-select formControlName="packageTaken">
+            <mat-option *ngFor="let pkg of packages" [value]="pkg.value">{{ pkg.label }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Product Choice / उत्पाद विकल्प</mat-label>
+          <mat-select formControlName="productChoice">
+            <mat-option *ngFor="let pc of productChoices" [value]="pc.value">{{ pc.label }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Payment Confirmation (UTR) -->
+      <div class="payment-toggle-row">
+        <p class="payment-toggle-text">
+          <strong>Already collected ₹2,280?</strong> Just enter the member's UTR / Transaction ID below.
+        </p>
+        <button type="button" mat-stroked-button class="payment-toggle-btn"
+                (click)="showPaymentOptions = !showPaymentOptions">
+          <mat-icon>{{ showPaymentOptions ? 'expand_less' : 'expand_more' }}</mat-icon>
+          {{ showPaymentOptions ? 'Hide' : 'Show' }} payment options
+        </button>
+      </div>
+
+      <div class="payment-info-box" *ngIf="showPaymentOptions">
+        <p><strong>Collect ₹2,280</strong> from the new member via UPI / NEFT / IMPS using either option below.</p>
+
+        <div class="payment-options">
+          <div class="pay-option qr-option">
+            <h4>📱 Pay via UPI / QR</h4>
+            <a class="qr-link"
+               href="upi://pay?pa=nutritionforever@upi&pn=Nutrition%20Forever%20Wellness%20Pvt.%20Ltd.&am=2280&cu=INR&tn=Stamina%20Core%20Plus%20Registration"
+               target="_blank" rel="noopener"
+               matTooltip="Open in your UPI app">
+              <img src="assets/payment/nutrition-forever-qr.png"
+                   alt="Scan to pay Nutrition Forever Wellness"
+                   (error)="onQrLoadError($event)">
+            </a>
+            <p class="qr-caption">Scan or tap to open PhonePe / GPay / Paytm with the amount pre-filled.</p>
+            <div class="upi-id">
+              <span class="upi-label">UPI ID</span>
+              <span class="upi-value">nutritionforever@upi</span>
+              <button type="button" mat-icon-button matTooltip="Copy UPI ID"
+                      (click)="copyToClipboard('nutritionforever@upi', 'UPI ID')">
+                <mat-icon>content_copy</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <div class="pay-option bank-option">
+            <h4>🏦 Bank transfer (NEFT / IMPS / RTGS)</h4>
+            <ul class="bank-details">
+              <li><strong>Account name</strong><span>Nutrition Forever Wellness Pvt. Ltd.</span></li>
+              <li><strong>Bank</strong><span>State Bank of India</span></li>
+              <li>
+                <strong>Account number</strong>
+                <span class="mono">123456789</span>
+                <button type="button" mat-icon-button matTooltip="Copy account number"
+                        (click)="copyToClipboard('123456789', 'Account number')">
+                  <mat-icon>content_copy</mat-icon>
+                </button>
+              </li>
+              <li>
+                <strong>IFSC code</strong>
+                <span class="mono">SBIN0000633</span>
+                <button type="button" mat-icon-button matTooltip="Copy IFSC"
+                        (click)="copyToClipboard('SBIN0000633', 'IFSC')">
+                  <mat-icon>content_copy</mat-icon>
+                </button>
+              </li>
+              <li><strong>Amount</strong><span class="mono">₹2,280</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="payment-hint">Enter the <strong>UTR / Transaction ID</strong> from the payment receipt below — onboarding is gated by payment.</p>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>UTR / Transaction ID</mat-label>
+          <mat-icon matPrefix>receipt_long</mat-icon>
+          <input matInput formControlName="utrNumber"
+                 placeholder="e.g. 412345678910 (6-30 letters / digits)"
+                 maxlength="30">
+          <mat-hint align="end">{{ memberForm.get('utrNumber').value?.length || 0 }} / 30</mat-hint>
+          <mat-error *ngIf="memberForm.get('utrNumber').hasError('required')">
+            UTR / Transaction ID is required
+          </mat-error>
+          <mat-error *ngIf="memberForm.get('utrNumber').hasError('minlength')">
+            Enter at least 6 characters
+          </mat-error>
+          <mat-error *ngIf="memberForm.get('utrNumber').hasError('pattern')">
+            Only letters and numbers are allowed
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- KYC Verification -->
+      <h3 class="section-title">🪪 KYC Verification / केवाईसी सत्यापन</h3>
+      <p class="kyc-help">
+        Required for payouts. Documents are visible only to admin reviewers.
+      </p>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>PAN Number / पैन नंबर</mat-label>
+          <mat-icon matPrefix>credit_card</mat-icon>
+          <input matInput formControlName="panNumber" placeholder="ABCDE1234F" maxlength="10"
+                 style="text-transform:uppercase">
+          <mat-error *ngIf="memberForm.get('panNumber').hasError('required')">PAN is required</mat-error>
+          <mat-error *ngIf="memberForm.get('panNumber').hasError('pattern')">
+            Format: ABCDE1234F
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Aadhaar Number / आधार नंबर</mat-label>
+          <mat-icon matPrefix>badge</mat-icon>
+          <input matInput formControlName="aadhaarNumber" placeholder="12 digits" maxlength="12">
+          <mat-error *ngIf="memberForm.get('aadhaarNumber').hasError('required')">Aadhaar is required</mat-error>
+          <mat-error *ngIf="memberForm.get('aadhaarNumber').hasError('pattern')">
+            Aadhaar must be 12 digits
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Account Holder Name</mat-label>
+          <mat-icon matPrefix>person</mat-icon>
+          <input matInput formControlName="accountHolderName" placeholder="As per passbook">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Bank Name</mat-label>
+          <mat-icon matPrefix>account_balance</mat-icon>
+          <input matInput formControlName="bankName" placeholder="State Bank of India">
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Account Number</mat-label>
+          <input matInput formControlName="accountNumber" placeholder="9-18 digits" maxlength="18">
+          <mat-error *ngIf="memberForm.get('accountNumber').hasError('required')">Required</mat-error>
+          <mat-error *ngIf="memberForm.get('accountNumber').hasError('pattern')">9-18 digits</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>IFSC Code</mat-label>
+          <input matInput formControlName="ifscCode" placeholder="SBIN0001234" maxlength="11"
+                 style="text-transform:uppercase">
+          <mat-error *ngIf="memberForm.get('ifscCode').hasError('required')">Required</mat-error>
+          <mat-error *ngIf="memberForm.get('ifscCode').hasError('pattern')">
+            Format: SBIN0001234
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="upload-grid">
+        <div class="upload-tile" [class.has-file]="kycFiles.PAN">
+          <input type="file" #panFile accept="image/*,application/pdf"
+                 (change)="onKycFile('PAN', panFile)">
+          <div class="up-icon">🪪</div>
+          <div class="up-label">PAN Card</div>
+          <div class="up-status" *ngIf="!kycFiles.PAN">
+            <button type="button" mat-stroked-button (click)="panFile.click()">Choose file</button>
+          </div>
+          <div class="up-status ok" *ngIf="kycFiles.PAN">
+            <mat-icon>check_circle</mat-icon>
+            <span class="fname">{{ kycFiles.PAN.name }}</span>
+            <button type="button" mat-icon-button (click)="clearKycFile('PAN')" matTooltip="Remove">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="upload-tile" [class.has-file]="kycFiles.AADHAAR">
+          <input type="file" #aadhaarFile accept="image/*,application/pdf"
+                 (change)="onKycFile('AADHAAR', aadhaarFile)">
+          <div class="up-icon">🆔</div>
+          <div class="up-label">Aadhaar (any side)</div>
+          <div class="up-status" *ngIf="!kycFiles.AADHAAR">
+            <button type="button" mat-stroked-button (click)="aadhaarFile.click()">Choose file</button>
+          </div>
+          <div class="up-status ok" *ngIf="kycFiles.AADHAAR">
+            <mat-icon>check_circle</mat-icon>
+            <span class="fname">{{ kycFiles.AADHAAR.name }}</span>
+            <button type="button" mat-icon-button (click)="clearKycFile('AADHAAR')" matTooltip="Remove">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="upload-tile" [class.has-file]="kycFiles.BANK_PROOF">
+          <input type="file" #bankFile accept="image/*,application/pdf"
+                 (change)="onKycFile('BANK_PROOF', bankFile)">
+          <div class="up-icon">🏦</div>
+          <div class="up-label">Bank proof <small>(passbook / cheque / statement)</small></div>
+          <div class="up-status" *ngIf="!kycFiles.BANK_PROOF">
+            <button type="button" mat-stroked-button (click)="bankFile.click()">Choose file</button>
+          </div>
+          <div class="up-status ok" *ngIf="kycFiles.BANK_PROOF">
+            <mat-icon>check_circle</mat-icon>
+            <span class="fname">{{ kycFiles.BANK_PROOF.name }}</span>
+            <button type="button" mat-icon-button (click)="clearKycFile('BANK_PROOF')" matTooltip="Remove">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <p class="kyc-error" *ngIf="kycFileError">⚠ {{ kycFileError }}</p>
+
+      <!-- Account Credentials -->
+      <h3 class="section-title">🔐 Account Credentials / खाता क्रेडेंशियल</h3>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Password / पासवर्ड</mat-label>
+          <input matInput type="password" formControlName="password" placeholder="Min 6 characters">
+          <mat-error *ngIf="memberForm.get('password').hasError('required')">Password is required</mat-error>
+          <mat-error *ngIf="memberForm.get('password').hasError('minlength')">Min 6 characters</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Confirm Password / पासवर्ड पुष्टि</mat-label>
+          <input matInput type="password" formControlName="confirmPassword">
+          <mat-error *ngIf="memberForm.get('confirmPassword').hasError('required')">Confirm password</mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting">
+          <mat-icon>person_add</mat-icon>
+          {{ isSubmitting ? 'Adding Member...' : 'Add Member / सदस्य जोड़ें' }}
+        </button>
+        <button mat-button type="button" routerLink="/dashboard">Cancel</button>
+      </div>
+    </form>
+  </mat-card>
+</div>

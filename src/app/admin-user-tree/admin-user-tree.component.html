@@ -1,0 +1,408 @@
+<section class="admin-tree-page">
+
+  <!-- Hero -->
+  <header class="team-hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <p class="eyebrow">🛡️ Admin · User Hierarchy</p>
+        <h1>Browse every user and downline</h1>
+        <p class="lead">Search across the network, jump between cards or genealogy view, and inspect any member.</p>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-pill">
+          <span class="stat-icon">👥</span>
+          <div>
+            <span class="stat-label">Total Users</span>
+            <span class="stat-value">{{ totalUsers }}</span>
+          </div>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-icon">🌿</span>
+          <div>
+            <span class="stat-label">Parents</span>
+            <span class="stat-value">{{ totalParents }}</span>
+          </div>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-icon">🟢</span>
+          <div>
+            <span class="stat-label">Active</span>
+            <span class="stat-value">{{ totalActive }}</span>
+          </div>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-icon">⏸️</span>
+          <div>
+            <span class="stat-label">Inactive</span>
+            <span class="stat-value">{{ totalInactive }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Server-side filter card (matches /allTeam admin filters) -->
+  <section class="filter-card">
+    <div class="filter-header">
+      <mat-icon>filter_alt</mat-icon>
+      <h3>Refine results</h3>
+    </div>
+
+    <div class="filter-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Start Date</mat-label>
+        <input matInput [matDatepicker]="startPicker" [(ngModel)]="filter.startDate" name="startDate">
+        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+        <mat-datepicker #startPicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>End Date</mat-label>
+        <input matInput [matDatepicker]="endPicker" [(ngModel)]="filter.endDate" name="endDate">
+        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+        <mat-datepicker #endPicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Specific Date</mat-label>
+        <input matInput [matDatepicker]="specificPicker" [(ngModel)]="filter.specificDate" name="specificDate">
+        <mat-datepicker-toggle matSuffix [for]="specificPicker"></mat-datepicker-toggle>
+        <mat-datepicker #specificPicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Referral Code</mat-label>
+        <input matInput type="text" [(ngModel)]="filter.referralCode" name="referralCode" placeholder="e.g. ABC123">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Mobile Number</mat-label>
+        <input matInput type="text" maxlength="10" inputmode="numeric"
+               [(ngModel)]="filter.mobileNumber" name="mobileNumber" placeholder="10-digit number">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select [(ngModel)]="filter.status" name="status">
+          <mat-option [value]="''">All</mat-option>
+          <mat-option [value]="1">Active</mat-option>
+          <mat-option [value]="0">Inactive</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="filter-actions">
+      <button class="btn-secondary" type="button" (click)="resetFilters()">
+        <mat-icon>restart_alt</mat-icon> Reset
+      </button>
+      <button class="btn-primary" type="button" (click)="applyServerFilters()" [disabled]="loading">
+        <mat-icon>search</mat-icon> {{ loading ? 'Searching…' : 'Apply Filters' }}
+      </button>
+    </div>
+  </section>
+
+  <!-- Toolbar (search, status pills, view toggle, expand/collapse) -->
+  <div class="team-toolbar">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search by name, email, mobile or code</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput [(ngModel)]="searchTerm" (ngModelChange)="applySearch()"
+             placeholder="e.g. Mukul, 99887...">
+      <button mat-icon-button matSuffix *ngIf="searchTerm"
+              (click)="searchTerm=''; applySearch()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <div class="toolbar-actions">
+      <div class="filter-group">
+        <button class="filter-chip" [class.active]="statusFilter==='all'"
+                (click)="setStatusFilter('all')">All</button>
+        <button class="filter-chip" [class.active]="statusFilter==='active'"
+                (click)="setStatusFilter('active')">Active</button>
+        <button class="filter-chip" [class.active]="statusFilter==='inactive'"
+                (click)="setStatusFilter('inactive')">Inactive</button>
+      </div>
+
+      <button class="btn-ghost" type="button" (click)="expandAll()" matTooltip="Expand every node">
+        <mat-icon>unfold_more</mat-icon> Expand all
+      </button>
+      <button class="btn-ghost" type="button" (click)="collapseAll()" matTooltip="Collapse every node">
+        <mat-icon>unfold_less</mat-icon> Collapse all
+      </button>
+
+      <div class="view-toggle">
+        <button class="view-btn" [class.active]="viewMode==='cards'" (click)="viewMode='cards'"
+                matTooltip="Card view"><mat-icon>grid_view</mat-icon></button>
+        <button class="view-btn" [class.active]="viewMode==='tree'" (click)="viewMode='tree'"
+                matTooltip="Hierarchy view"><mat-icon>account_tree</mat-icon></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="state-block" *ngIf="loading">
+    <mat-icon class="spin">autorenew</mat-icon>
+    <p>Loading users…</p>
+  </div>
+
+  <!-- Empty -->
+  <div class="state-block empty" *ngIf="!loading && filteredParents.length === 0">
+    <span class="empty-icon">🔍</span>
+    <h3 *ngIf="parents.length === 0">No users yet</h3>
+    <h3 *ngIf="parents.length > 0">No matches</h3>
+    <p *ngIf="parents.length === 0">There are no users registered yet.</p>
+    <p *ngIf="parents.length > 0">Try adjusting the filters or your search term.</p>
+    <button class="btn-secondary" type="button" *ngIf="parents.length > 0"
+            (click)="searchTerm=''; statusFilter='all'; applySearch()">
+      <mat-icon>filter_alt_off</mat-icon> Clear search
+    </button>
+  </div>
+
+  <!-- ====== CARDS view ====== -->
+  <div class="member-grid"
+       *ngIf="!loading && filteredParents.length > 0 && viewMode==='cards'">
+    <article class="member-card" *ngFor="let m of filteredParents"
+             [class.match]="m._matched">
+      <div class="card-head" (click)="selectMember(m)">
+        <div class="avatar" [style.background]="avatarColor(m)">{{ initials(m) }}</div>
+        <div class="head-text">
+          <h3 class="name">{{ m.fname }} {{ m.lname }}</h3>
+          <p class="role">Parent · L{{ m.level || 1 }}</p>
+        </div>
+        <span class="status-chip" [class.active]="isActive(m)" [class.inactive]="!isActive(m)">
+          <span class="dot"></span>{{ isActive(m) ? 'Active' : 'Inactive' }}
+        </span>
+      </div>
+
+      <ul class="card-meta">
+        <li *ngIf="m.email">
+          <mat-icon>email</mat-icon>
+          <a [href]="'mailto:' + m.email">{{ m.email }}</a>
+        </li>
+        <li *ngIf="m.mobileNumber">
+          <mat-icon>call</mat-icon>
+          <a [href]="'tel:' + m.mobileNumber">{{ m.mobileNumber }}</a>
+        </li>
+        <li *ngIf="m.referralCode">
+          <mat-icon>qr_code_2</mat-icon>
+          <span class="code">{{ m.referralCode }}</span>
+          <button mat-icon-button class="copy-btn" matTooltip="Copy referral code"
+                  (click)="copyCode(m.referralCode, $event)">
+            <mat-icon>content_copy</mat-icon>
+          </button>
+        </li>
+      </ul>
+
+      <div class="card-stats">
+        <div class="stat">
+          <span class="s-label">Balance</span>
+          <span class="s-value">₹{{ (m.totalAccountBalance || 0) | number }}</span>
+        </div>
+        <div class="stat">
+          <span class="s-label">Direct</span>
+          <span class="s-value">{{ childCount(m) }}</span>
+        </div>
+        <div class="stat">
+          <span class="s-label">Subtree</span>
+          <span class="s-value">{{ subtreeCount(m) - 1 }}</span>
+        </div>
+      </div>
+
+      <button class="expand-btn" *ngIf="m.children?.length"
+              type="button"
+              (click)="m._open = !m._open">
+        <mat-icon>{{ m._open ? 'expand_less' : 'expand_more' }}</mat-icon>
+        {{ m._open ? 'Hide' : 'Show' }} {{ m.children.length }} downline member{{ m.children.length === 1 ? '' : 's' }}
+      </button>
+
+      <ul class="children" *ngIf="m._open && m.children?.length">
+        <ng-container *ngTemplateOutlet="memberTree;
+            context: { $implicit: m.children, depth: 1 }"></ng-container>
+      </ul>
+    </article>
+  </div>
+
+  <!-- Recursive child template (used by cards view) -->
+  <ng-template #memberTree let-list let-depth="depth">
+    <li *ngFor="let c of list; let last = last"
+        class="child-item" [class.is-last]="last" [class.match]="c._matched">
+      <div class="child-row" (click)="selectMember(c)">
+        <span class="mini-avatar" [style.background]="avatarColor(c)">{{ initials(c) }}</span>
+        <div class="child-info">
+          <div class="child-line">
+            <span class="mini-name" [title]="(c.fname || '') + ' ' + (c.lname || '')">
+              {{ c.fname }} {{ c.lname }}
+            </span>
+            <span class="level-badge">L{{ c.level || depth + 1 }}</span>
+            <span class="status-chip small" [class.active]="isActive(c)" [class.inactive]="!isActive(c)">
+              <span class="dot"></span>{{ isActive(c) ? 'Active' : 'Inactive' }}
+            </span>
+          </div>
+          <div class="child-meta">
+            <span *ngIf="c.email" class="meta-item" [matTooltip]="c.email">
+              <mat-icon>email</mat-icon>
+              <a [href]="'mailto:' + c.email" (click)="$event.stopPropagation()">{{ c.email }}</a>
+            </span>
+            <span *ngIf="c.mobileNumber" class="meta-item">
+              <mat-icon>call</mat-icon>
+              <a [href]="'tel:' + c.mobileNumber" (click)="$event.stopPropagation()">{{ c.mobileNumber }}</a>
+            </span>
+            <span *ngIf="c.referralCode" class="code-mini meta-item"
+                  matTooltip="Click to copy"
+                  (click)="copyCode(c.referralCode, $event)">
+              <mat-icon>qr_code_2</mat-icon> {{ c.referralCode }}
+            </span>
+          </div>
+        </div>
+        <button class="kebab" *ngIf="c.children?.length"
+                type="button"
+                (click)="toggle(c, $event)"
+                [matTooltip]="c._open ? 'Collapse downline' : 'Show ' + c.children.length + ' downline'">
+          <span class="count">{{ c.children.length }}</span>
+          <mat-icon>{{ c._open ? 'expand_less' : 'expand_more' }}</mat-icon>
+        </button>
+      </div>
+
+      <ul class="nested-children" *ngIf="c._open && c.children?.length">
+        <ng-container *ngTemplateOutlet="memberTree;
+            context: { $implicit: c.children, depth: depth + 1 }"></ng-container>
+      </ul>
+    </li>
+  </ng-template>
+
+  <!-- ====== TREE view (genealogy) ====== -->
+  <div class="tree-area"
+       *ngIf="!loading && filteredParents.length > 0 && viewMode==='tree'">
+    <ng-container *ngFor="let p of filteredParents">
+      <ng-container *ngTemplateOutlet="genealogy; context: { $implicit: p, level: 0 }"></ng-container>
+    </ng-container>
+  </div>
+
+  <ng-template #genealogy let-node let-level="level">
+    <div class="tree-node-wrap" [style.padding-left.px]="(level > 15 ? 15 : level) * 22">
+      <div class="tree-node"
+           [class.match]="node._matched"
+           (click)="selectMember(node)">
+        <button class="toggle-btn" type="button"
+                *ngIf="node.children && node.children.length > 0"
+                (click)="toggle(node, $event)">
+          <mat-icon>{{ node._open ? 'expand_more' : 'chevron_right' }}</mat-icon>
+        </button>
+        <span class="leaf" *ngIf="!node.children || node.children.length === 0">▪</span>
+        <div class="tn-avatar" [style.background]="avatarColor(node)">{{ initials(node) }}</div>
+        <div class="tn-text">
+          <span class="tn-name">{{ node.fname }} {{ node.lname }}</span>
+          <span class="tn-sub">{{ node.email || node.mobileNumber || node.referralCode || '—' }}</span>
+        </div>
+        <span class="lvl-badge">L{{ node.level }}</span>
+        <span class="status-chip small" [class.active]="isActive(node)" [class.inactive]="!isActive(node)">
+          <span class="dot"></span>{{ isActive(node) ? 'Active' : 'Inactive' }}
+        </span>
+        <span class="children-count" *ngIf="node.children?.length">
+          {{ node.children.length }} 👥
+        </span>
+      </div>
+      <div *ngIf="node._open && node.children?.length" class="children-block">
+        <ng-container *ngFor="let child of node.children">
+          <ng-container *ngTemplateOutlet="genealogy;
+              context: { $implicit: child, level: level + 1 }"></ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- ====== Detail drawer ====== -->
+  <div class="drawer-backdrop" *ngIf="selectedMember" (click)="closeMember()"></div>
+  <aside class="member-drawer" *ngIf="selectedMember">
+    <header class="drawer-header">
+      <div class="dh-left">
+        <div class="avatar" [style.background]="avatarColor(selectedMember)">
+          {{ initials(selectedMember) }}
+        </div>
+        <div>
+          <h3>{{ selectedMember.fname }} {{ selectedMember.lname }}</h3>
+          <span class="status-chip small"
+                [class.active]="isActive(selectedMember)"
+                [class.inactive]="!isActive(selectedMember)">
+            <span class="dot"></span>{{ isActive(selectedMember) ? 'Active' : 'Inactive' }}
+          </span>
+        </div>
+      </div>
+      <button class="icon-btn" type="button" (click)="closeMember()" matTooltip="Close">
+        <mat-icon>close</mat-icon>
+      </button>
+    </header>
+
+    <div class="drawer-body">
+      <!-- Sponsor breadcrumb -->
+      <div class="ancestor-trail" *ngIf="selectedAncestors.length">
+        <span class="trail-label">Upline:</span>
+        <ng-container *ngFor="let a of selectedAncestors; let last = last">
+          <button class="trail-chip" type="button" (click)="selectMember(a)">
+            {{ a.fname }} {{ a.lname }}
+          </button>
+          <mat-icon class="trail-arrow" *ngIf="!last">chevron_right</mat-icon>
+        </ng-container>
+        <mat-icon class="trail-arrow">chevron_right</mat-icon>
+        <span class="trail-current">{{ selectedMember.fname }} {{ selectedMember.lname }}</span>
+      </div>
+
+      <h4>Profile</h4>
+      <ul class="kv">
+        <li><span>User ID</span><strong>{{ selectedMember.userId || '—' }}</strong></li>
+        <li><span>Referral code</span>
+          <strong class="code-strong" *ngIf="selectedMember.referralCode">
+            {{ selectedMember.referralCode }}
+            <button class="icon-btn small" type="button"
+                    matTooltip="Copy"
+                    (click)="copyCode(selectedMember.referralCode, $event)">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </strong>
+          <strong *ngIf="!selectedMember.referralCode">—</strong>
+        </li>
+        <li><span>Email</span>
+          <strong *ngIf="selectedMember.email">
+            <a [href]="'mailto:' + selectedMember.email">{{ selectedMember.email }}</a>
+          </strong>
+          <strong *ngIf="!selectedMember.email">—</strong>
+        </li>
+        <li><span>Mobile</span>
+          <strong *ngIf="selectedMember.mobileNumber">
+            <a [href]="'tel:' + selectedMember.mobileNumber">{{ selectedMember.mobileNumber }}</a>
+          </strong>
+          <strong *ngIf="!selectedMember.mobileNumber">—</strong>
+        </li>
+        <li><span>Level</span><strong>L{{ selectedMember.level }}</strong></li>
+        <li *ngIf="selectedMember.city || selectedMember.state">
+          <span>Location</span>
+          <strong>{{ [selectedMember.city, selectedMember.state] | json }}</strong>
+        </li>
+        <li *ngIf="selectedMember.packageTaken != null">
+          <span>Package</span><strong>₹{{ selectedMember.packageTaken | number }}</strong>
+        </li>
+      </ul>
+
+      <h4>Wallet</h4>
+      <ul class="kv">
+        <li><span>Total balance</span>
+          <strong>₹{{ (selectedMember.totalAccountBalance || 0) | number }}</strong>
+        </li>
+        <li><span>Paid balance</span>
+          <strong>₹{{ (selectedMember.paidBalance || 0) | number }}</strong>
+        </li>
+        <li><span>Account balance</span>
+          <strong>₹{{ (selectedMember.accountBalance || 0) | number }}</strong>
+        </li>
+      </ul>
+
+      <h4>Network</h4>
+      <ul class="kv">
+        <li><span>Direct downline</span><strong>{{ childCount(selectedMember) }}</strong></li>
+        <li><span>Total subtree</span><strong>{{ subtreeCount(selectedMember) - 1 }}</strong></li>
+      </ul>
+    </div>
+  </aside>
+</section>

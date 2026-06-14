@@ -1,0 +1,34 @@
+<div class="ps-container">
+  <div class="page-header"><h2>💰 Profit Sharing Club</h2></div>
+
+  <mat-card class="hero-card">
+    <mat-card-content>
+      <div class="hero-icon">💰</div>
+      <h3>Join the Top 1% — Profit Sharing Club</h3>
+      <p>Members with 50,000+ active team members earn a share of the company's annual profit.</p>
+      <div class="progress-section">
+        <div class="progress-row">
+          <span>{{ totalTeam | number }} / 50,000 team members</span>
+          <span class="pct">{{ progressPct | number:'1.0-1' }}%</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" [style.width.%]="progressPct"></div></div>
+      </div>
+      <div class="alert success" *ngIf="message">{{ message }}</div>
+      <div class="alert error" *ngIf="error">{{ error }}</div>
+      <button mat-raised-button color="primary" (click)="enroll()">Enroll in Profit Sharing Club</button>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="benefits-card">
+    <mat-card-content>
+      <h3>🎯 Club Benefits</h3>
+      <ul>
+        <li>Annual profit share distribution</li>
+        <li>VIP-only events and gatherings</li>
+        <li>Priority customer service</li>
+        <li>Special leadership trainings</li>
+        <li>Recognition at annual conference</li>
+      </ul>
+    </mat-card-content>
+  </mat-card>
+</div>

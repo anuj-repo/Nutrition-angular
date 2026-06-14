@@ -1,0 +1,95 @@
+<div class="ranks-container">
+  <div class="page-header">
+    <h2>🏆 Premium Rank Titles / प्रीमियम रैंक टाइटल</h2>
+    <p class="subtitle">Your current rank: <strong class="current-rank">{{ myCurrentRank || 'Not yet assigned' }}</strong>
+      <ng-container *ngIf="myCurrentLevel > 0">(Level {{ myCurrentLevel }})</ng-container>
+    </p>
+  </div>
+
+  <!-- Rank Progress to Next Level -->
+  <mat-card class="rank-progress-card" *ngIf="rankProgress && rankProgress.nextRank">
+    <mat-card-content>
+      <h3>🎯 Progress to Next Rank</h3>
+      <div class="progress-row">
+        <div class="progress-rank-info">
+          <span class="from">{{ rankProgress.currentRank }}</span>
+          <mat-icon>arrow_forward</mat-icon>
+          <span class="to">{{ rankProgress.nextRank }}</span>
+        </div>
+        <div class="progress-bar-large">
+          <div class="progress-fill-large" [style.width.%]="rankProgress.progressPercent || 0"></div>
+        </div>
+        <div class="progress-stats">
+          <span>{{ rankProgress.currentTeam || 0 }} / {{ rankProgress.requiredTeam || 0 }} team</span>
+          <span class="percent">{{ (rankProgress.progressPercent || 0) | number:'1.0-1' }}%</span>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Entry Levels -->
+  <section class="rank-section">
+    <h3 class="section-title entry-title">🌱 Entry Levels / प्रवेश स्तर</h3>
+    <div class="ranks-grid">
+      <mat-card *ngFor="let rank of getEntryRanks()" class="rank-card"
+                [class.achieved]="isAchieved(rank.level)"
+                [class.current]="isCurrent(rank.level)">
+        <mat-card-content>
+          <div class="rank-icon">{{ rank.icon }}</div>
+          <div class="rank-level">Level {{ rank.level }}</div>
+          <div class="rank-name">{{ rank.rank }}</div>
+          <div class="rank-hindi">{{ rank.rankHindi }}</div>
+          <div class="rank-status">
+            <span *ngIf="isCurrent(rank.level)" class="current-badge">← Current</span>
+            <span *ngIf="isAchieved(rank.level) && !isCurrent(rank.level)" class="achieved-badge">✓</span>
+            <span *ngIf="!isAchieved(rank.level)" class="pending-badge">○</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </section>
+
+  <!-- Elite Levels -->
+  <section class="rank-section">
+    <h3 class="section-title elite-title">⭐ Elite Levels / एलीट स्तर</h3>
+    <div class="ranks-grid">
+      <mat-card *ngFor="let rank of getEliteRanks()" class="rank-card elite"
+                [class.achieved]="isAchieved(rank.level)"
+                [class.current]="isCurrent(rank.level)">
+        <mat-card-content>
+          <div class="rank-icon">{{ rank.icon }}</div>
+          <div class="rank-level">Level {{ rank.level }}</div>
+          <div class="rank-name">{{ rank.rank }}</div>
+          <div class="rank-hindi">{{ rank.rankHindi }}</div>
+          <div class="rank-status">
+            <span *ngIf="isCurrent(rank.level)" class="current-badge">← Current</span>
+            <span *ngIf="isAchieved(rank.level) && !isCurrent(rank.level)" class="achieved-badge">✓</span>
+            <span *ngIf="!isAchieved(rank.level)" class="pending-badge">○</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </section>
+
+  <!-- Legend Levels -->
+  <section class="rank-section legend-section">
+    <h3 class="section-title legend-title">👑 Legend Levels / लीजेंड स्तर</h3>
+    <div class="ranks-grid">
+      <mat-card *ngFor="let rank of getLegendRanks()" class="rank-card legend"
+                [class.achieved]="isAchieved(rank.level)"
+                [class.current]="isCurrent(rank.level)">
+        <mat-card-content>
+          <div class="rank-icon large">{{ rank.icon }}</div>
+          <div class="rank-level">Level {{ rank.level }}</div>
+          <div class="rank-name">{{ rank.rank }}</div>
+          <div class="rank-hindi">{{ rank.rankHindi }}</div>
+          <div class="rank-status">
+            <span *ngIf="isCurrent(rank.level)" class="current-badge">← Current</span>
+            <span *ngIf="isAchieved(rank.level) && !isCurrent(rank.level)" class="achieved-badge">✓</span>
+            <span *ngIf="!isAchieved(rank.level)" class="pending-badge">○</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,160 @@
+.commission-container {
+  padding: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.page-header h2 {
+  font-size: 26px;
+  color: #1b5e20;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.total-badge {
+  display: inline-flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #4caf50, #2e7d32);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 24px;
+  font-size: 18px;
+}
+
+.total-badge .hindi {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.commission-table-card {
+  border-radius: 12px;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
+.commission-table {
+  width: 100%;
+}
+
+.commission-table th {
+  background: #e8f5e9;
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+.percentage-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bar-container {
+  width: 120px;
+  height: 16px;
+  background: #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #81c784, #4caf50);
+  border-radius: 8px;
+  transition: width 0.5s ease;
+}
+
+.bar-fill.active-bar {
+  background: linear-gradient(90deg, #ff9800, #f57c00);
+}
+
+.percent-text {
+  font-weight: 700;
+  color: #333;
+  min-width: 40px;
+}
+
+.active-level {
+  color: #e65100;
+  font-weight: 600;
+}
+
+.hindi-text {
+  font-size: 12px;
+  color: #888;
+}
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-badge.achieved {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-badge.pending {
+  background: #f5f5f5;
+  color: #999;
+}
+
+.highlight-row {
+  background: #fff8e1 !important;
+}
+
+.how-it-works {
+  border-radius: 12px;
+}
+
+.how-it-works h3 {
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.info-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #f9f9f9;
+}
+
+.info-icon {
+  font-size: 24px;
+}
+
+.info-item p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .bar-container {
+    width: 60px;
+  }
+}
+
+
+.earned-cell {
+  font-weight: 600;
+  color: #2e7d32;
+}

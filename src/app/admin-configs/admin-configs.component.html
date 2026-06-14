@@ -1,0 +1,148 @@
+<div class="ac-container">
+  <div class="page-header"><h2>🛠️ Configuration</h2></div>
+
+  <p class="muted" *ngIf="message">{{ message }}</p>
+
+  <div class="tab-nav">
+    <button mat-button [class.active-tab]="selectedTab==='commission'" (click)="switchTab('commission')">Commission Levels</button>
+    <button mat-button [class.active-tab]="selectedTab==='repurchase'" (click)="switchTab('repurchase')">Repurchase Slabs</button>
+    <button mat-button [class.active-tab]="selectedTab==='rewards'" (click)="switchTab('rewards')">Reward Tiers</button>
+  </div>
+
+  <!-- Commission -->
+  <mat-card *ngIf="selectedTab==='commission'" class="tab-content">
+    <mat-card-content>
+      <h3>Commission Levels (1-15)</h3>
+      <form [formGroup]="commForm" (ngSubmit)="saveCommission()" class="inline-form">
+        <mat-form-field appearance="outline">
+          <mat-label>Level</mat-label>
+          <input matInput type="number" formControlName="level">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>%</mat-label>
+          <input matInput type="number" step="0.5" formControlName="percentage">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="grow">
+          <mat-label>Rank Title</mat-label>
+          <input matInput formControlName="rankTitle">
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Add/Override</button>
+      </form>
+
+      <table mat-table [dataSource]="commissionConfig" class="full-width" *ngIf="commissionConfig.length">
+        <ng-container matColumnDef="level"><th mat-header-cell *matHeaderCellDef>Level</th>
+          <td mat-cell *matCellDef="let c">{{ c.level }}</td></ng-container>
+        <ng-container matColumnDef="pct"><th mat-header-cell *matHeaderCellDef>%</th>
+          <td mat-cell *matCellDef="let c"><input type="number" [(ngModel)]="c.percentage" class="inline-edit"></td></ng-container>
+        <ng-container matColumnDef="rank"><th mat-header-cell *matHeaderCellDef>Rank</th>
+          <td mat-cell *matCellDef="let c">{{ c.rankTitle }}</td></ng-container>
+        <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let c"><button mat-button color="primary" (click)="updateCommissionRow(c)">Save</button></td></ng-container>
+        <tr mat-header-row *matHeaderRowDef="['level','pct','rank','actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['level','pct','rank','actions']"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Repurchase -->
+  <mat-card *ngIf="selectedTab==='repurchase'" class="tab-content">
+    <mat-card-content>
+      <div class="header-row">
+        <h3>Repurchase Slabs</h3>
+        <div>
+          <button mat-stroked-button (click)="runRepurchaseCalc()">Run Calculation</button>
+          <button mat-stroked-button (click)="triggerPayout()">Trigger Payout</button>
+        </div>
+      </div>
+      <form [formGroup]="repForm" (ngSubmit)="saveRepurchase()" class="inline-form">
+        <mat-form-field appearance="outline">
+          <mat-label>Min Amount</mat-label>
+          <input matInput type="number" formControlName="minAmount">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Max Amount</mat-label>
+          <input matInput type="number" formControlName="maxAmount">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Bonus %</mat-label>
+          <input matInput type="number" step="0.5" formControlName="bonusPercentage">
+        </mat-form-field>
+        <label><input type="checkbox" formControlName="isActive"> Active</label>
+        <button mat-raised-button color="primary" type="submit">{{ editingRepId ? 'Update' : 'Add' }}</button>
+        <button mat-button type="button" *ngIf="editingRepId" (click)="newRep()">New</button>
+      </form>
+
+      <table mat-table [dataSource]="repurchaseConfig" class="full-width" *ngIf="repurchaseConfig.length">
+        <ng-container matColumnDef="range"><th mat-header-cell *matHeaderCellDef>Range</th>
+          <td mat-cell *matCellDef="let r">₹{{ r.minAmount | number }} - ₹{{ r.maxAmount | number }}</td></ng-container>
+        <ng-container matColumnDef="pct"><th mat-header-cell *matHeaderCellDef>Bonus %</th>
+          <td mat-cell *matCellDef="let r">{{ r.bonusPercentage }}%</td></ng-container>
+        <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Active</th>
+          <td mat-cell *matCellDef="let r">{{ r.isActive ? 'Yes' : 'No' }}</td></ng-container>
+        <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let r"><button mat-button color="primary" (click)="editRep(r)">Edit</button></td></ng-container>
+        <tr mat-header-row *matHeaderRowDef="['range','pct','active','actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['range','pct','active','actions']"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Rewards -->
+  <mat-card *ngIf="selectedTab==='rewards'" class="tab-content">
+    <mat-card-content>
+      <h3>Reward Tiers</h3>
+      <form [formGroup]="rewForm" (ngSubmit)="saveReward()" class="inline-form">
+        <mat-form-field appearance="outline">
+          <mat-label>Reward Name</mat-label>
+          <input matInput formControlName="rewardName">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Category</mat-label>
+          <mat-select formControlName="rewardCategory">
+            <mat-option value="DIRECT">Direct</mat-option>
+            <mat-option value="TEAM">Team</mat-option>
+            <mat-option value="PREMIUM">Premium</mat-option>
+            <mat-option value="MEGA">Mega</mat-option>
+            <mat-option value="ULTIMATE">Ultimate</mat-option>
+            <mat-option value="TRIP">Trip</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Required Count</mat-label>
+          <input matInput type="number" formControlName="requiredCount">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Value</mat-label>
+          <input matInput type="number" formControlName="rewardValue">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="grow">
+          <mat-label>Description</mat-label>
+          <input matInput formControlName="rewardDescription">
+        </mat-form-field>
+        <label><input type="checkbox" formControlName="isActive"> Active</label>
+        <button mat-raised-button color="primary" type="submit">{{ editingRewId ? 'Update' : 'Add' }}</button>
+        <button mat-button type="button" *ngIf="editingRewId" (click)="newRew()">New</button>
+      </form>
+
+      <table mat-table [dataSource]="rewardTiers" class="full-width" *ngIf="rewardTiers.length">
+        <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let r">{{ r.rewardName }}</td></ng-container>
+        <ng-container matColumnDef="cat"><th mat-header-cell *matHeaderCellDef>Category</th>
+          <td mat-cell *matCellDef="let r">{{ r.rewardCategory }}</td></ng-container>
+        <ng-container matColumnDef="count"><th mat-header-cell *matHeaderCellDef>Required</th>
+          <td mat-cell *matCellDef="let r">{{ r.requiredCount }}</td></ng-container>
+        <ng-container matColumnDef="value"><th mat-header-cell *matHeaderCellDef>Value</th>
+          <td mat-cell *matCellDef="let r">₹{{ r.rewardValue | number }}</td></ng-container>
+        <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Active</th>
+          <td mat-cell *matCellDef="let r">{{ r.isActive ? 'Yes' : 'No' }}</td></ng-container>
+        <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let r">
+            <button mat-button color="primary" (click)="editRew(r)">Edit</button>
+            <button mat-button color="warn" (click)="deleteReward(r.id)">Delete</button>
+          </td></ng-container>
+        <tr mat-header-row *matHeaderRowDef="['name','cat','count','value','active','actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['name','cat','count','value','active','actions']"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

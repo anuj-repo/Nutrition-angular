@@ -1,0 +1,33 @@
+<div class="rp-container">
+  <div class="page-header"><h2>🔐 Roles & Permissions</h2></div>
+
+  <p class="muted" *ngIf="message">{{ message }}</p>
+
+  <div class="rp-grid">
+    <mat-card class="roles-list">
+      <mat-card-content>
+        <h3>Roles</h3>
+        <div *ngFor="let r of roles" class="role-row" [class.active]="selectedRoleId === r.id" (click)="selectRole(r)">
+          <strong>{{ r.name }}</strong>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="perms-list">
+      <mat-card-content>
+        <h3>Permissions <span *ngIf="selectedRoleId">for selected role</span></h3>
+        <p *ngIf="!selectedRoleId" class="muted">Select a role to view its permissions.</p>
+        <p *ngIf="loading" class="muted">Loading...</p>
+        <div *ngIf="selectedRoleId && !loading" class="perm-list">
+          <div *ngFor="let p of allPermissions" class="perm-row">
+            <input type="checkbox" [checked]="hasPermission(p)" disabled>
+            <span class="perm-name"><strong>{{ p.name }}</strong>
+              <small *ngIf="p.module">({{ p.module }})</small>
+            </span>
+            <span class="perm-desc">{{ p.description }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

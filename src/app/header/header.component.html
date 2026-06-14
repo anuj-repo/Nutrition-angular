@@ -1,0 +1,153 @@
+<!-- Top app bar -->
+<header class="app-bar">
+  <div class="app-bar-inner">
+    <a class="brand" routerLink="/" (click)="closeMobileNav()">
+      <span class="brand-mark">
+        <mat-icon class="brand-mark-icon">spa</mat-icon>
+      </span>
+      <span class="brand-text">
+        <span class="brand-title">Nutrition Forever Wellness</span>
+        <span class="brand-tag">Stamina Core+ · Health · Wealth · Security</span>
+      </span>
+    </a>
+
+    <span class="spacer"></span>
+
+    <div class="top-actions">
+      <button
+        *ngIf="isLoggedIn()"
+        mat-icon-button
+        routerLink="/notifications"
+        matTooltip="Notifications"
+        class="icon-btn"
+        aria-label="Notifications">
+        <mat-icon>notifications_none</mat-icon>
+      </button>
+
+      <button
+        *ngIf="isLoggedIn()"
+        class="user-chip"
+        [matMenuTriggerFor]="userMenu"
+        aria-label="User Menu">
+        <span class="avatar">{{ (userName || '?').charAt(0).toUpperCase() }}</span>
+        <span class="user-name">{{ userName }}</span>
+        <mat-icon class="chev">expand_more</mat-icon>
+      </button>
+
+      <button
+        *ngIf="!isLoggedIn()"
+        mat-stroked-button
+        color="primary"
+        class="login-btn"
+        [matMenuTriggerFor]="userMenu">
+        <mat-icon>person_outline</mat-icon> Account
+      </button>
+
+      <button
+        *ngIf="isLoggedIn()"
+        mat-icon-button
+        class="icon-btn hamburger"
+        (click)="toggleMobileNav()"
+        aria-label="Toggle menu">
+        <mat-icon>{{ mobileNavOpen ? 'close' : 'menu' }}</mat-icon>
+      </button>
+    </div>
+
+    <mat-menu #userMenu="matMenu" xPosition="before">
+      <button mat-menu-item *ngIf="!isLoggedIn()" routerLink="/login"><mat-icon>login</mat-icon> Login</button>
+      <button mat-menu-item *ngIf="!isLoggedIn()" routerLink="/register"><mat-icon>person_add</mat-icon> Register</button>
+      <button mat-menu-item *ngIf="!isLoggedIn()" routerLink="/forgot-password"><mat-icon>lock_reset</mat-icon> Forgot Password</button>
+      <button mat-menu-item *ngIf="isLoggedIn()" routerLink="/myProfile"><mat-icon>person</mat-icon> Profile</button>
+      <button mat-menu-item *ngIf="isLoggedIn()" routerLink="/addresses"><mat-icon>location_on</mat-icon> Addresses</button>
+      <button mat-menu-item *ngIf="isLoggedIn()" routerLink="/notification-preferences"><mat-icon>tune</mat-icon> Preferences</button>
+      <button mat-menu-item *ngIf="isLoggedIn()" (click)="logout()"><mat-icon>exit_to_app</mat-icon> Logout</button>
+    </mat-menu>
+  </div>
+</header>
+
+<!-- Main navigation -->
+<nav class="nav-bar" [class.open]="mobileNavOpen" *ngIf="isLoggedIn()">
+  <div class="nav-inner">
+
+    <!-- USER NAV -->
+    <ng-container *ngIf="!isAdmin()">
+      <a mat-button routerLink="/dashboard" routerLinkActive="active-link" (click)="closeMobileNav()"><mat-icon>dashboard</mat-icon><span>Dashboard</span></a>
+      <a mat-button routerLink="/add-member" routerLinkActive="active-link" (click)="closeMobileNav()"><mat-icon>person_add</mat-icon><span>Add Member</span></a>
+
+      <button mat-button [matMenuTriggerFor]="netMenu"><mat-icon>account_tree</mat-icon><span>Network</span><mat-icon class="caret">expand_more</mat-icon></button>
+      <mat-menu #netMenu="matMenu">
+        <button mat-menu-item routerLink="/network-tree"><mat-icon>account_tree</mat-icon> Tree View</button>
+        <button mat-menu-item routerLink="/myTeam"><mat-icon>groups</mat-icon> Team List</button>
+        <button mat-menu-item routerLink="/sponsor"><mat-icon>handshake</mat-icon> Sponsor & Directs</button>
+        <button mat-menu-item routerLink="/leaderboard"><mat-icon>leaderboard</mat-icon> Leaderboard</button>
+      </mat-menu>
+
+      <button mat-button [matMenuTriggerFor]="moneyMenu"><mat-icon>account_balance_wallet</mat-icon><span>Money</span><mat-icon class="caret">expand_more</mat-icon></button>
+      <mat-menu #moneyMenu="matMenu">
+        <button mat-menu-item routerLink="/wallet"><mat-icon>wallet</mat-icon> Wallet</button>
+        <button mat-menu-item routerLink="/earnings"><mat-icon>trending_up</mat-icon> Earnings</button>
+        <button mat-menu-item routerLink="/commission"><mat-icon>layers</mat-icon> Commission</button>
+        <button mat-menu-item routerLink="/repurchase-bonus"><mat-icon>loop</mat-icon> Repurchase Bonus</button>
+        <button mat-menu-item routerLink="/payment-history"><mat-icon>history</mat-icon> Payment History</button>
+        <button mat-menu-item routerLink="/tds"><mat-icon>receipt_long</mat-icon> TDS / Form 16A</button>
+        <button mat-menu-item routerLink="/investment"><mat-icon>savings</mat-icon> Investment</button>
+      </mat-menu>
+
+      <button mat-button [matMenuTriggerFor]="rewardMenu"><mat-icon>emoji_events</mat-icon><span>Rewards</span><mat-icon class="caret">expand_more</mat-icon></button>
+      <mat-menu #rewardMenu="matMenu">
+        <button mat-menu-item routerLink="/rewards"><mat-icon>card_giftcard</mat-icon> All Rewards</button>
+        <button mat-menu-item routerLink="/reward-claims"><mat-icon>checklist</mat-icon> My Claims</button>
+        <button mat-menu-item routerLink="/trips"><mat-icon>flight</mat-icon> Trips</button>
+        <button mat-menu-item routerLink="/profit-sharing"><mat-icon>diamond</mat-icon> Profit Sharing</button>
+        <button mat-menu-item routerLink="/ranks"><mat-icon>military_tech</mat-icon> Ranks</button>
+      </mat-menu>
+
+      <button mat-button [matMenuTriggerFor]="moreMenu"><mat-icon>more_horiz</mat-icon><span>More</span><mat-icon class="caret">expand_more</mat-icon></button>
+      <mat-menu #moreMenu="matMenu">
+        <button mat-menu-item routerLink="/insurance"><mat-icon>health_and_safety</mat-icon> Insurance</button>
+        <button mat-menu-item routerLink="/compliance"><mat-icon>gavel</mat-icon> Compliance</button>
+        <button mat-menu-item routerLink="/training"><mat-icon>school</mat-icon> Training</button>
+        <button mat-menu-item routerLink="/announcements"><mat-icon>campaign</mat-icon> Announcements</button>
+        <button mat-menu-item routerLink="/support"><mat-icon>support_agent</mat-icon> Support</button>
+        <button mat-menu-item routerLink="/feedback"><mat-icon>rate_review</mat-icon> Feedback</button>
+        <button mat-menu-item routerLink="/sub-users"><mat-icon>supervised_user_circle</mat-icon> Sub-Users</button>
+        <button mat-menu-item routerLink="/"><mat-icon>store</mat-icon> Shop</button>
+        <button mat-menu-item routerLink="/cart-v2"><mat-icon>shopping_cart</mat-icon> Cart</button>
+        <button mat-menu-item routerLink="/orders-v2"><mat-icon>receipt</mat-icon> My Orders</button>
+      </mat-menu>
+    </ng-container>
+
+    <!-- ADMIN NAV -->
+    <ng-container *ngIf="isAdmin()">
+      <a mat-button routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" (click)="closeMobileNav()"><mat-icon>home</mat-icon><span>Home</span></a>
+      <a mat-button routerLink="/admin/reports" routerLinkActive="active-link" (click)="closeMobileNav()"><mat-icon>analytics</mat-icon><span>Reports</span></a>
+      <a mat-button routerLink="/admin/users" routerLinkActive="active-link" (click)="closeMobileNav()"><mat-icon>group</mat-icon><span>Users</span></a>
+      <a mat-button routerLink="/admin/user-tree" routerLinkActive="active-link" (click)="closeMobileNav()"><mat-icon>account_tree</mat-icon><span>Hierarchy</span></a>
+      <a mat-button routerLink="/admin/approvals" routerLinkActive="active-link" (click)="closeMobileNav()"><mat-icon>fact_check</mat-icon><span>Approvals</span></a>
+
+      <button mat-button [matMenuTriggerFor]="adminConfMenu"><mat-icon>settings</mat-icon><span>Config</span><mat-icon class="caret">expand_more</mat-icon></button>
+      <mat-menu #adminConfMenu="matMenu">
+        <button mat-menu-item routerLink="/admin/configs">Commission/Repurchase/Rewards</button>
+        <button mat-menu-item routerLink="/admin/expense-pools">Expense Pools</button>
+        <button mat-menu-item routerLink="/admin/catalog">Plans/Insurance/Announcements</button>
+        <button mat-menu-item routerLink="/admin/email-templates">Email Templates</button>
+        <button mat-menu-item routerLink="/admin/settings">Permissions/System Config</button>
+        <button mat-menu-item routerLink="/admin/role-permissions">Role-Permission Matrix</button>
+      </mat-menu>
+
+      <button mat-button [matMenuTriggerFor]="adminToolsMenu"><mat-icon>build</mat-icon><span>Tools</span><mat-icon class="caret">expand_more</mat-icon></button>
+      <mat-menu #adminToolsMenu="matMenu">
+        <button mat-menu-item routerLink="/admin/manual-triggers">Manual Triggers</button>
+        <button mat-menu-item routerLink="/admin/files">File Manager</button>
+      </mat-menu>
+
+      <button mat-button [matMenuTriggerFor]="adminProdMenu"><mat-icon>inventory</mat-icon><span>Products</span><mat-icon class="caret">expand_more</mat-icon></button>
+      <mat-menu #adminProdMenu="matMenu">
+        <button mat-menu-item routerLink="/allTeam">All Teams</button>
+        <button mat-menu-item routerLink="/addNewProduct">Add Product</button>
+        <button mat-menu-item routerLink="/showProductDetailes">All Products</button>
+        <button mat-menu-item routerLink="/orderInformation">Orders</button>
+      </mat-menu>
+    </ng-container>
+  </div>
+</nav>

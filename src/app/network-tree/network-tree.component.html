@@ -1,0 +1,72 @@
+<div class="tree-container">
+  <div class="page-header">
+    <h2>🌐 Network Tree</h2>
+    <div class="controls">
+      <mat-form-field appearance="outline" class="level-select">
+        <mat-label>Levels</mat-label>
+        <mat-select [(ngModel)]="selectedLevel" (selectionChange)="load()">
+          <mat-option [value]="3">3 Levels</mat-option>
+          <mat-option [value]="5">5 Levels</mat-option>
+          <mat-option [value]="10">10 Levels</mat-option>
+          <mat-option [value]="15">15 Levels (All)</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-stroked-button (click)="expandAll()">Expand All</button>
+      <button mat-stroked-button (click)="collapseAll()">Collapse All</button>
+    </div>
+  </div>
+
+  <p *ngIf="loading" class="muted">Loading network...</p>
+  <p *ngIf="!loading && !tree" class="empty">No network data.</p>
+
+  <div class="tree-area" *ngIf="tree">
+    <ng-container *ngTemplateOutlet="nodeTpl; context: { $implicit: tree, level: 0 }"></ng-container>
+  </div>
+
+  <ng-template #nodeTpl let-node let-level="level">
+    <div class="tree-node-wrap" [style.padding-left.px]="level * 24">
+      <div class="tree-node" (click)="selectMember(node)">
+        <button mat-icon-button class="toggle-btn" (click)="toggle(node); $event.stopPropagation()"
+                *ngIf="node.children && node.children.length > 0">
+          <mat-icon>{{ isExpanded(node) ? 'expand_more' : 'chevron_right' }}</mat-icon>
+        </button>
+        <span class="leaf" *ngIf="!node.children || node.children.length === 0">▪</span>
+        <span class="member-icon">👤</span>
+        <span class="name">{{ node.name }}</span>
+        <span class="username">@{{ node.username }}</span>
+        <span class="lvl-badge">L{{ node.level }}</span>
+        <span class="children-count" *ngIf="node.children?.length">{{ node.children.length }} 👥</span>
+      </div>
+      <div *ngIf="isExpanded(node) && node.children?.length" class="children">
+        <ng-container *ngFor="let child of node.children">
+          <ng-container *ngTemplateOutlet="nodeTpl; context: { $implicit: child, level: level + 1 }"></ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </ng-template>
+
+  <div class="member-drawer" *ngIf="selectedMember">
+    <div class="drawer-content">
+      <div class="drawer-header">
+        <h3>👤 {{ selectedMember.name }}</h3>
+        <button mat-icon-button (click)="closeMember()"><mat-icon>close</mat-icon></button>
+      </div>
+      <div class="member-info">
+        <div class="info-row"><span>Username:</span><strong>{{ selectedMember.username }}</strong></div>
+        <div class="info-row"><span>Referral Code:</span><strong>{{ selectedMember.referralCode }}</strong></div>
+        <div class="info-row" *ngIf="selectedMember.rank"><span>Rank:</span><strong>{{ selectedMember.rank }}</strong></div>
+        <div class="info-row"><span>Status:</span><strong>{{ selectedMember.status }}</strong></div>
+        <div class="info-row"><span>Joined:</span><strong>{{ selectedMember.joinedOn | date:'mediumDate' }}</strong></div>
+        <div class="info-row" *ngIf="selectedMember.packageTaken"><span>Package:</span><strong>₹{{ selectedMember.packageTaken }}</strong></div>
+        <div class="info-row" *ngIf="selectedMember.city"><span>City:</span><strong>{{ selectedMember.city }}</strong></div>
+
+        <h4>Team Stats</h4>
+        <div class="info-row"><span>Directs:</span><strong>{{ selectedMember.directs || 0 }}</strong></div>
+        <div class="info-row"><span>Total Team:</span><strong>{{ selectedMember.totalTeam || 0 }}</strong></div>
+        <div class="info-row"><span>Active:</span><strong>{{ selectedMember.activeTeam || 0 }}</strong></div>
+        <div class="info-row"><span>Business Volume:</span><strong>₹{{ selectedMember.teamBusinessVolume || 0 | number }}</strong></div>
+        <div class="info-row"><span>Commission Earned:</span><strong>₹{{ selectedMember.totalCommissionEarned || 0 | number }}</strong></div>
+      </div>
+    </div>
+  </div>
+</div>

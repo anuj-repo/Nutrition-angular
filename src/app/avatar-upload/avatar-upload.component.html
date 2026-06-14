@@ -1,0 +1,11 @@
+<div class="avatar-wrap">
+  <div class="avatar-circle">
+    <img *ngIf="avatarUrl" [src]="avatarUrl" alt="avatar">
+    <span *ngIf="!avatarUrl" class="placeholder">👤</span>
+  </div>
+  <label class="upload-btn">
+    <mat-icon>photo_camera</mat-icon> {{ uploading ? 'Uploading...' : 'Change Photo' }}
+    <input type="file" accept="image/*" (change)="onFile($event)" hidden>
+  </label>
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+</div>

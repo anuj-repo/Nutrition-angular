@@ -1,0 +1,14 @@
+.ps-container { padding: 24px; max-width: 600px; margin: 0 auto; }
+.status-card { border-radius: 12px; text-align: center; }
+.status-card h2 { color: #1b5e20; margin-top: 0; }
+.muted { color: #888; }
+.loading mat-icon { font-size: 60px; color: #2196f3; }
+.success-banner { padding: 24px; background: #e8f5e9; border-radius: 12px; color: #2e7d32; margin: 16px 0; }
+.success-banner mat-icon { font-size: 60px; }
+.error-banner { padding: 24px; background: #ffebee; border-radius: 12px; color: #c62828; margin: 16px 0; }
+.error-banner mat-icon { font-size: 60px; }
+.processing-banner { padding: 24px; background: #fff3e0; border-radius: 12px; color: #e65100; margin: 16px 0; }
+.processing-banner mat-icon { font-size: 60px; }
+.spin { animation: spin 2s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.actions { display: flex; gap: 8px; justify-content: center; margin-top: 16px; }

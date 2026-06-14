@@ -1,0 +1,21 @@
+.td-container { padding: 24px; max-width: 900px; margin: 0 auto; }
+.ticket-header { border-radius: 12px; margin: 16px 0; }
+.header-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.header-row h2 { margin: 0; color: #1b5e20; }
+.meta { font-size: 13px; color: #888; margin: 4px 0; }
+.status-badge { padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 500; }
+.status-badge.open { background: #fff3e0; color: #e65100; }
+.status-badge.in_progress { background: #e3f2fd; color: #1565c0; }
+.status-badge.resolved, .status-badge.closed { background: #e8f5e9; color: #2e7d32; }
+.description { background: #f9f9f9; padding: 12px; border-radius: 6px; margin: 12px 0; }
+.thread h3 { margin-top: 16px; }
+.msg { padding: 12px; border-radius: 8px; margin-bottom: 8px; background: #f1f8e9; border-left: 3px solid #4caf50; }
+.msg.admin { background: #e3f2fd; border-left-color: #1565c0; }
+.msg-author { font-weight: 600; font-size: 13px; }
+.msg-body { color: #333; margin: 4px 0; }
+.attachment { color: #1565c0; font-size: 13px; }
+.msg-time { font-size: 11px; color: #888; }
+.reply-card { border-radius: 12px; margin-top: 16px; }
+.full-width { width: 100%; }
+.alert.error { background: #ffebee; color: #c62828; padding: 10px 14px; border-radius: 6px; }
+.muted { color: #888; }

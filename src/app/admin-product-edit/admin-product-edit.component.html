@@ -1,0 +1,47 @@
+<div class="ape-container">
+  <button mat-button (click)="back()"><mat-icon>arrow_back</mat-icon> Back to Products</button>
+
+  <mat-card class="form-card" *ngIf="loaded">
+    <mat-card-content>
+      <h2>✏️ Edit Product #{{ productId }}</h2>
+
+      <div class="alert success" *ngIf="successMessage">{{ successMessage }}</div>
+      <div class="alert error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+      <form [formGroup]="form" (ngSubmit)="save()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Product Name</mat-label>
+          <input matInput formControlName="productName">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="productDescription" rows="4"></textarea>
+        </mat-form-field>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Actual Price (₹)</mat-label>
+            <input matInput type="number" formControlName="productActualPrice">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Discounted Price (₹)</mat-label>
+            <input matInput type="number" formControlName="productDiscountedPrice">
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Package Type</mat-label>
+          <input matInput formControlName="packageType">
+        </mat-form-field>
+
+        <label><input type="checkbox" formControlName="isActive"> Product is active</label>
+
+        <div class="actions">
+          <button mat-raised-button color="primary" type="submit">Save Changes</button>
+          <button mat-button type="button" (click)="back()">Cancel</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

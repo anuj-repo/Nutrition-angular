@@ -1,0 +1,81 @@
+<div class="as-container">
+  <div class="page-header"><h2>⚙️ Admin Settings</h2></div>
+
+  <div class="tab-nav">
+    <button mat-button [class.active-tab]="selectedTab==='permissions'" (click)="switchTab('permissions')">Permissions</button>
+    <button mat-button [class.active-tab]="selectedTab==='config'" (click)="switchTab('config')">System Config</button>
+  </div>
+
+  <mat-card *ngIf="selectedTab==='permissions'" class="tab-content">
+    <mat-card-content>
+      <h3>Permissions</h3>
+      <form [formGroup]="permForm" (ngSubmit)="savePerm()" class="inline-form">
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Module</mat-label>
+          <input matInput formControlName="module">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="grow">
+          <mat-label>Description</mat-label>
+          <input matInput formControlName="description">
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">{{ editingPermId ? 'Update' : 'Add' }}</button>
+        <button mat-button type="button" *ngIf="editingPermId" (click)="newPerm()">New</button>
+      </form>
+
+      <table mat-table [dataSource]="permissions" class="full-width" *ngIf="permissions.length">
+        <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let p">{{ p.name }}</td></ng-container>
+        <ng-container matColumnDef="module"><th mat-header-cell *matHeaderCellDef>Module</th>
+          <td mat-cell *matCellDef="let p">{{ p.module }}</td></ng-container>
+        <ng-container matColumnDef="desc"><th mat-header-cell *matHeaderCellDef>Description</th>
+          <td mat-cell *matCellDef="let p">{{ p.description }}</td></ng-container>
+        <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let p">
+            <button mat-button color="primary" (click)="editPerm(p)">Edit</button>
+            <button mat-button color="warn" (click)="removePerm(p.id)">Delete</button>
+          </td></ng-container>
+        <tr mat-header-row *matHeaderRowDef="['name','module','desc','actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['name','module','desc','actions']"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="selectedTab==='config'" class="tab-content">
+    <mat-card-content>
+      <h3>System Configuration</h3>
+      <form [formGroup]="cfgForm" (ngSubmit)="saveCfg()" class="inline-form">
+        <mat-form-field appearance="outline">
+          <mat-label>Key</mat-label>
+          <input matInput formControlName="configKey">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="grow">
+          <mat-label>Value</mat-label>
+          <input matInput formControlName="configValue">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="grow">
+          <mat-label>Description</mat-label>
+          <input matInput formControlName="description">
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">{{ editingCfgId ? 'Update' : 'Add' }}</button>
+        <button mat-button type="button" *ngIf="editingCfgId" (click)="newCfg()">New</button>
+      </form>
+
+      <table mat-table [dataSource]="systemConfig" class="full-width" *ngIf="systemConfig.length">
+        <ng-container matColumnDef="key"><th mat-header-cell *matHeaderCellDef>Key</th>
+          <td mat-cell *matCellDef="let c">{{ c.configKey }}</td></ng-container>
+        <ng-container matColumnDef="value"><th mat-header-cell *matHeaderCellDef>Value</th>
+          <td mat-cell *matCellDef="let c">{{ c.configValue }}</td></ng-container>
+        <ng-container matColumnDef="desc"><th mat-header-cell *matHeaderCellDef>Description</th>
+          <td mat-cell *matCellDef="let c">{{ c.description }}</td></ng-container>
+        <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let c"><button mat-button color="primary" (click)="editCfg(c)">Edit</button></td></ng-container>
+        <tr mat-header-row *matHeaderRowDef="['key','value','desc','actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['key','value','desc','actions']"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

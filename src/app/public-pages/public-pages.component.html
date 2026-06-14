@@ -1,0 +1,202 @@
+<div class="pp-container">
+  <ng-container *ngIf="page==='landing'">
+    <section class="hero">
+      <h1>{{ content.heroTitle || '🌿 Nutrition Forever Wellness' }}</h1>
+      <p class="tagline">{{ content.heroSubtitle || 'Unlock Your Body\'s True Potential' }}</p>
+      <div class="hero-actions">
+        <button mat-raised-button color="primary" routerLink="/register">Get Started</button>
+        <button mat-stroked-button routerLink="/why-choose-us">Why Choose Us</button>
+      </div>
+    </section>
+    <section class="highlights" *ngIf="content.highlights">
+      <div *ngFor="let h of content.highlights" class="highlight">
+        <div class="hl-icon">{{ h.icon || '✨' }}</div>
+        <h3>{{ h.title }}</h3>
+        <p>{{ h.description }}</p>
+      </div>
+    </section>
+  </ng-container>
+
+  <ng-container *ngIf="page==='about'">
+    <h2>About Us</h2>
+    <div class="content-block" [innerHTML]="content.html || content.content || 'Loading...'"></div>
+  </ng-container>
+
+  <ng-container *ngIf="page==='why-choose-us'">
+    <h2>🏆 Why Choose Nutrition Forever Wellness?</h2>
+
+    <div class="why-section" *ngIf="content.html || content.content" [innerHTML]="content.html || content.content"></div>
+
+    <div class="why-section" *ngIf="!content.html && !content.content">
+      <!-- Static Why Choose Us content -->
+      <div class="why-hero">
+        <p class="why-tagline">India's Most Trusted Wellness MLM — Powered by Ayurveda, Built for Wealth</p>
+      </div>
+
+      <div class="why-grid">
+        <mat-card class="why-card">
+          <mat-card-content>
+            <div class="why-icon">💊</div>
+            <h3>Premium Ayurvedic Products</h3>
+            <p>GMP-certified, FSSAI-approved Stamina Core Plus with clinically tested Ashwagandha, Shilajit & Safed Musli. No chemicals, no side effects.</p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="why-card">
+          <mat-card-content>
+            <div class="why-icon">💰</div>
+            <h3>60% Total Commission Payout</h3>
+            <p>Industry-highest 15-level commission structure. Level 1 earns 20% direct, Level 2-15 earns progressively. No hidden deductions beyond 5% TDS.</p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="why-card">
+          <mat-card-content>
+            <div class="why-icon">📈</div>
+            <h3>10% Assured Investment Returns</h3>
+            <p>Invest ₹10,000 to ₹25,00,000 and earn guaranteed 10% annual returns with monthly payouts. Better than any bank FD.</p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="why-card">
+          <mat-card-content>
+            <div class="why-icon">🏠</div>
+            <h3>Lifetime Rewards</h3>
+            <p>Earn bikes, cars, houses, foreign trips, and even a villa worth ₹2 Crore — all through team performance. No additional investment needed.</p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="why-card">
+          <mat-card-content>
+            <div class="why-icon">🔒</div>
+            <h3>100% Transparent & Compliant</h3>
+            <p>DIPP registered, DSA compliant, full KYC verification, 7-day cooling-off period. Your money is safe and traceable.</p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="why-card">
+          <mat-card-content>
+            <div class="why-icon">⚡</div>
+            <h3>Low Entry — ₹2,280 Only</h3>
+            <p>Start your wellness business with just ₹2,280. You receive premium product + an entire business system with mobile app, genealogy tools, and training.</p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="why-card">
+          <mat-card-content>
+            <div class="why-icon">🏦</div>
+            <h3>Fortnightly Payouts</h3>
+            <p>Commissions are credited every 15 days directly to your bank account. No minimum threshold, no delays. Track everything in your wallet dashboard.</p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="why-card">
+          <mat-card-content>
+            <div class="why-icon">🎓</div>
+            <h3>Free Training & Support</h3>
+            <p>Complete online courses, marketing collateral, WhatsApp support groups, and weekly Zoom calls with top leaders. No experience needed.</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <mat-card class="cta-card">
+        <mat-card-content>
+          <h3>Ready to Start Your Journey?</h3>
+          <p>Join 10,000+ members who are building their health and wealth with Nutrition Forever Wellness.</p>
+          <div class="cta-actions">
+            <button mat-raised-button color="primary" routerLink="/register">Create Account — ₹2,280</button>
+            <button mat-stroked-button routerLink="/product-info">View Product Details</button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="page==='contact'">
+    <h2>📞 Contact Us</h2>
+    <div class="contact-grid">
+      <mat-card class="info-card">
+        <mat-card-content>
+          <h3>Get in Touch</h3>
+          <p *ngIf="content.address">📍 {{ content.address }}</p>
+          <p *ngIf="content.phone">📱 {{ content.phone }}</p>
+          <p *ngIf="content.email">✉️ {{ content.email }}</p>
+          <p *ngIf="content.hours">🕐 {{ content.hours }}</p>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="form-card">
+        <mat-card-content>
+          <h3>Send a Message</h3>
+          <div class="alert success" *ngIf="successMessage">{{ successMessage }}</div>
+          <div class="alert error" *ngIf="errorMessage">{{ errorMessage }}</div>
+          <form [formGroup]="contactForm" (ngSubmit)="submitContact()">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Full Name</mat-label>
+              <input matInput formControlName="fullName">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Mobile</mat-label>
+              <input matInput formControlName="mobile" appDigitsOnly maxlength="10" inputmode="numeric">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Subject</mat-label>
+              <input matInput formControlName="subject">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Message</mat-label>
+              <textarea matInput formControlName="message" rows="4"></textarea>
+            </mat-form-field>
+            <button mat-raised-button color="primary" type="submit">Send Message</button>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="page==='faq'">
+    <h2>❓ FAQ</h2>
+    <div class="alert success" *ngIf="successMessage">{{ successMessage }}</div>
+    <mat-card *ngFor="let f of faqs" class="faq-row">
+      <mat-card-content>
+        <strong>Q: {{ f.question }}</strong>
+        <p>A: {{ f.answer }}</p>
+      </mat-card-content>
+    </mat-card>
+    <p *ngIf="!faqs.length" class="muted">No FAQs available.</p>
+
+    <mat-card class="ask-card">
+      <mat-card-content>
+        <h3>Ask Your Question</h3>
+        <form [formGroup]="faqForm" (ngSubmit)="submitFaq()">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Your Email</mat-label>
+            <input matInput formControlName="email">
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Question</mat-label>
+            <textarea matInput formControlName="question" rows="3"></textarea>
+          </mat-form-field>
+          <button mat-raised-button color="primary" type="submit">Submit Question</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
+
+  <!-- Newsletter Footer (shows on all public pages) -->
+  <mat-card class="newsletter">
+    <mat-card-content>
+      <h3>📨 Subscribe to our Newsletter</h3>
+      <form [formGroup]="newsletterForm" (ngSubmit)="subscribeNewsletter()" class="news-form">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email">
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Subscribe</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

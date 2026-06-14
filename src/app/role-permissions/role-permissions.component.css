@@ -1,0 +1,15 @@
+.rp-container { padding: 24px; max-width: 1100px; margin: 0 auto; }
+.page-header { text-align: center; margin-bottom: 16px; }
+.page-header h2 { color: #1b5e20; }
+.rp-grid { display: grid; grid-template-columns: 280px 1fr; gap: 16px; }
+.roles-list, .perms-list { border-radius: 12px; }
+.role-row { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; cursor: pointer; transition: background 0.15s; }
+.role-row:hover { background: #f1f8e9; }
+.role-row.active { background: #c8e6c9; color: #1b5e20; }
+.perm-list { display: flex; flex-direction: column; gap: 4px; }
+.perm-row { display: grid; grid-template-columns: auto 200px 1fr; gap: 12px; align-items: center; padding: 8px; border-bottom: 1px solid #f0f0f0; }
+.perm-name strong { color: #333; }
+.perm-name small { color: #888; margin-left: 6px; }
+.perm-desc { color: #666; font-size: 13px; }
+.muted { color: #888; }
+@media (max-width: 768px) { .rp-grid { grid-template-columns: 1fr; } }

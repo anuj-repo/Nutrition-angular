@@ -1,0 +1,553 @@
+<div class="rewards-page">
+
+  <!-- ============ HERO ============ -->
+  <section class="rw-hero">
+    <div class="rw-hero-bg">
+      <div class="rw-orb orb-1"></div>
+      <div class="rw-orb orb-2"></div>
+      <div class="rw-orb orb-3"></div>
+      <div class="rw-sparkle sp-1">✨</div>
+      <div class="rw-sparkle sp-2">✨</div>
+      <div class="rw-sparkle sp-3">⭐</div>
+      <div class="rw-sparkle sp-4">✨</div>
+    </div>
+
+    <div class="rw-hero-content">
+      <div class="rw-hero-badge">
+        <span class="rw-badge-icon">🎁</span>
+        <span>Rewards & Achievements</span>
+      </div>
+      <h1 class="rw-hero-title">
+        From <span class="rw-accent-gold">T-Shirt</span> to
+        <span class="rw-accent-purple">Luxury Villa</span>
+      </h1>
+      <p class="rw-hero-sub">Your hard work deserves recognition. Build your team, claim your rewards.</p>
+      <p class="rw-hero-sub-hi">आपकी मेहनत का पुरस्कार पक्का है — टीम बढ़ाइए, इनाम पाइए।</p>
+
+      <!-- Quick stats inside hero -->
+      <div class="rw-stats-row">
+        <div class="rw-stat-card">
+          <div class="rw-stat-icon stat-icon-blue">
+            <mat-icon>person_add</mat-icon>
+          </div>
+          <div class="rw-stat-body">
+            <div class="rw-stat-label">Direct Referrals</div>
+            <div class="rw-stat-value">{{ animDirect }}</div>
+          </div>
+        </div>
+        <div class="rw-stat-card">
+          <div class="rw-stat-icon stat-icon-green">
+            <mat-icon>groups</mat-icon>
+          </div>
+          <div class="rw-stat-body">
+            <div class="rw-stat-label">Total Team</div>
+            <div class="rw-stat-value">{{ animTeam }}</div>
+          </div>
+        </div>
+        <div class="rw-stat-card">
+          <div class="rw-stat-icon stat-icon-gold">
+            <mat-icon>emoji_events</mat-icon>
+          </div>
+          <div class="rw-stat-body">
+            <div class="rw-stat-label">Rewards Claimed</div>
+            <div class="rw-stat-value">{{ animClaimed }}</div>
+          </div>
+        </div>
+        <div class="rw-stat-card">
+          <div class="rw-stat-icon stat-icon-purple">
+            <mat-icon>lock_open</mat-icon>
+          </div>
+          <div class="rw-stat-body">
+            <div class="rw-stat-label">Unlocked</div>
+            <div class="rw-stat-value">{{ totalUnlocked }}<span class="of-total">/{{ totalRewards }}</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Journey overall progress -->
+      <div class="rw-journey">
+        <div class="rw-journey-head">
+          <span class="rw-journey-label">
+            <mat-icon>trending_up</mat-icon> Your Reward Journey
+          </span>
+          <span class="rw-journey-pct">{{ journeyProgress }}% Complete</span>
+        </div>
+        <div class="rw-journey-bar">
+          <div class="rw-journey-fill" [style.width.%]="journeyProgress"></div>
+          <div class="rw-journey-checkpoints">
+            <span class="rw-cp">🎯</span>
+            <span class="rw-cp">🌟</span>
+            <span class="rw-cp">🚗</span>
+            <span class="rw-cp">🏆</span>
+            <span class="rw-cp">👑</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NEXT MILESTONE SPOTLIGHT ============ -->
+  <section class="rw-next-milestone" *ngIf="nextMilestone">
+    <div class="rw-next-glow"></div>
+    <div class="rw-next-left">
+      <div class="rw-next-tag">
+        <mat-icon>flag</mat-icon> Your Next Milestone
+      </div>
+      <div class="rw-next-icon">{{ nextMilestone.reward.icon }}</div>
+      <div class="rw-next-name">{{ nextMilestone.reward.reward }}</div>
+      <div class="rw-next-name-hi">{{ nextMilestone.reward.rewardHindi }}</div>
+    </div>
+    <div class="rw-next-right">
+      <div class="rw-next-stat">
+        <div class="rw-next-stat-num">{{ nextMilestone.remaining }}</div>
+        <div class="rw-next-stat-label">
+          {{ nextMilestone.type === 'direct' ? 'Direct referrals' : 'Team members' }} away
+        </div>
+      </div>
+      <div class="rw-next-progress">
+        <div class="rw-next-progress-bar">
+          <div class="rw-next-progress-fill" [style.width.%]="nextMilestone.progress"></div>
+        </div>
+        <div class="rw-next-progress-label">
+          {{ nextMilestone.progress | number:'1.0-0' }}% there — keep going!
+        </div>
+      </div>
+      <div class="rw-next-motivate">
+        <mat-icon>bolt</mat-icon>
+        <span>{{ nextMilestone.remaining <= 5 ? 'So close! Push a little more.' : 'You can do this. Stay focused!' }}</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MESSAGES ============ -->
+  <div class="rw-alerts" *ngIf="successMessage || errorMessage">
+    <div class="rw-alert success" *ngIf="successMessage">
+      <mat-icon>check_circle</mat-icon> {{ successMessage }}
+    </div>
+    <div class="rw-alert error" *ngIf="errorMessage">
+      <mat-icon>error</mat-icon> {{ errorMessage }}
+    </div>
+  </div>
+
+  <!-- ============ DIRECT REFERRAL REWARDS ============ -->
+  <section class="rw-section" *ngIf="directRewards.length > 0">
+    <div class="rw-section-banner banner-direct">
+      <div class="rw-banner-bg"></div>
+      <div class="rw-banner-shine"></div>
+      <div class="rw-banner-icon-wrap">
+        <div class="rw-banner-icon-glow"></div>
+        <span class="rw-banner-icon">🎯</span>
+      </div>
+      <div class="rw-banner-text">
+        <div class="rw-banner-tag-row">
+          <span class="rw-section-tag tag-blue">Starter Tier</span>
+          <span class="rw-banner-count">{{ countAchieved(directRewards, 'direct') }} / {{ directRewards.length }} unlocked</span>
+        </div>
+        <h2 class="rw-banner-title">Direct Referral Rewards</h2>
+        <span class="rw-banner-subtitle">डायरेक्ट रेफरल पुरस्कार</span>
+        <p class="rw-banner-desc">Refer directly and earn instant rewards — your journey begins here.</p>
+      </div>
+      <div class="rw-banner-progress">
+        <svg viewBox="0 0 120 120" class="rw-ring-svg">
+          <circle cx="60" cy="60" r="52" class="rw-ring-bg"/>
+          <circle cx="60" cy="60" r="52" class="rw-ring-fill"
+                  [style.stroke-dasharray]="326.7"
+                  [style.stroke-dashoffset]="326.7 - (326.7 * sectionProgress(directRewards, 'direct') / 100)"/>
+        </svg>
+        <div class="rw-ring-text">
+          <div class="rw-ring-pct">{{ sectionProgress(directRewards, 'direct') | number:'1.0-0' }}%</div>
+          <div class="rw-ring-label">Complete</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rw-grid">
+      <div *ngFor="let reward of directRewards; trackBy: trackById"
+           class="rw-card"
+           [class.is-achieved]="isAchieved(reward.count, 'direct')"
+           [class.is-claimed]="isClaimed(reward)"
+           [class.is-locked]="!isAchieved(reward.count, 'direct')">
+        <div class="rw-card-glow"></div>
+        <div class="rw-card-status" *ngIf="isClaimed(reward)">
+          <mat-icon>verified</mat-icon> Claimed
+        </div>
+        <div class="rw-card-status status-achieved"
+             *ngIf="isAchieved(reward.count, 'direct') && !isClaimed(reward)">
+          <mat-icon>star</mat-icon> Unlocked
+        </div>
+        <div class="rw-lock-badge" *ngIf="!isAchieved(reward.count, 'direct')">
+          <mat-icon>lock</mat-icon>
+        </div>
+
+        <div class="rw-card-icon">{{ reward.icon }}</div>
+        <div class="rw-card-target">
+          <mat-icon>flag</mat-icon> {{ reward.count }} Direct
+        </div>
+        <div class="rw-card-name">{{ reward.reward }}</div>
+        <div class="rw-card-name-hi">{{ reward.rewardHindi }}</div>
+
+        <div class="rw-card-progress" *ngIf="!isClaimed(reward)">
+          <div class="rw-progress-bar">
+            <div class="rw-progress-fill"
+                 [style.width.%]="getProgress(reward.count, 'direct')"></div>
+          </div>
+          <div class="rw-progress-label">
+            <span>{{ myDirectReferrals }}/{{ reward.count }}</span>
+            <span class="rw-progress-pct">{{ getProgress(reward.count, 'direct') | number:'1.0-0' }}%</span>
+          </div>
+        </div>
+
+        <button mat-flat-button color="primary" class="rw-claim-btn"
+                *ngIf="canClaim(reward, 'direct')" (click)="claim(reward)">
+          <mat-icon>card_giftcard</mat-icon> Claim Reward
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TEAM REWARDS ============ -->
+  <section class="rw-section" *ngIf="teamRewards.length > 0">
+    <div class="rw-section-banner banner-team">
+      <div class="rw-banner-bg"></div>
+      <div class="rw-banner-shine"></div>
+      <div class="rw-banner-icon-wrap">
+        <div class="rw-banner-icon-glow"></div>
+        <span class="rw-banner-icon">🌟</span>
+      </div>
+      <div class="rw-banner-text">
+        <div class="rw-banner-tag-row">
+          <span class="rw-section-tag tag-green">Growth Tier</span>
+          <span class="rw-banner-count">{{ countAchieved(teamRewards, 'team') }} / {{ teamRewards.length }} unlocked</span>
+        </div>
+        <h2 class="rw-banner-title">Team Achievement Rewards</h2>
+        <span class="rw-banner-subtitle">टीम उपलब्धि पुरस्कार · 50 to 500 members</span>
+        <p class="rw-banner-desc">Build your network strong — trips, gadgets, and bikes await!</p>
+      </div>
+      <div class="rw-banner-progress">
+        <svg viewBox="0 0 120 120" class="rw-ring-svg">
+          <circle cx="60" cy="60" r="52" class="rw-ring-bg"/>
+          <circle cx="60" cy="60" r="52" class="rw-ring-fill ring-green"
+                  [style.stroke-dasharray]="326.7"
+                  [style.stroke-dashoffset]="326.7 - (326.7 * sectionProgress(teamRewards, 'team') / 100)"/>
+        </svg>
+        <div class="rw-ring-text">
+          <div class="rw-ring-pct">{{ sectionProgress(teamRewards, 'team') | number:'1.0-0' }}%</div>
+          <div class="rw-ring-label">Complete</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rw-grid">
+      <div *ngFor="let reward of teamRewards; trackBy: trackById"
+           class="rw-card team"
+           [class.is-achieved]="isAchieved(reward.count, 'team')"
+           [class.is-claimed]="isClaimed(reward)"
+           [class.is-locked]="!isAchieved(reward.count, 'team')">
+        <div class="rw-card-glow"></div>
+        <div class="rw-card-status" *ngIf="isClaimed(reward)">
+          <mat-icon>verified</mat-icon> Claimed
+        </div>
+        <div class="rw-card-status status-achieved"
+             *ngIf="isAchieved(reward.count, 'team') && !isClaimed(reward)">
+          <mat-icon>star</mat-icon> Unlocked
+        </div>
+        <div class="rw-lock-badge" *ngIf="!isAchieved(reward.count, 'team')">
+          <mat-icon>lock</mat-icon>
+        </div>
+
+        <div class="rw-card-icon">{{ reward.icon }}</div>
+        <div class="rw-card-target">
+          <mat-icon>group</mat-icon> {{ reward.count }} Team
+        </div>
+        <div class="rw-card-name">{{ reward.reward }}</div>
+        <div class="rw-card-name-hi">{{ reward.rewardHindi }}</div>
+
+        <div class="rw-card-progress" *ngIf="!isClaimed(reward)">
+          <div class="rw-progress-bar">
+            <div class="rw-progress-fill"
+                 [style.width.%]="getProgress(reward.count, 'team')"></div>
+          </div>
+          <div class="rw-progress-label">
+            <span>{{ myTeamSize }}/{{ reward.count }}</span>
+            <span class="rw-progress-pct">{{ getProgress(reward.count, 'team') | number:'1.0-0' }}%</span>
+          </div>
+        </div>
+
+        <button mat-flat-button color="primary" class="rw-claim-btn"
+                *ngIf="canClaim(reward, 'team')" (click)="claim(reward)">
+          <mat-icon>card_giftcard</mat-icon> Claim Reward
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PREMIUM REWARDS ============ -->
+  <section class="rw-section" *ngIf="premiumRewards.length > 0">
+    <div class="rw-section-banner banner-premium">
+      <div class="rw-banner-bg"></div>
+      <div class="rw-banner-shine"></div>
+      <div class="rw-banner-icon-wrap">
+        <div class="rw-banner-icon-glow"></div>
+        <span class="rw-banner-icon">🚗</span>
+      </div>
+      <div class="rw-banner-text">
+        <div class="rw-banner-tag-row">
+          <span class="rw-section-tag tag-orange">Premium Tier</span>
+          <span class="rw-banner-count">{{ countAchieved(premiumRewards, 'team') }} / {{ premiumRewards.length }} unlocked</span>
+        </div>
+        <h2 class="rw-banner-title">Premium Rewards</h2>
+        <span class="rw-banner-subtitle">प्रीमियम पुरस्कार · 750 to 3000 members</span>
+        <p class="rw-banner-desc">Cars, iPhones, foreign trips — premium life is one team away.</p>
+      </div>
+      <div class="rw-banner-progress">
+        <svg viewBox="0 0 120 120" class="rw-ring-svg">
+          <circle cx="60" cy="60" r="52" class="rw-ring-bg"/>
+          <circle cx="60" cy="60" r="52" class="rw-ring-fill ring-orange"
+                  [style.stroke-dasharray]="326.7"
+                  [style.stroke-dashoffset]="326.7 - (326.7 * sectionProgress(premiumRewards, 'team') / 100)"/>
+        </svg>
+        <div class="rw-ring-text">
+          <div class="rw-ring-pct">{{ sectionProgress(premiumRewards, 'team') | number:'1.0-0' }}%</div>
+          <div class="rw-ring-label">Complete</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rw-grid">
+      <div *ngFor="let reward of premiumRewards; trackBy: trackById"
+           class="rw-card premium"
+           [class.is-achieved]="isAchieved(reward.count, 'team')"
+           [class.is-claimed]="isClaimed(reward)"
+           [class.is-locked]="!isAchieved(reward.count, 'team')">
+        <div class="rw-card-glow"></div>
+        <div class="rw-card-status" *ngIf="isClaimed(reward)">
+          <mat-icon>verified</mat-icon> Claimed
+        </div>
+        <div class="rw-card-status status-achieved"
+             *ngIf="isAchieved(reward.count, 'team') && !isClaimed(reward)">
+          <mat-icon>star</mat-icon> Unlocked
+        </div>
+        <div class="rw-lock-badge" *ngIf="!isAchieved(reward.count, 'team')">
+          <mat-icon>lock</mat-icon>
+        </div>
+
+        <div class="rw-card-icon large">{{ reward.icon }}</div>
+        <div class="rw-card-target">
+          <mat-icon>group</mat-icon> {{ reward.count }} Team
+        </div>
+        <div class="rw-card-name">{{ reward.reward }}</div>
+        <div class="rw-card-name-hi">{{ reward.rewardHindi }}</div>
+
+        <div class="rw-card-progress" *ngIf="!isClaimed(reward)">
+          <div class="rw-progress-bar">
+            <div class="rw-progress-fill premium-fill"
+                 [style.width.%]="getProgress(reward.count, 'team')"></div>
+          </div>
+          <div class="rw-progress-label">
+            <span>{{ myTeamSize }}/{{ reward.count }}</span>
+            <span class="rw-progress-pct">{{ getProgress(reward.count, 'team') | number:'1.0-0' }}%</span>
+          </div>
+        </div>
+
+        <button mat-flat-button class="rw-claim-btn premium-btn"
+                *ngIf="canClaim(reward, 'team')" (click)="claim(reward)">
+          <mat-icon>card_giftcard</mat-icon> Claim Reward
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MEGA REWARDS ============ -->
+  <section class="rw-section" *ngIf="megaRewards.length > 0">
+    <div class="rw-section-banner banner-mega">
+      <div class="rw-banner-bg"></div>
+      <div class="rw-banner-shine"></div>
+      <div class="rw-banner-icon-wrap">
+        <div class="rw-banner-icon-glow"></div>
+        <span class="rw-banner-icon">🏆</span>
+      </div>
+      <div class="rw-banner-text">
+        <div class="rw-banner-tag-row">
+          <span class="rw-section-tag tag-purple">Mega Tier</span>
+          <span class="rw-banner-count">{{ countAchieved(megaRewards, 'team') }} / {{ megaRewards.length }} unlocked</span>
+        </div>
+        <h2 class="rw-banner-title">Mega Rewards</h2>
+        <span class="rw-banner-subtitle">मेगा पुरस्कार · 5K to 25K members</span>
+        <p class="rw-banner-desc">Mercedes, BMW, Europe trips — write your legend story.</p>
+      </div>
+      <div class="rw-banner-progress">
+        <svg viewBox="0 0 120 120" class="rw-ring-svg">
+          <circle cx="60" cy="60" r="52" class="rw-ring-bg"/>
+          <circle cx="60" cy="60" r="52" class="rw-ring-fill ring-purple"
+                  [style.stroke-dasharray]="326.7"
+                  [style.stroke-dashoffset]="326.7 - (326.7 * sectionProgress(megaRewards, 'team') / 100)"/>
+        </svg>
+        <div class="rw-ring-text">
+          <div class="rw-ring-pct">{{ sectionProgress(megaRewards, 'team') | number:'1.0-0' }}%</div>
+          <div class="rw-ring-label">Complete</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rw-grid grid-large">
+      <div *ngFor="let reward of megaRewards; trackBy: trackById"
+           class="rw-card mega"
+           [class.is-achieved]="isAchieved(reward.count, 'team')"
+           [class.is-claimed]="isClaimed(reward)"
+           [class.is-locked]="!isAchieved(reward.count, 'team')">
+        <div class="rw-card-glow"></div>
+        <div class="rw-card-status" *ngIf="isClaimed(reward)">
+          <mat-icon>verified</mat-icon> Claimed
+        </div>
+        <div class="rw-card-status status-achieved"
+             *ngIf="isAchieved(reward.count, 'team') && !isClaimed(reward)">
+          <mat-icon>star</mat-icon> Unlocked
+        </div>
+        <div class="rw-lock-badge" *ngIf="!isAchieved(reward.count, 'team')">
+          <mat-icon>lock</mat-icon>
+        </div>
+
+        <div class="rw-card-icon xl">{{ reward.icon }}</div>
+        <div class="rw-card-target">
+          <mat-icon>group</mat-icon> {{ reward.count | number }} Team
+        </div>
+        <div class="rw-card-name">{{ reward.reward }}</div>
+        <div class="rw-card-name-hi">{{ reward.rewardHindi }}</div>
+
+        <div class="rw-card-progress" *ngIf="!isClaimed(reward)">
+          <div class="rw-progress-bar">
+            <div class="rw-progress-fill mega-fill"
+                 [style.width.%]="getProgress(reward.count, 'team')"></div>
+          </div>
+          <div class="rw-progress-label">
+            <span>{{ myTeamSize | number }}/{{ reward.count | number }}</span>
+            <span class="rw-progress-pct">{{ getProgress(reward.count, 'team') | number:'1.0-0' }}%</span>
+          </div>
+        </div>
+
+        <button mat-flat-button class="rw-claim-btn mega-btn"
+                *ngIf="canClaim(reward, 'team')" (click)="claim(reward)">
+          <mat-icon>card_giftcard</mat-icon> Claim Reward
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ULTIMATE REWARDS ============ -->
+  <section class="rw-section ultimate-wrap" *ngIf="ultimateRewards.length > 0">
+    <div class="rw-section-banner banner-ultimate">
+      <div class="rw-banner-bg"></div>
+      <div class="rw-banner-shine"></div>
+      <div class="rw-banner-stars">
+        <span>⭐</span><span>✨</span><span>💫</span><span>⭐</span><span>✨</span>
+      </div>
+      <div class="rw-banner-icon-wrap">
+        <div class="rw-banner-icon-glow ultimate-glow"></div>
+        <span class="rw-banner-icon ultimate-crown">👑</span>
+      </div>
+      <div class="rw-banner-text">
+        <div class="rw-banner-tag-row">
+          <span class="rw-section-tag tag-gold">Legend Tier</span>
+          <span class="rw-banner-count">{{ countAchieved(ultimateRewards, 'team') }} / {{ ultimateRewards.length }} unlocked</span>
+        </div>
+        <h2 class="rw-banner-title ultimate-title">Ultimate Legend Rewards</h2>
+        <span class="rw-banner-subtitle">अल्टीमेट लीजेंड पुरस्कार</span>
+        <p class="rw-banner-desc">Profit Sharing Club & Luxury Villa — become a legend!</p>
+      </div>
+      <div class="rw-banner-progress">
+        <svg viewBox="0 0 120 120" class="rw-ring-svg">
+          <circle cx="60" cy="60" r="52" class="rw-ring-bg"/>
+          <circle cx="60" cy="60" r="52" class="rw-ring-fill ring-gold"
+                  [style.stroke-dasharray]="326.7"
+                  [style.stroke-dashoffset]="326.7 - (326.7 * sectionProgress(ultimateRewards, 'team') / 100)"/>
+        </svg>
+        <div class="rw-ring-text">
+          <div class="rw-ring-pct">{{ sectionProgress(ultimateRewards, 'team') | number:'1.0-0' }}%</div>
+          <div class="rw-ring-label">Complete</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rw-grid grid-xl">
+      <div *ngFor="let reward of ultimateRewards; trackBy: trackById"
+           class="rw-card ultimate"
+           [class.is-claimed]="isClaimed(reward)"
+           [class.is-locked]="!isAchieved(reward.count, 'team')">
+        <div class="rw-card-glow"></div>
+        <div class="rw-crown">👑</div>
+        <div class="rw-card-status" *ngIf="isClaimed(reward)">
+          <mat-icon>verified</mat-icon> Claimed
+        </div>
+
+        <div class="rw-card-icon xxl">{{ reward.icon }}</div>
+        <div class="rw-card-target">
+          <mat-icon>group</mat-icon> {{ reward.count | number }} Team
+        </div>
+        <div class="rw-card-name ultimate-name">{{ reward.reward }}</div>
+        <div class="rw-card-name-hi">{{ reward.rewardHindi }}</div>
+
+        <div class="rw-card-progress" *ngIf="!isClaimed(reward)">
+          <div class="rw-progress-bar">
+            <div class="rw-progress-fill ultimate-fill"
+                 [style.width.%]="getProgress(reward.count, 'team')"></div>
+          </div>
+          <div class="rw-progress-label">
+            <span>{{ myTeamSize | number }}/{{ reward.count | number }}</span>
+            <span class="rw-progress-pct">{{ getProgress(reward.count, 'team') | number:'1.0-0' }}%</span>
+          </div>
+        </div>
+
+        <button mat-flat-button class="rw-claim-btn ultimate-btn"
+                *ngIf="canClaim(reward, 'team')" (click)="claim(reward)">
+          <mat-icon>workspace_premium</mat-icon> Claim Legend
+        </button>
+      </div>
+    </div>
+
+    <div class="rw-motivate">
+      <mat-icon>auto_awesome</mat-icon>
+      <span>Dream big. Work harder. Your villa awaits! / सपने बड़े देखो, मेहनत और बड़ी करो!</span>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER MOTIVATION ============ -->
+  <section class="rw-footer-cta">
+    <div class="rw-footer-icon">🚀</div>
+    <h3>Every Big Achievement Starts with a Single Referral</h3>
+    <p>हर बड़ी उपलब्धि की शुरुआत एक रेफरल से होती है। आज ही शुरू करें!</p>
+    <div class="rw-footer-quotes">
+      <div class="rw-quote">
+        <mat-icon>format_quote</mat-icon>
+        <span>Success is the sum of small efforts repeated day in and day out.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CELEBRATION OVERLAY ============ -->
+  <div class="rw-celebration" *ngIf="showCelebration && celebrationReward" (click)="closeCelebration()">
+    <div class="rw-confetti">
+      <span *ngFor="let i of [].constructor(40); let idx = index"
+            class="confetti-piece"
+            [style.left.%]="(idx * 2.5) % 100"
+            [style.animation-delay.s]="(idx % 10) * 0.1"
+            [style.background]="['#ffd54f', '#ff6f00', '#43a047', '#2196f3', '#9c27b0', '#e91e63'][idx % 6]"></span>
+    </div>
+    <div class="rw-celebration-card" (click)="$event.stopPropagation()">
+      <button class="rw-celebration-close" (click)="closeCelebration()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <div class="rw-celebration-emoji">🎉</div>
+      <div class="rw-celebration-title">Congratulations!</div>
+      <div class="rw-celebration-icon">{{ celebrationReward.icon }}</div>
+      <div class="rw-celebration-name">{{ celebrationReward.reward }}</div>
+      <div class="rw-celebration-hi">{{ celebrationReward.rewardHindi }}</div>
+      <div class="rw-celebration-msg">
+        Your reward has been claimed. Our team will reach out shortly!
+      </div>
+      <button mat-flat-button class="rw-celebration-btn" (click)="closeCelebration()">
+        <mat-icon>celebration</mat-icon> Awesome!
+      </button>
+    </div>
+  </div>
+
+</div>

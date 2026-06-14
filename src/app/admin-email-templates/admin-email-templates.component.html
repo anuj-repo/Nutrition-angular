@@ -1,0 +1,51 @@
+<div class="aet-container">
+  <div class="page-header">
+    <h2>📧 Email Templates</h2>
+    <button mat-raised-button color="primary" (click)="newOne()" *ngIf="!showForm"><mat-icon>add</mat-icon> New Template</button>
+  </div>
+
+  <p class="muted" *ngIf="message">{{ message }}</p>
+
+  <mat-card *ngIf="showForm" class="form-card">
+    <mat-card-content>
+      <h3>{{ editingId ? 'Edit' : 'New' }} Template</h3>
+      <form [formGroup]="form" (ngSubmit)="save()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Template Key</mat-label>
+          <input matInput formControlName="templateKey">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Subject</mat-label>
+          <input matInput formControlName="subject">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Body (HTML)</mat-label>
+          <textarea matInput formControlName="body" rows="10"></textarea>
+        </mat-form-field>
+        <label><input type="checkbox" formControlName="isActive"> Active</label>
+        <div class="actions">
+          <button mat-raised-button color="primary" type="submit">{{ editingId ? 'Update' : 'Create' }}</button>
+          <button mat-button type="button" (click)="cancel()">Cancel</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <table mat-table [dataSource]="templates" class="full-width" *ngIf="templates.length">
+    <ng-container matColumnDef="key"><th mat-header-cell *matHeaderCellDef>Key</th>
+      <td mat-cell *matCellDef="let t">{{ t.templateKey }}</td></ng-container>
+    <ng-container matColumnDef="subj"><th mat-header-cell *matHeaderCellDef>Subject</th>
+      <td mat-cell *matCellDef="let t">{{ t.subject }}</td></ng-container>
+    <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Active</th>
+      <td mat-cell *matCellDef="let t">{{ t.isActive ? 'Yes' : 'No' }}</td></ng-container>
+    <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let t">
+        <button mat-button color="primary" (click)="edit(t)">Edit</button>
+        <button mat-button color="warn" (click)="remove(t.id)">Delete</button>
+      </td></ng-container>
+    <tr mat-header-row *matHeaderRowDef="['key','subj','active','actions']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['key','subj','active','actions']"></tr>
+  </table>
+
+  <p *ngIf="!templates.length" class="empty">No templates.</p>
+</div>

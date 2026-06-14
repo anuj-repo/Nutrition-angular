@@ -1,0 +1,90 @@
+<footer class="site-footer">
+  <div class="footer-inner">
+
+    <!-- Brand column -->
+    <div class="footer-col brand-col">
+      <div class="footer-brand">
+        <span class="footer-icon">🌿</span>
+        <span class="footer-name">NUTRITION FOREVER WELLNESS</span>
+      </div>
+      <p class="footer-tagline">Premium Wellness · <strong>Stamina Core+</strong> & more</p>
+      <p class="footer-tag-hi">न्यूट्रिशन फॉरएवर वेलनेस</p>
+      <div class="badges">
+        <span class="badge">🏆 FSSAI</span>
+        <span class="badge">🏆 GMP</span>
+        <span class="badge">🏆 ISO</span>
+        <span class="badge">🏆 100% Natural</span>
+      </div>
+    </div>
+
+    <!-- Product column -->
+    <div class="footer-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a routerLink="/landing">About Stamina Core+</a></li>
+        <li><a routerLink="/why-choose-us">Why Choose Us</a></li>
+        <li><a routerLink="/product-info">Ingredients & Benefits</a></li>
+        <li><a routerLink="/pincode-check">Check Delivery</a></li>
+      </ul>
+    </div>
+
+    <!-- Business column -->
+    <div class="footer-col">
+      <h4>Business</h4>
+      <ul>
+        <li><a routerLink="/commission">15-Level Commission</a></li>
+        <li><a routerLink="/repurchase-bonus">Repurchase Bonus</a></li>
+        <li><a routerLink="/rewards">Rewards Program</a></li>
+        <li><a routerLink="/investment">Investment Plan</a></li>
+        <li><a routerLink="/insurance">Insurance Benefits</a></li>
+      </ul>
+    </div>
+
+    <!-- Support column -->
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a routerLink="/faq">FAQ</a></li>
+        <li><a routerLink="/contact">Contact Us</a></li>
+        <li><a routerLink="/support">Support Tickets</a></li>
+        <li><a routerLink="/feedback">Feedback</a></li>
+        <li><a routerLink="/compliance">Compliance & Grievance</a></li>
+      </ul>
+    </div>
+
+    <!-- Newsletter column -->
+    <div class="footer-col newsletter-col">
+      <h4>Stay Updated</h4>
+      <p class="newsletter-text">Get health tips, business updates, and exclusive offers.</p>
+      <form [formGroup]="newsletterForm" (ngSubmit)="subscribe()" class="newsletter-form">
+        <input type="email" formControlName="email" placeholder="Your email" class="newsletter-input" autocomplete="email">
+        <button mat-raised-button class="newsletter-btn" type="submit" [disabled]="newsletterForm.invalid">
+          Subscribe
+        </button>
+      </form>
+      <p class="msg ok" *ngIf="successMessage">{{ successMessage }}</p>
+      <p class="msg bad" *ngIf="errorMessage">{{ errorMessage }}</p>
+    </div>
+  </div>
+
+  <!-- Promise strip -->
+  <div class="promise-strip">
+    <div class="promise"><span class="emoji">💊</span><span>120 Capsules · 60-Day Supply</span></div>
+    <div class="promise"><span class="emoji">💰</span><span>Up to 60% Commission</span></div>
+    <div class="promise"><span class="emoji">📈</span><span>10% Assured Returns</span></div>
+    <div class="promise"><span class="emoji">🏥</span><span>₹7 Lakh Insurance</span></div>
+  </div>
+
+  <!-- Legal bar -->
+  <div class="legal-bar">
+    <div class="legal-inner">
+      <span>© {{ year }} Nutrition Forever Wellness Pvt. Ltd. All rights reserved.</span>
+      <span class="legal-links">
+        <a routerLink="/about">About</a>
+        <a routerLink="/contact">Contact</a>
+        <a routerLink="/faq">FAQ</a>
+        <a routerLink="/compliance">DSA / Grievance</a>
+      </span>
+    </div>
+  </div>
+</footer>

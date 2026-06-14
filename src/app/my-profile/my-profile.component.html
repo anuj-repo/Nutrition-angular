@@ -1,0 +1,166 @@
+<div class="profile-container">
+  <div class="page-header"><h2>👤 My Profile</h2></div>
+
+  <div class="alert success" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="alert error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <!-- Header card: avatar + identity -->
+  <mat-card class="profile-card">
+    <mat-card-content>
+      <div class="profile-row">
+        <app-avatar-upload [avatarUrl]="user?.userImage || ''" (updated)="onAvatarUpdated($event)"></app-avatar-upload>
+        <div class="info">
+          <h3>{{ fullName() }}</h3>
+          <p class="muted">{{ user?.email || '—' }}</p>
+          <p class="muted">📱 {{ user?.mobileNumber || user?.contact || '—' }}</p>
+          <p>🏆 Rank: <strong>{{ user?.userLevel || user?.rank || 'BEGINNER' }}</strong></p>
+          <p>🎫 Referral Code: <strong>{{ user?.referralCode || '—' }}</strong></p>
+          <p>📦 Package: <strong>{{ packageLabel() }}</strong></p>
+          <p *ngIf="user?.status">
+            🟢 Status: <strong>{{ user?.status }}</strong>
+          </p>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Personal information -->
+  <mat-card class="section-card">
+    <mat-card-content>
+      <h3>👤 Personal Information</h3>
+      <div class="grid">
+        <div class="field"><label>First Name</label><span>{{ user?.fname || '—' }}</span></div>
+        <div class="field"><label>Last Name</label><span>{{ user?.lname || '—' }}</span></div>
+        <div class="field"><label>Email</label><span>{{ user?.email || '—' }}</span></div>
+        <div class="field"><label>Mobile</label><span>{{ user?.mobileNumber || user?.contact || '—' }}</span></div>
+        <div class="field"><label>Date of Birth</label><span>{{ formatDob() }}</span></div>
+        <div class="field"><label>Gender</label><span>{{ user?.gender || '—' }}</span></div>
+        <div class="field"><label>Referral Code</label><span>{{ user?.referralCode || '—' }}</span></div>
+        <div class="field"><label>Sponsor Code Used</label><span>{{ user?.referralCodeUsed || '—' }}</span></div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Address details -->
+  <mat-card class="section-card">
+    <mat-card-content>
+      <div class="row-between">
+        <h3>📍 Address</h3>
+        <a mat-stroked-button routerLink="/addresses">
+          <mat-icon>edit_location</mat-icon> Manage Addresses
+        </a>
+      </div>
+
+      <div class="grid" *ngIf="defaultAddress() as a; else fallbackAddr">
+        <div class="field full"><label>Address</label><span>{{ a.address || user?.address || '—' }}</span></div>
+        <div class="field"><label>City</label><span>{{ a.city || user?.city || '—' }}</span></div>
+        <div class="field"><label>State</label><span>{{ a.state || user?.state || '—' }}</span></div>
+        <div class="field"><label>Country</label><span>{{ a.country || user?.country || 'India' }}</span></div>
+        <div class="field"><label>Pincode</label><span>{{ a.pincode || user?.pincode || '—' }}</span></div>
+      </div>
+
+      <ng-template #fallbackAddr>
+        <div class="grid">
+          <div class="field full"><label>Address</label><span>{{ user?.address || '—' }}</span></div>
+          <div class="field"><label>City</label><span>{{ user?.city || '—' }}</span></div>
+          <div class="field"><label>State</label><span>{{ user?.state || '—' }}</span></div>
+          <div class="field"><label>Country</label><span>{{ user?.country || 'India' }}</span></div>
+          <div class="field"><label>Pincode</label><span>{{ user?.pincode || '—' }}</span></div>
+        </div>
+      </ng-template>
+
+      <p class="muted small" *ngIf="addresses?.length > 1">
+        + {{ addresses.length - 1 }} more saved address(es) — manage from the addresses page.
+      </p>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- KYC + Bank details -->
+  <mat-card class="section-card">
+    <mat-card-content>
+      <h3>🪪 KYC &amp; Bank Details</h3>
+      <p class="muted small">
+        Status:
+        <strong [ngClass]="{
+          'kyc-pending': user?.kycStatus === 'PENDING',
+          'kyc-approved': user?.kycStatus === 'APPROVED',
+          'kyc-rejected': user?.kycStatus === 'REJECTED'
+        }">
+          {{ user?.kycStatus || 'NOT_SUBMITTED' }}
+        </strong>
+        <span *ngIf="user?.kycStatus === 'REJECTED' && user?.kycRejectionReason">
+          — {{ user?.kycRejectionReason }}
+        </span>
+      </p>
+      <div class="grid">
+        <div class="field"><label>PAN Number</label><span>{{ user?.panNumber || '—' }}</span></div>
+        <div class="field"><label>Aadhaar Number</label><span>{{ user?.aadhaarNumber || '—' }}</span></div>
+        <div class="field"><label>Account Holder</label><span>{{ user?.accountHolderName || '—' }}</span></div>
+        <div class="field"><label>Bank Name</label><span>{{ user?.bankName || '—' }}</span></div>
+        <div class="field"><label>Account Number</label><span>{{ user?.accountNumber || '—' }}</span></div>
+        <div class="field"><label>IFSC Code</label><span>{{ user?.ifscCode || '—' }}</span></div>
+        <div class="field"><label>UTR / Transaction ID</label><span>{{ user?.utrNumber || '—' }}</span></div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Notification Preferences -->
+  <mat-card class="section-card">
+    <mat-card-content>
+      <h3>⚙️ Notification Preferences</h3>
+      <p class="muted small">Choose how we keep you updated. Saved instantly.</p>
+
+      <div class="prefs">
+        <label class="pref">
+          <input type="checkbox" [(ngModel)]="prefs.emailEnabled"> 📧 Email Notifications
+        </label>
+        <label class="pref">
+          <input type="checkbox" [(ngModel)]="prefs.smsEnabled"> 📱 SMS Notifications
+        </label>
+        <label class="pref">
+          <input type="checkbox" [(ngModel)]="prefs.pushEnabled"> 🔔 Push Notifications
+        </label>
+        <label class="pref">
+          <input type="checkbox" [(ngModel)]="prefs.whatsappEnabled"> 💬 WhatsApp Notifications
+        </label>
+
+        <div class="lang-row">
+          <label for="lang">Preferred Language</label>
+          <select id="lang" [(ngModel)]="prefs.preferredLang">
+            <option value="EN">English</option>
+            <option value="HI">हिंदी</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button mat-raised-button color="primary" (click)="savePrefs()" [disabled]="savingPrefs">
+          <mat-icon>save</mat-icon> {{ savingPrefs ? 'Saving...' : 'Save Preferences' }}
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Quick links -->
+  <mat-card class="quick-card">
+    <mat-card-content>
+      <h3>Quick Links</h3>
+      <div class="quick-links">
+        <a mat-stroked-button routerLink="/addresses"><mat-icon>location_on</mat-icon> Addresses</a>
+        <a mat-stroked-button routerLink="/notification-preferences"><mat-icon>tune</mat-icon> Notifications</a>
+        <a mat-stroked-button routerLink="/wallet"><mat-icon>account_balance_wallet</mat-icon> Wallet</a>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Re-entry -->
+  <mat-card class="reentry-card">
+    <mat-card-content>
+      <h3>♻️ Re-Entry</h3>
+      <p class="muted">If your earning capacity is full at your current level, request re-entry to start a new chain at a fresh level. This is a one-way action.</p>
+      <button mat-raised-button color="accent" (click)="triggerReEntry()" [disabled]="reEntryLoading">
+        <mat-icon>autorenew</mat-icon> {{ reEntryLoading ? 'Processing...' : 'Request Re-Entry' }}
+      </button>
+    </mat-card-content>
+  </mat-card>
+</div>

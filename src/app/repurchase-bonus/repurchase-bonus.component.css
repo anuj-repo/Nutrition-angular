@@ -1,0 +1,156 @@
+.bonus-container {
+  padding: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.page-header h2 {
+  font-size: 26px;
+  color: #1b5e20;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 16px;
+}
+
+.description {
+  color: #555;
+  margin: 4px 0 0;
+}
+
+.description-hindi {
+  color: #888;
+  font-size: 14px;
+}
+
+.bonus-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.bonus-stat {
+  border-radius: 12px;
+  text-align: center;
+}
+
+.bonus-stat mat-card-content {
+  padding: 20px;
+}
+
+.stat-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #333;
+}
+
+.stat-value.green {
+  color: #2e7d32;
+}
+
+.slab-card {
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.slab-table {
+  width: 100%;
+}
+
+.slab-table th {
+  background: #e8f5e9;
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.current-slab {
+  font-weight: 700;
+  color: #e65100 !important;
+}
+
+.bonus-percent {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.slab-status {
+  color: #e65100;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.highlight-row {
+  background: #fff8e1 !important;
+}
+
+.payment-info-card {
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.payment-info-grid {
+  display: flex;
+  gap: 24px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.payment-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex: 1;
+  min-width: 250px;
+}
+
+.payment-item mat-icon {
+  color: #4caf50;
+  margin-top: 2px;
+}
+
+.payment-item p {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: #888;
+}
+
+.history-card {
+  border-radius: 12px;
+}
+
+.history-table {
+  width: 100%;
+}
+
+.green-text {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .bonus-summary {
+    grid-template-columns: 1fr 1fr;
+  }
+  .payment-info-grid {
+    flex-direction: column;
+  }
+}

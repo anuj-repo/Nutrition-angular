@@ -1,0 +1,18 @@
+.notifications-container { padding: 24px; max-width: 800px; margin: 0 auto; }
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+.page-header h2 { margin: 0; color: #1b5e20; display: flex; align-items: center; gap: 8px; }
+.badge { background: #f44336; color: white; padding: 2px 10px; border-radius: 10px; font-size: 12px; }
+.actions { display: flex; gap: 8px; align-items: center; }
+.actions button.active { color: #2e7d32; border-bottom: 2px solid #4caf50; }
+.notif-list { display: flex; flex-direction: column; gap: 8px; }
+.notif-card { border-radius: 8px; cursor: pointer; transition: background 0.15s; }
+.notif-card.unread { background: #e8f5e9; }
+.notif-card:hover { background: #f1f8e9; }
+.notif-row { display: flex; align-items: flex-start; gap: 12px; }
+.notif-icon { font-size: 24px; flex-shrink: 0; }
+.notif-body { flex: 1; }
+.notif-title { font-weight: 600; color: #333; }
+.notif-msg { color: #555; margin: 2px 0 4px; }
+.notif-meta { font-size: 12px; color: #888; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: #f44336; flex-shrink: 0; margin-top: 6px; }
+.empty { text-align: center; color: #888; padding: 40px; }

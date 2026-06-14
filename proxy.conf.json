@@ -1,0 +1,6 @@
+{
+  "/fonts.googleapis.com": {
+    "target": "https://fonts.googleapis.com",
+    "secure": false
+  }
+}

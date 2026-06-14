@@ -1,0 +1,8 @@
+.aet-container { padding: 24px; max-width: 1100px; margin: 0 auto; }
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.page-header h2 { color: #1b5e20; margin: 0; }
+.form-card { border-radius: 12px; margin-bottom: 16px; }
+.full-width { width: 100%; }
+.actions { display: flex; gap: 8px; margin-top: 12px; }
+.muted { color: #888; }
+.empty { text-align: center; color: #888; padding: 24px; }

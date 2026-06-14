@@ -1,0 +1,166 @@
+.ep-container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+.page-header h2 { color: #1b5e20; margin: 0 0 4px; }
+.subtitle { color: #555; max-width: 720px; margin: 0 auto; }
+
+/* Summary tiles */
+.summary-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+.tile {
+  background: #f1f8e9;
+  border: 1px solid #c5e1a5;
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.tile-label { font-size: 12px; color: #558b2f; text-transform: uppercase; letter-spacing: .5px; }
+.tile-value { font-size: 22px; font-weight: 600; color: #1b5e20; margin-top: 4px; }
+.tile-hint  { font-size: 11px; color: #777; margin-top: 4px; }
+
+.warning-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff3e0;
+  border: 1px solid #ffcc80;
+  color: #e65100;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+.warning-banner mat-icon { color: #e65100; }
+
+/* Cards */
+.card-block { border-radius: 12px; margin-bottom: 16px; }
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.full-width { width: 100%; }
+
+/* Pools table */
+.pools-table {
+  border-collapse: collapse;
+}
+.pools-table th, .pools-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+  vertical-align: middle;
+}
+.pools-table th {
+  background: #f5f5f5;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .3px;
+  color: #555;
+}
+.row-inactive td { color: #aaa; }
+.row-selected   { background: #f9fbe7; }
+
+.pct-cell { white-space: nowrap; }
+.inline-edit {
+  width: 70px;
+  padding: 4px 6px;
+  border: 1px solid #c8e6c9;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.pct-suffix { margin-left: 4px; color: #777; }
+
+.actions-cell { white-space: nowrap; }
+
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: .3px;
+}
+.badge-on  { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+.badge-off { background: #fafafa; color: #757575; border: 1px solid #e0e0e0; }
+
+/* Inline ledger pane */
+.ledger-row td { background: #fafafa; padding: 0; }
+.ledger-pane { padding: 16px 18px; border-top: 2px solid #c5e1a5; }
+.ledger-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+.ledger-header h4 { margin: 0; color: #2e7d32; }
+.ledger-sub { font-size: 12px; color: #777; }
+
+.spend-form {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  background: #fff;
+  border: 1px dashed #ffcc80;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+.spend-form mat-form-field { width: 200px; }
+.spend-form .grow { flex: 1; min-width: 200px; }
+
+.ledger-table {
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.ledger-table th, .ledger-table td {
+  padding: 6px 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.ledger-table th {
+  background: #f5f5f5;
+  text-align: left;
+  font-size: 11px;
+  letter-spacing: .3px;
+  text-transform: uppercase;
+  color: #555;
+}
+.ledger-table .num { text-align: right; }
+.txn-credit { background: #f1f8e9; }
+.txn-debit  { background: #fff8e1; }
+
+.amt-credit { color: #2e7d32; font-weight: 600; }
+.amt-debit  { color: #c62828; font-weight: 600; }
+
+.badge-credit {
+  background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7;
+}
+.badge-debit {
+  background: #ffebee; color: #c62828; border: 1px solid #ef9a9a;
+}
+
+.muted-small { font-size: 11px; color: #888; }
+.ledger-footer { display: flex; justify-content: center; padding: 8px 0; }
+
+/* Create form */
+.inline-form {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.inline-form mat-form-field { width: 180px; }
+.inline-form .grow { flex: 1; min-width: 220px; }
+.cb-label { display: inline-flex; align-items: center; gap: 6px; padding-top: 18px; }
+.muted { color: #777; margin: 0 0 10px; font-size: 13px; }
+.muted code { background: #f5f5f5; padding: 2px 4px; border-radius: 4px; }
+
+.empty   { color: #888; font-style: italic; padding: 16px; }
+.loading { color: #666; padding: 16px; }

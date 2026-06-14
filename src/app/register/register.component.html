@@ -1,0 +1,442 @@
+<div class="register-page">
+  <div class="register-container" [@fadeIn]>
+    <div class="brand-header">
+      <h1>🌿 Create Your Account</h1>
+      <p class="subtitle">Join Nutrition Forever Wellness — Health + Wealth + Security</p>
+    </div>
+
+    <mat-card class="register-card">
+      <mat-card-content>
+        <div class="alert success" *ngIf="successMessage">
+          <mat-icon>check_circle</mat-icon>
+          <div>
+            <strong>Account created successfully!</strong>
+            <div class="alert-sub">{{ successMessage }}</div>
+          </div>
+        </div>
+        <div class="alert error" *ngIf="errorMessage">
+          <mat-icon>error</mat-icon>
+          <div>
+            <strong>Could not create account</strong>
+            <div class="alert-sub">{{ errorMessage }}</div>
+          </div>
+        </div>
+
+        <form [formGroup]="registerForm" (ngSubmit)="register(registerForm)">
+
+          <!-- Sponsor / Referral -->
+          <div class="sponsor-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Sponsor / Referral Code (optional)</mat-label>
+              <input matInput formControlName="referralCode" placeholder="Enter referral code if you have one"
+                     (blur)="validateSponsor()">
+              <mat-icon matSuffix *ngIf="sponsorValid === true" class="ok-icon">check_circle</mat-icon>
+              <mat-icon matSuffix *ngIf="sponsorValid === false" class="bad-icon">cancel</mat-icon>
+            </mat-form-field>
+            <p class="sponsor-feedback ok" *ngIf="sponsorValid === true && sponsorName">
+              ✓ Referred by <strong>{{ sponsorName }}</strong>
+            </p>
+            <p class="sponsor-feedback ok" *ngIf="sponsorValid === true && !sponsorName">
+              ✓ Valid referral code
+            </p>
+            <p class="sponsor-feedback bad" *ngIf="sponsorValid === false">
+              ✗ Invalid referral code
+            </p>
+            <p class="sponsor-feedback warn" *ngIf="sponsorError">
+              ⚠ {{ sponsorError }}
+            </p>
+          </div>
+
+          <!-- Personal Information -->
+          <h3 class="section-title">👤 Personal Information</h3>
+          <div class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>First Name</mat-label>
+              <input matInput formControlName="firstName" placeholder="Enter first name">
+              <mat-error *ngIf="registerForm.get('firstName').invalid && registerForm.get('firstName').touched">
+                First name is required
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Last Name</mat-label>
+              <input matInput formControlName="lastName" placeholder="Enter last name">
+              <mat-error *ngIf="registerForm.get('lastName').invalid && registerForm.get('lastName').touched">
+                Last name is required
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" type="email" placeholder="you@example.com">
+              <mat-error *ngIf="registerForm.get('email').hasError('required') && registerForm.get('email').touched">
+                Email is required
+              </mat-error>
+              <mat-error *ngIf="registerForm.get('email').hasError('email') && registerForm.get('email').touched">
+                Enter a valid email
+              </mat-error>
+              <mat-error *ngIf="registerForm.get('email').hasError('emailTaken') && registerForm.get('email').touched">
+                This email is already registered
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Mobile Number</mat-label>
+              <input matInput formControlName="mobNumber" appDigitsOnly maxlength="10" inputmode="numeric" placeholder="10-digit mobile">
+              <mat-error *ngIf="registerForm.get('mobNumber').invalid && registerForm.get('mobNumber').touched">
+                Enter valid 10-digit number
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Gender</mat-label>
+              <mat-select formControlName="gender">
+                <mat-option value="Male">Male</mat-option>
+                <mat-option value="Female">Female</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Date of Birth</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="dob" placeholder="MM/DD/YYYY">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error *ngIf="registerForm.get('dob').hasError('required')">Date of birth is required</mat-error>
+              <mat-error *ngIf="registerForm.get('dob').hasError('minAge')">Must be at least 10 years old</mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Address -->
+          <h3 class="section-title">📍 Address</h3>
+          <div class="form-grid">
+            <mat-form-field appearance="outline" class="full-row">
+              <mat-label>Address</mat-label>
+              <textarea matInput formControlName="address" rows="2" placeholder="Street, area, landmark"></textarea>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Country</mat-label>
+              <mat-select formControlName="country" (selectionChange)="onCountryChange($event)">
+                <mat-option *ngFor="let country of countries" [value]="country.id">
+                  {{ country.countryName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>State</mat-label>
+              <mat-select formControlName="state" (selectionChange)="onStateChange($event)">
+                <mat-option *ngFor="let state of states" [value]="state.id">
+                  {{ state.stateName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>City</mat-label>
+              <mat-select formControlName="city" (selectionChange)="onCityChange($event)">
+                <mat-option *ngFor="let city of cities" [value]="city.id">
+                  {{ city.cityName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>ZIP / Pincode</mat-label>
+              <input matInput formControlName="zipCode" maxlength="6" placeholder="6-digit pincode"
+                     appDigitsOnly inputmode="numeric"
+                     (blur)="checkPincode()">
+              <mat-icon matSuffix *ngIf="pincodeServiceable === true" class="ok-icon">check_circle</mat-icon>
+              <mat-icon matSuffix *ngIf="pincodeServiceable === false" class="bad-icon">cancel</mat-icon>
+              <mat-error *ngIf="registerForm.get('zipCode').hasError('required')">Pincode is required</mat-error>
+              <mat-error *ngIf="registerForm.get('zipCode').hasError('pattern')">Enter valid 6-digit pincode (numbers only)</mat-error>
+            </mat-form-field>
+          </div>
+          <p class="sponsor-feedback ok" *ngIf="pincodeServiceable === true">✓ Delivery available in your area</p>
+          <p class="sponsor-feedback bad" *ngIf="pincodeServiceable === false">✗ Delivery not available in this pincode</p>
+
+          <!-- Package Selection -->
+          <h3 class="section-title">💊 Choose Your Package</h3>
+          <div class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>Product Choice</mat-label>
+              <mat-select formControlName="productChoice">
+                <mat-option value="home">Wellness Products</mat-option>
+                <mat-option value="aggriculture">Agriculture Products</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Package</mat-label>
+              <mat-select formControlName="packageTaken">
+                <mat-option value="2280">Stamina Core Plus — ₹2,280 (Recommended)</mat-option>
+                <mat-option value="1000">₹1,000 Package</mat-option>
+                <mat-option value="2500">₹2,500 Package</mat-option>
+                <mat-option value="5000">₹5,000 Package</mat-option>
+                <mat-option value="10000">₹10,000 Package</mat-option>
+                <mat-option value="15000">₹15,000 Package</mat-option>
+                <mat-option value="20000">₹20,000 Package</mat-option>
+                <mat-option value="25000">₹25,000 Package</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-row">
+              <mat-label>UPI ID (for receiving payouts)</mat-label>
+              <input matInput formControlName="upiId" placeholder="yourname@bank">
+            </mat-form-field>
+          </div>
+
+          <!-- Payment Confirmation (UTR / Transaction ID) -->
+          <h3 class="section-title">💳 Payment Confirmation</h3>
+
+          <div class="payment-toggle-row">
+            <p class="payment-toggle-text">
+              <strong>Already paid ₹2,280?</strong> Just enter your UTR / Transaction ID below.
+            </p>
+            <button type="button" mat-stroked-button class="payment-toggle-btn"
+                    (click)="showPaymentOptions = !showPaymentOptions">
+              <mat-icon>{{ showPaymentOptions ? 'expand_less' : 'expand_more' }}</mat-icon>
+              {{ showPaymentOptions ? 'Hide' : 'Show' }} payment options
+            </button>
+          </div>
+
+          <div class="payment-info-box" *ngIf="showPaymentOptions">
+            <p><strong>Send ₹2,280</strong> via UPI / NEFT / IMPS to one of the options below.</p>
+
+            <div class="payment-options">
+              <!-- QR / UPI option -->
+              <div class="pay-option qr-option">
+                <h4>📱 Pay via UPI / QR</h4>
+                <a class="qr-link"
+                   href="upi://pay?pa=nutritionforever@upi&pn=Nutrition%20Forever%20Wellness%20Pvt.%20Ltd.&am=2280&cu=INR&tn=Stamina%20Core%20Plus%20Registration"
+                   target="_blank" rel="noopener"
+                   matTooltip="Open in your UPI app">
+                  <img src="assets/payment/nutrition-forever-qr.png"
+                       alt="Scan to pay Nutrition Forever Wellness"
+                       (error)="onQrLoadError($event)">
+                </a>
+                <p class="qr-caption">
+                  Scan or tap the code on mobile to open
+                  PhonePe / GPay / Paytm with the amount pre-filled.
+                </p>
+                <div class="upi-id">
+                  <span class="upi-label">UPI ID</span>
+                  <span class="upi-value">nutritionforever@upi</span>
+                  <button type="button" mat-icon-button matTooltip="Copy UPI ID"
+                          (click)="copyToClipboard('nutritionforever@upi', 'UPI ID')">
+                    <mat-icon>content_copy</mat-icon>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Bank transfer option -->
+              <div class="pay-option bank-option">
+                <h4>🏦 Bank transfer (NEFT / IMPS / RTGS)</h4>
+                <ul class="bank-details">
+                  <li>
+                    <strong>Account name</strong>
+                    <span>Nutrition Forever Wellness Pvt. Ltd.</span>
+                  </li>
+                  <li>
+                    <strong>Bank</strong>
+                    <span>State Bank of India</span>
+                  </li>
+                  <li>
+                    <strong>Account number</strong>
+                    <span class="mono">123456789</span>
+                    <button type="button" mat-icon-button matTooltip="Copy account number"
+                            (click)="copyToClipboard('123456789', 'Account number')">
+                      <mat-icon>content_copy</mat-icon>
+                    </button>
+                  </li>
+                  <li>
+                    <strong>IFSC code</strong>
+                    <span class="mono">SBIN0000633</span>
+                    <button type="button" mat-icon-button matTooltip="Copy IFSC"
+                            (click)="copyToClipboard('SBIN0000633', 'IFSC')">
+                      <mat-icon>content_copy</mat-icon>
+                    </button>
+                  </li>
+                  <li>
+                    <strong>Amount</strong>
+                    <span class="mono">₹2,280</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <p class="payment-hint">After payment, enter the <strong>UTR / Transaction ID</strong>
+              from your bank confirmation below — registration cannot be completed without proof of payment.</p>
+          </div>
+
+          <div class="form-grid">
+            <mat-form-field appearance="outline" class="full-row">
+              <mat-label>UTR / Transaction ID</mat-label>
+              <mat-icon matPrefix>receipt_long</mat-icon>
+              <input matInput formControlName="utrNumber"
+                     placeholder="e.g. 412345678910 (6-30 letters / digits)"
+                     maxlength="30">
+              <mat-hint align="end">{{ registerForm.get('utrNumber').value?.length || 0 }} / 30</mat-hint>
+              <mat-error *ngIf="registerForm.get('utrNumber').hasError('required')">
+                UTR / Transaction ID is required
+              </mat-error>
+              <mat-error *ngIf="registerForm.get('utrNumber').hasError('minlength')">
+                Enter at least 6 characters
+              </mat-error>
+              <mat-error *ngIf="registerForm.get('utrNumber').hasError('pattern')">
+                Only letters and numbers are allowed
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- KYC: PAN, Aadhaar, Bank proof -->
+          <h3 class="section-title">🪪 KYC Verification</h3>
+          <p class="section-help">
+            Required to receive payouts. Your details are visible only to admin reviewers.
+          </p>
+
+          <div class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>PAN Number</mat-label>
+              <mat-icon matPrefix>credit_card</mat-icon>
+              <input matInput formControlName="panNumber" placeholder="ABCDE1234F" maxlength="10"
+                     style="text-transform:uppercase"
+                     (blur)="onKycFieldBlur('panNumber')">
+              <mat-error *ngIf="registerForm.get('panNumber').hasError('required')">PAN is required</mat-error>
+              <mat-error *ngIf="registerForm.get('panNumber').hasError('pattern')">
+                Invalid PAN. Format: ABCDE1234F
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Aadhaar Number</mat-label>
+              <mat-icon matPrefix>badge</mat-icon>
+              <input matInput formControlName="aadhaarNumber" placeholder="12 digits" maxlength="12"
+                     (blur)="onKycFieldBlur('aadhaarNumber')">
+              <mat-error *ngIf="registerForm.get('aadhaarNumber').hasError('required')">Aadhaar is required</mat-error>
+              <mat-error *ngIf="registerForm.get('aadhaarNumber').hasError('pattern')">
+                Aadhaar must be 12 digits
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Account Holder Name</mat-label>
+              <mat-icon matPrefix>person</mat-icon>
+              <input matInput formControlName="accountHolderName" placeholder="As per passbook">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Bank Name</mat-label>
+              <mat-icon matPrefix>account_balance</mat-icon>
+              <input matInput formControlName="bankName" placeholder="State Bank of India">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Account Number</mat-label>
+              <input matInput formControlName="accountNumber" placeholder="9-18 digits" maxlength="18"
+                     (blur)="onKycFieldBlur('accountNumber')">
+              <mat-error *ngIf="registerForm.get('accountNumber').hasError('required')">Required</mat-error>
+              <mat-error *ngIf="registerForm.get('accountNumber').hasError('pattern')">9-18 digits</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>IFSC Code</mat-label>
+              <input matInput formControlName="ifscCode" placeholder="SBIN0001234" maxlength="11"
+                     style="text-transform:uppercase"
+                     (blur)="onKycFieldBlur('ifscCode')">
+              <mat-error *ngIf="registerForm.get('ifscCode').hasError('required')">Required</mat-error>
+              <mat-error *ngIf="registerForm.get('ifscCode').hasError('pattern')">
+                Invalid IFSC. Format: SBIN0001234
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="upload-grid">
+            <div class="upload-tile" [class.has-file]="kycFiles.PAN">
+              <input type="file" #panFile accept="image/*,application/pdf"
+                     (change)="onKycFile('PAN', panFile)">
+              <div class="up-icon">🪪</div>
+              <div class="up-label">PAN Card</div>
+              <div class="up-status" *ngIf="!kycFiles.PAN">
+                <button type="button" mat-stroked-button (click)="panFile.click()">Choose file</button>
+              </div>
+              <div class="up-status ok" *ngIf="kycFiles.PAN">
+                <mat-icon>check_circle</mat-icon>
+                <span class="fname">{{ kycFiles.PAN.name }}</span>
+                <button type="button" mat-icon-button (click)="clearKycFile('PAN')" matTooltip="Remove">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+            </div>
+
+            <div class="upload-tile" [class.has-file]="kycFiles.AADHAAR">
+              <input type="file" #aadhaarFile accept="image/*,application/pdf"
+                     (change)="onKycFile('AADHAAR', aadhaarFile)">
+              <div class="up-icon">🆔</div>
+              <div class="up-label">Aadhaar (any side)</div>
+              <div class="up-status" *ngIf="!kycFiles.AADHAAR">
+                <button type="button" mat-stroked-button (click)="aadhaarFile.click()">Choose file</button>
+              </div>
+              <div class="up-status ok" *ngIf="kycFiles.AADHAAR">
+                <mat-icon>check_circle</mat-icon>
+                <span class="fname">{{ kycFiles.AADHAAR.name }}</span>
+                <button type="button" mat-icon-button (click)="clearKycFile('AADHAAR')" matTooltip="Remove">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+            </div>
+
+            <div class="upload-tile" [class.has-file]="kycFiles.BANK_PROOF">
+              <input type="file" #bankFile accept="image/*,application/pdf"
+                     (change)="onKycFile('BANK_PROOF', bankFile)">
+              <div class="up-icon">🏦</div>
+              <div class="up-label">Bank proof <small>(passbook / cheque / statement)</small></div>
+              <div class="up-status" *ngIf="!kycFiles.BANK_PROOF">
+                <button type="button" mat-stroked-button (click)="bankFile.click()">Choose file</button>
+              </div>
+              <div class="up-status ok" *ngIf="kycFiles.BANK_PROOF">
+                <mat-icon>check_circle</mat-icon>
+                <span class="fname">{{ kycFiles.BANK_PROOF.name }}</span>
+                <button type="button" mat-icon-button (click)="clearKycFile('BANK_PROOF')" matTooltip="Remove">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <p class="kyc-error" *ngIf="kycFileError">⚠ {{ kycFileError }}</p>
+
+          <!-- Account Credentials -->
+          <h3 class="section-title">🔐 Account Credentials</h3>
+          <div class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>Password</mat-label>
+              <input matInput type="password" formControlName="password" placeholder="Min 6 characters">
+              <mat-error *ngIf="registerForm.get('password').hasError('minlength')">
+                Min 6 characters required
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Confirm Password</mat-label>
+              <input matInput type="password" formControlName="confirmPassword" placeholder="Re-enter password">
+            </mat-form-field>
+          </div>
+
+          <!-- Submit -->
+          <div class="actions-row">
+            <button mat-raised-button class="submit-btn" type="submit"
+                    [disabled]="registerForm.invalid || submitting" [@buttonPress]>
+              <mat-icon>person_add</mat-icon>
+              {{ submitting ? 'Creating account...' : 'Create Account' }}
+            </button>
+          </div>
+
+          <p class="login-link">
+            Already have an account? <a routerLink="/login">Sign in</a>
+          </p>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

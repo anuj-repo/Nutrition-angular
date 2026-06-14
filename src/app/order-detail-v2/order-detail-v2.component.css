@@ -1,0 +1,34 @@
+.od-container { padding: 24px; max-width: 1000px; margin: 0 auto; }
+.header-card, .track-card, .items-card, .addr-card { border-radius: 12px; margin: 12px 0; }
+.header-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.header-row h2 { margin: 0; color: #1b5e20; }
+.meta { color: #888; font-size: 13px; margin: 4px 0; }
+.status-badge { padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 500; }
+.status-badge.pending, .status-badge.processing { background: #fff3e0; color: #e65100; }
+.status-badge.shipped { background: #e3f2fd; color: #1565c0; }
+.status-badge.delivered, .status-badge.completed { background: #e8f5e9; color: #2e7d32; }
+.status-badge.cancelled, .status-badge.returned { background: #ffebee; color: #c62828; }
+.actions { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+.full-width { width: 100%; }
+.totals { margin-top: 16px; text-align: right; }
+.totals p { margin: 4px 0; }
+.totals .grand { font-size: 18px; color: #2e7d32; }
+.track-events { margin-top: 12px; }
+.event-row { display: grid; grid-template-columns: 120px 1fr 1fr; gap: 12px; padding: 6px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+.event-time { color: #888; }
+.event-status { color: #1565c0; font-weight: 500; }
+.alert { padding: 10px 14px; border-radius: 6px; margin: 12px 0; }
+.alert.success { background: #e8f5e9; color: #2e7d32; }
+.alert.error { background: #ffebee; color: #c62828; }
+
+
+.cooling-card { background: #e1f5fe; border-radius: 12px; margin: 12px 0; }
+.cooling-card .info-grid { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 8px; }
+.cooling-card .info-grid > div { display: flex; flex-direction: column; }
+.cooling-card span { color: #666; font-size: 12px; }
+.cooling-card strong { color: #01579b; font-size: 15px; }
+
+.admin-card { background: #fff3e0; border-radius: 12px; margin: 12px 0; border: 2px solid #ffb74d; }
+.refund-row { display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap; }
+.refund-row mat-form-field { width: 200px; }
+.refund-row .grow { flex: 1; min-width: 200px; }

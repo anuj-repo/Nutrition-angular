@@ -1,0 +1,32 @@
+<div class="orders-container">
+  <div class="page-header"><h2>📦 My Orders</h2></div>
+
+  <mat-card class="repurchase-card" *ngIf="repurchaseDue.length">
+    <mat-card-content>
+      <h3>🔔 Repurchase Reminders</h3>
+      <div *ngFor="let r of repurchaseDue" class="repurchase-row">
+        <span>{{ r.productName || 'Stamina Core Plus' }} — Last ordered: {{ r.lastOrderDate | date:'mediumDate' }}</span>
+        <button mat-raised-button color="primary" routerLink="/buyProduct" [queryParams]="{productId: r.productId}">Reorder</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <table mat-table [dataSource]="orders" class="full-width" *ngIf="orders.length">
+    <ng-container matColumnDef="id"><th mat-header-cell *matHeaderCellDef>Order #</th>
+      <td mat-cell *matCellDef="let o">{{ o.id }}</td></ng-container>
+    <ng-container matColumnDef="date"><th mat-header-cell *matHeaderCellDef>Date</th>
+      <td mat-cell *matCellDef="let o">{{ o.createdAt | date:'mediumDate' }}</td></ng-container>
+    <ng-container matColumnDef="amount"><th mat-header-cell *matHeaderCellDef>Total</th>
+      <td mat-cell *matCellDef="let o">₹{{ o.totalAmount | number }}</td></ng-container>
+    <ng-container matColumnDef="status"><th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let o"><span class="badge" [ngClass]="o.status?.toLowerCase()">{{ o.status }}</span></td></ng-container>
+    <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let o">
+        <button mat-button color="primary" [routerLink]="['/orders-v2', o.id]">View</button>
+      </td></ng-container>
+    <tr mat-header-row *matHeaderRowDef="['id','date','amount','status','actions']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['id','date','amount','status','actions']"></tr>
+  </table>
+
+  <p *ngIf="!orders.length" class="empty">No orders yet.</p>
+</div>

@@ -1,0 +1,195 @@
+<div class="earnings-container">
+  <div class="page-header">
+    <h2>📈 My Earnings / मेरी कमाई</h2>
+    <p class="subtitle">Track your income from all 15 levels</p>
+  </div>
+
+  <!-- Earnings Summary Cards -->
+  <div class="summary-cards">
+    <mat-card class="summary-card total">
+      <mat-card-content>
+        <span class="card-label">Total Earnings / कुल कमाई</span>
+        <span class="card-value">₹{{ earningsSummary.totalEarnings | number }}</span>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="summary-card monthly">
+      <mat-card-content>
+        <span class="card-label">This Month / इस महीने</span>
+        <span class="card-value">₹{{ earningsSummary.monthlyEarnings | number }}</span>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="summary-card weekly">
+      <mat-card-content>
+        <span class="card-label">This Week / इस हफ्ते</span>
+        <span class="card-value">₹{{ earningsSummary.weeklyEarnings | number }}</span>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="summary-card pending">
+      <mat-card-content>
+        <span class="card-label">Pending Payout / लंबित भुगतान</span>
+        <span class="card-value">₹{{ earningsSummary.pendingPayout | number }}</span>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Tab Navigation -->
+  <div class="tab-nav">
+    <button mat-button [class.active-tab]="selectedTab === 'summary'" (click)="switchTab('summary')">
+      Summary / सारांश
+    </button>
+    <button mat-button [class.active-tab]="selectedTab === 'history'" (click)="switchTab('history')">
+      History / इतिहास
+    </button>
+    <button mat-button [class.active-tab]="selectedTab === 'potential'" (click)="switchTab('potential')">
+      Earning Potential / कमाई क्षमता
+    </button>
+  </div>
+
+  <!-- Summary Tab -->
+  <mat-card class="tab-content" *ngIf="selectedTab === 'summary'">
+    <mat-card-content>
+      <h3>💰 Commission Earned by Level</h3>
+      <div class="level-earnings" *ngIf="commissionByLevel.length > 0">
+        <div class="level-earning-item" *ngFor="let item of commissionByLevel">
+          <div class="level-info">
+            <span class="level-num">Level {{ item.level }}</span>
+            <span class="level-members">{{ item.members }} members</span>
+          </div>
+          <div class="level-amount">₹{{ item.totalEarned | number }}</div>
+        </div>
+      </div>
+      <div class="no-data" *ngIf="commissionByLevel.length === 0">
+        <p>📊 Start building your team to see earnings by level!</p>
+        <p>अपनी टीम बनाना शुरू करें और स्तर-वार कमाई देखें!</p>
+        <button mat-raised-button color="primary" routerLink="/add-member">Add Your First Member</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- History Tab -->
+  <mat-card class="tab-content" *ngIf="selectedTab === 'history'">
+    <mat-card-content>
+      <h3>📋 Earnings History / कमाई इतिहास</h3>
+      <div *ngIf="earningsHistory.length > 0">
+        <table mat-table [dataSource]="earningsHistory" class="history-table">
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef>Date</th>
+            <td mat-cell *matCellDef="let row">{{ row.date }}</td>
+          </ng-container>
+          <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef>Type</th>
+            <td mat-cell *matCellDef="let row">{{ row.type }}</td>
+          </ng-container>
+          <ng-container matColumnDef="level">
+            <th mat-header-cell *matHeaderCellDef>Level</th>
+            <td mat-cell *matCellDef="let row">{{ row.level }}</td>
+          </ng-container>
+          <ng-container matColumnDef="fromMember">
+            <th mat-header-cell *matHeaderCellDef>From Member</th>
+            <td mat-cell *matCellDef="let row">{{ row.fromMember }}</td>
+          </ng-container>
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef>Amount</th>
+            <td mat-cell *matCellDef="let row" class="amount-cell">₹{{ row.amount | number }}</td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let row">
+              <span class="status-chip" [class.paid]="row.status === 'paid'" [class.pending]="row.status === 'pending'">
+                {{ row.status }}
+              </span>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="viewTxn(row)" class="clickable-row"></tr>
+        </table>
+      </div>
+      <div class="no-data" *ngIf="earningsHistory.length === 0">
+        <p>No earnings history yet. Start referring to earn!</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Earning Potential Tab -->
+  <mat-card class="tab-content" *ngIf="selectedTab === 'potential'">
+    <mat-card-content>
+      <h3>🎯 Full 15-Level Earning Potential / पूर्ण 15-स्तरीय कमाई क्षमता</h3>
+      <p class="potential-note">Based on each person referring 4 people (DP: ₹2,280)</p>
+      <table mat-table [dataSource]="earningPotential" class="potential-table">
+        <ng-container matColumnDef="level">
+          <th mat-header-cell *matHeaderCellDef>Level</th>
+          <td mat-cell *matCellDef="let row">{{ row.level }}</td>
+        </ng-container>
+        <ng-container matColumnDef="people">
+          <th mat-header-cell *matHeaderCellDef>People / लोग</th>
+          <td mat-cell *matCellDef="let row">{{ row.people | number }}</td>
+        </ng-container>
+        <ng-container matColumnDef="business">
+          <th mat-header-cell *matHeaderCellDef>Business Volume</th>
+          <td mat-cell *matCellDef="let row">₹{{ row.business | number }}</td>
+        </ng-container>
+        <ng-container matColumnDef="percentage">
+          <th mat-header-cell *matHeaderCellDef>%</th>
+          <td mat-cell *matCellDef="let row">{{ row.percentage }}%</td>
+        </ng-container>
+        <ng-container matColumnDef="earnings">
+          <th mat-header-cell *matHeaderCellDef>Your Earnings / आपकी कमाई</th>
+          <td mat-cell *matCellDef="let row" class="amount-cell">₹{{ row.earnings | number }}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="['level', 'people', 'business', 'percentage', 'earnings']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['level', 'people', 'business', 'percentage', 'earnings']"></tr>
+      </table>
+      <div class="potential-highlight">
+        <p>🎯 With just 5 levels active: Earning potential <strong>₹1.31 Lakh+/month!</strong></p>
+        <p class="hindi">सिर्फ 5 स्तर एक्टिव होने पर: कमाई क्षमता <strong>₹1.31 लाख+/महीना!</strong></p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Payment Info -->
+  <mat-card class="payment-info">
+    <mat-card-content>
+      <h3>💳 Payment Information / भुगतान जानकारी</h3>
+      <div class="payment-details">
+        <div class="payment-item">
+          <mat-icon>schedule</mat-icon>
+          <span>Payment every 15 days to bank account / हर 15 दिन बैंक खाते में भुगतान</span>
+        </div>
+        <div class="payment-item">
+          <mat-icon>account_balance</mat-icon>
+          <span>Direct bank transfer / सीधे बैंक ट्रांसफर</span>
+        </div>
+        <div class="payment-item">
+          <mat-icon>verified</mat-icon>
+          <span>No minimum payout threshold / कोई न्यूनतम भुगतान सीमा नहीं</span>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+<!-- Transaction Detail Dialog -->
+<div class="txn-overlay" *ngIf="selectedTxn" (click)="closeTxn()"></div>
+<div class="txn-drawer" *ngIf="selectedTxn">
+  <div class="drawer-header">
+    <h3>💰 Commission Transaction</h3>
+    <button mat-icon-button (click)="closeTxn()"><mat-icon>close</mat-icon></button>
+  </div>
+  <div class="txn-body">
+    <div class="row"><span>Date:</span><strong>{{ selectedTxn.transactionDate || selectedTxn.date | date:'medium' }}</strong></div>
+    <div class="row"><span>Type:</span><strong>{{ selectedTxn.transactionType || selectedTxn.type }}</strong></div>
+    <div class="row"><span>Level:</span><strong>{{ selectedTxn.commissionLevel || selectedTxn.level }}</strong></div>
+    <div class="row"><span>Percentage:</span><strong>{{ selectedTxn.commissionPercentage }}%</strong></div>
+    <div class="row"><span>Amount:</span><strong class="green">₹{{ (selectedTxn.commissionAmount || selectedTxn.amount) | number }}</strong></div>
+    <div class="row"><span>From:</span><strong>{{ selectedTxn.fromUserName || selectedTxn.fromMember }}</strong></div>
+    <div class="row"><span>From User ID:</span><strong>{{ selectedTxn.fromUserId }}</strong></div>
+    <div class="row"><span>Business Volume:</span><strong>₹{{ selectedTxn.businessVolume | number }}</strong></div>
+    <div class="row"><span>Status:</span><strong>{{ selectedTxn.paidStatus ? 'PAID' : (selectedTxn.status || 'PENDING') }}</strong></div>
+    <div class="row" *ngIf="selectedTxn.transactionId"><span>Reference:</span><strong>{{ selectedTxn.transactionId }}</strong></div>
+    <div class="row" *ngIf="selectedTxn.notes"><span>Notes:</span><strong>{{ selectedTxn.notes }}</strong></div>
+  </div>
+</div>

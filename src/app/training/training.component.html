@@ -1,0 +1,64 @@
+<div class="tr-container">
+  <div class="page-header"><h2>🎓 Training & Marketing</h2></div>
+
+  <div class="alert success" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="alert error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <div class="tab-nav">
+    <button mat-button [class.active-tab]="selectedTab==='courses'" (click)="switchTab('courses')">Training Courses</button>
+    <button mat-button [class.active-tab]="selectedTab==='progress'" (click)="switchTab('progress')">My Progress</button>
+    <button mat-button [class.active-tab]="selectedTab==='collateral'" (click)="switchTab('collateral')">Marketing Collateral</button>
+    <button mat-button [class.active-tab]="selectedTab==='banners'" (click)="switchTab('banners')">Banners</button>
+  </div>
+
+  <div *ngIf="selectedTab==='courses'" class="course-grid">
+    <mat-card *ngFor="let c of courses" class="course-card">
+      <mat-card-content>
+        <div class="course-icon">📚</div>
+        <h4>{{ c.title }}</h4>
+        <p>{{ c.description }}</p>
+        <p class="meta" *ngIf="c.duration">⏱️ {{ c.duration }}</p>
+        <a *ngIf="c.contentUrl" [href]="c.contentUrl" target="_blank" mat-button color="primary">Open Course</a>
+        <button mat-raised-button color="primary" *ngIf="!isCompleted(c.id)" (click)="complete(c)">Mark Complete</button>
+        <span class="badge done" *ngIf="isCompleted(c.id)">✓ Completed</span>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <p *ngIf="selectedTab==='courses' && !courses.length" class="empty">No courses available yet.</p>
+
+  <div *ngIf="selectedTab==='progress'">
+    <mat-card *ngFor="let p of progress" class="progress-row">
+      <mat-card-content>
+        <div class="p-row">
+          <strong>{{ p.course?.title || 'Course' }}</strong>
+          <span class="badge done" *ngIf="p.completed || p.completedDate">✓ Completed</span>
+          <span class="badge inprogress" *ngIf="!(p.completed || p.completedDate)">In Progress</span>
+          <span class="time">{{ p.completedDate | date:'medium' }}</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <p *ngIf="!progress.length" class="empty">No course progress yet.</p>
+  </div>
+
+  <div *ngIf="selectedTab==='collateral'" class="grid">
+    <mat-card *ngFor="let m of collateral" class="grid-card">
+      <mat-card-content>
+        <h4>{{ m.title }}</h4>
+        <p>{{ m.description }}</p>
+        <a *ngIf="m.fileUrl" [href]="m.fileUrl" target="_blank" mat-button color="primary">⬇️ Download</a>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <p *ngIf="selectedTab==='collateral' && !collateral.length" class="empty">No collateral.</p>
+
+  <div *ngIf="selectedTab==='banners'" class="grid">
+    <mat-card *ngFor="let b of banners" class="banner-card">
+      <mat-card-content>
+        <img *ngIf="b.imageUrl" [src]="b.imageUrl" alt="{{ b.title }}" class="banner-img">
+        <h4>{{ b.title }}</h4>
+        <p>{{ b.description }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <p *ngIf="selectedTab==='banners' && !banners.length" class="empty">No banners.</p>
+</div>

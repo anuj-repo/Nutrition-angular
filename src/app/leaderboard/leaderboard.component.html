@@ -1,0 +1,38 @@
+<div class="lb-container">
+  <div class="page-header"><h2>🏆 Leaderboard</h2></div>
+
+  <div class="tab-nav">
+    <button mat-button [class.active-tab]="selectedTab==='network'" (click)="switchTab('network')">Top Earners (My Network)</button>
+    <button mat-button [class.active-tab]="selectedTab==='rank'" (click)="switchTab('rank')">Top Ranked (Global)</button>
+  </div>
+
+  <mat-card *ngIf="selectedTab==='network'" class="tab-content">
+    <mat-card-content>
+      <h3>💰 Top Earners in My Network</h3>
+      <div class="lb-list" *ngIf="network.length">
+        <div *ngFor="let m of network; let i = index" class="lb-row" [class.podium]="i < 3">
+          <span class="rank-trophy">{{ trophy(i) }}</span>
+          <span class="member-name">{{ m.name || ((m.fname || '') + ' ' + (m.lname || '')) }}</span>
+          <span class="member-rank">{{ m.rank || '—' }}</span>
+          <span class="member-balance">₹{{ (m.balance || m.totalAccountBalance || 0) | number }}</span>
+        </div>
+      </div>
+      <p *ngIf="!network.length" class="muted">No data yet.</p>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="selectedTab==='rank'" class="tab-content">
+    <mat-card-content>
+      <h3>🏅 Top 50 Highest Ranked Globally</h3>
+      <div class="lb-list" *ngIf="ranks.length">
+        <div *ngFor="let r of ranks; let i = index" class="lb-row" [class.podium]="i < 3">
+          <span class="rank-trophy">{{ trophy(i) }}</span>
+          <span class="member-name">{{ r.name || ((r.fname || '') + ' ' + (r.lname || '')) }}</span>
+          <span class="member-rank">{{ r.rank || r.userLevel || '—' }}</span>
+          <span class="member-level">Level {{ r.level || r.rankLevel || '—' }}</span>
+        </div>
+      </div>
+      <p *ngIf="!ranks.length" class="muted">No data yet.</p>
+    </mat-card-content>
+  </mat-card>
+</div>

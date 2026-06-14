@@ -1,0 +1,27 @@
+<div class="otp-container">
+  <mat-card class="otp-card">
+    <mat-card-content>
+      <h2>🔐 OTP Verification</h2>
+      <p class="muted">Purpose: {{ purpose }} · Channel: {{ channel }}</p>
+
+      <div class="alert success" *ngIf="message">{{ message }}</div>
+      <div class="alert error" *ngIf="error">{{ error }}</div>
+
+      <form [formGroup]="form" (ngSubmit)="verify()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{ channel === 'SMS' ? 'Mobile Number' : 'Email' }}</mat-label>
+          <input matInput formControlName="identifier">
+        </mat-form-field>
+        <button mat-stroked-button type="button" (click)="send()" [disabled]="resendCooldown > 0">
+          {{ resendCooldown > 0 ? 'Wait ' + resendCooldown + 's' : 'Send OTP' }}
+        </button>
+        <mat-form-field appearance="outline" class="full-width" style="margin-top: 12px;">
+          <mat-label>Enter OTP</mat-label>
+          <input matInput formControlName="otp" maxlength="6">
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Verify OTP</button>
+        <button mat-button type="button" (click)="resend()" [disabled]="resendCooldown > 0">Resend</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

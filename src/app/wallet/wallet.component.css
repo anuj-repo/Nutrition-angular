@@ -1,0 +1,28 @@
+.wallet-container { padding: 24px; max-width: 1100px; margin: 0 auto; }
+.page-header { text-align: center; margin-bottom: 24px; }
+.page-header h2 { color: #1b5e20; }
+.summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.summary-card { border-radius: 12px; text-align: center; }
+.summary-card mat-card-content { padding: 20px; }
+.card-label { display: block; font-size: 13px; color: #666; }
+.card-value { display: block; font-size: 22px; font-weight: 700; margin-top: 4px; }
+.summary-card.balance { border-top: 4px solid #4caf50; }
+.summary-card.balance .card-value { color: #2e7d32; }
+.summary-card.earned { border-top: 4px solid #2196f3; }
+.summary-card.earned .card-value { color: #1565c0; }
+.summary-card.withdrawn { border-top: 4px solid #ff9800; }
+.summary-card.tds { border-top: 4px solid #9c27b0; }
+.tab-nav { display: flex; gap: 8px; margin-bottom: 16px; border-bottom: 2px solid #e0e0e0; padding-bottom: 8px; }
+.active-tab { color: #2e7d32 !important; border-bottom: 3px solid #4caf50; }
+.tab-content { border-radius: 12px; }
+.full-width { width: 100%; }
+.credit { color: #2e7d32; font-weight: 600; }
+.debit { color: #c62828; font-weight: 600; }
+.muted { color: #888; }
+.alert { padding: 10px 14px; border-radius: 6px; margin-bottom: 12px; }
+.alert.success { background: #e8f5e9; color: #2e7d32; }
+.alert.error { background: #ffebee; color: #c62828; }
+.badge { padding: 4px 10px; border-radius: 10px; font-size: 12px; font-weight: 500; }
+.badge.pending { background: #fff3e0; color: #e65100; }
+.badge.approved, .badge.success, .badge.processed { background: #e8f5e9; color: #2e7d32; }
+.badge.rejected, .badge.failed { background: #ffebee; color: #c62828; }

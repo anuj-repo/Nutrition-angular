@@ -1,0 +1,104 @@
+<div class="commission-container">
+  <div class="page-header">
+    <h2>▪ 15-Level Commission Structure</h2>
+    <p class="subtitle">15-स्तरीय कमीशन संरचना</p>
+    <div class="total-badge">
+      <span>Total Payout: <strong>{{ totalCommission }}%</strong></span>
+      <span class="hindi">कुल पेआउट: <strong>{{ totalCommission }}%</strong></span>
+    </div>
+  </div>
+
+  <!-- Commission Table -->
+  <mat-card class="commission-table-card">
+    <mat-card-content>
+      <table mat-table [dataSource]="commissionLevels" class="commission-table">
+        
+        <ng-container matColumnDef="level">
+          <th mat-header-cell *matHeaderCellDef>Level / स्तर</th>
+          <td mat-cell *matCellDef="let row" [class.active-level]="row.level <= myCurrentLevel">
+            {{ row.level }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="percentage">
+          <th mat-header-cell *matHeaderCellDef>Commission %</th>
+          <td mat-cell *matCellDef="let row">
+            <div class="percentage-cell">
+              <div class="bar-container">
+                <div class="bar-fill" [style.width]="getBarWidth(row.percentage)"
+                     [class.active-bar]="row.level <= myCurrentLevel"></div>
+              </div>
+              <span class="percent-text">{{ row.percentage }}%</span>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="rank">
+          <th mat-header-cell *matHeaderCellDef>Rank / रैंक</th>
+          <td mat-cell *matCellDef="let row" [class.active-level]="row.level <= myCurrentLevel">
+            <div>{{ row.rank }}</div>
+            <div class="hindi-text">{{ row.rankHindi }}</div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="earned">
+          <th mat-header-cell *matHeaderCellDef>Earned by Me</th>
+          <td mat-cell *matCellDef="let row" class="earned-cell">
+            ₹{{ (row.totalEarned || 0) | number }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let row">
+            <span class="status-badge" [class.achieved]="row.level <= myCurrentLevel"
+                  [class.pending]="row.level > myCurrentLevel">
+              {{ row.level <= myCurrentLevel ? '✓ Achieved' : '○ Pending' }}
+            </span>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['level', 'percentage', 'rank', 'earned', 'status']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['level', 'percentage', 'rank', 'earned', 'status']"
+            [class.highlight-row]="row.level <= myCurrentLevel"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- How It Works -->
+  <mat-card class="how-it-works">
+    <mat-card-content>
+      <h3>💡 How Commission Works / कमीशन कैसे काम करता है</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-icon">1️⃣</div>
+          <div>
+            <strong>Join with ₹2,280</strong>
+            <p>Purchase Stamina Core Plus and become an Associate</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">2️⃣</div>
+          <div>
+            <strong>Refer 4 People (Level 1)</strong>
+            <p>Earn 20% = ₹1,824 from your direct referrals</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">3️⃣</div>
+          <div>
+            <strong>Team Grows (Level 2-15)</strong>
+            <p>Earn commission on all 15 levels as your team duplicates</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">🎯</div>
+          <div>
+            <strong>Highest Payout in Industry!</strong>
+            <p>60% total commission - unmatched in direct selling</p>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

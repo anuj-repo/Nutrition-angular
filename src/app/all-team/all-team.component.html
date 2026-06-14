@@ -1,0 +1,248 @@
+<section class="all-team-page">
+  <!-- Hero / welcome banner -->
+  <header class="team-hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <p class="eyebrow">👋 Admin Console</p>
+        <h1>Welcome, {{ welcomeName || 'Admin' }}</h1>
+        <p class="lead">Review every team in your network, activate pending members, and keep your downline healthy.</p>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-pill">
+          <span class="stat-icon">👥</span>
+          <div>
+            <span class="stat-label">Parent Users</span>
+            <span class="stat-value">{{ totalParents }}</span>
+          </div>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-icon">🌿</span>
+          <div>
+            <span class="stat-label">Downline</span>
+            <span class="stat-value">{{ totalDownline }}</span>
+          </div>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-icon">🟢</span>
+          <div>
+            <span class="stat-label">Active</span>
+            <span class="stat-value">{{ totalActive }}</span>
+          </div>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-icon">⏸️</span>
+          <div>
+            <span class="stat-label">Inactive</span>
+            <span class="stat-value">{{ totalInactive }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Filter card -->
+  <section class="filter-card">
+    <div class="filter-header">
+      <mat-icon>filter_alt</mat-icon>
+      <h3>Find team members</h3>
+    </div>
+
+    <div class="filter-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Start Date</mat-label>
+        <input matInput type="date" [(ngModel)]="filter.startDate" name="startDate">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>End Date</mat-label>
+        <input matInput type="date" [(ngModel)]="filter.endDate" name="endDate">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Specific Date</mat-label>
+        <input matInput type="date" [(ngModel)]="filter.specificDate" name="specificDate">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Referral Code</mat-label>
+        <input matInput type="text" [(ngModel)]="filter.referralCode" name="referralCode" placeholder="e.g. ABC123">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Mobile Number</mat-label>
+        <input matInput type="text" appDigitsOnly maxlength="10" inputmode="numeric" [(ngModel)]="filter.mobileNumber" name="mobileNumber" placeholder="10-digit number">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select [(ngModel)]="filter.status" name="status">
+          <mat-option [value]="''">All</mat-option>
+          <mat-option [value]="1">Active</mat-option>
+          <mat-option [value]="0">Inactive</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="filter-actions">
+      <button class="btn-secondary" type="button" (click)="resetFilters()">
+        <mat-icon>restart_alt</mat-icon> Reset
+      </button>
+      <button class="btn-primary" type="button" (click)="getMyTeam()" [disabled]="loading">
+        <mat-icon>search</mat-icon> {{ loading ? 'Searching...' : 'Apply Filters' }}
+      </button>
+    </div>
+  </section>
+
+  <!-- Loading -->
+  <div class="state-block" *ngIf="loading">
+    <mat-icon class="spin">autorenew</mat-icon>
+    <p>Loading teams...</p>
+  </div>
+
+  <!-- Empty -->
+  <div class="state-block empty" *ngIf="!loading && parents.length === 0">
+    <span class="empty-icon">🌱</span>
+    <h3>No team members found</h3>
+    <p>Try adjusting your filters or come back when new members register.</p>
+    <button class="btn-secondary" type="button" (click)="resetFilters()">
+      <mat-icon>filter_alt_off</mat-icon> Clear filters
+    </button>
+  </div>
+
+  <!-- Parents grid -->
+  <div class="parent-grid" *ngIf="!loading && parents.length > 0">
+    <article class="parent-card" *ngFor="let user of parents">
+      <div class="card-head">
+        <div class="avatar" [style.background]="avatarColor(user)">{{ initials(user) }}</div>
+        <div class="head-text">
+          <h3 class="name">{{ user.fname }} {{ user.lname }}</h3>
+          <p class="role">Parent user</p>
+        </div>
+        <span class="status-chip" [class.active]="isActive(user)">
+          <span class="dot"></span>{{ isActive(user) ? 'Active' : 'Inactive' }}
+        </span>
+      </div>
+
+      <ul class="card-meta">
+        <li *ngIf="user.email">
+          <mat-icon>email</mat-icon>
+          <a [href]="'mailto:' + user.email">{{ user.email }}</a>
+        </li>
+        <li *ngIf="user.mobileNumber">
+          <mat-icon>call</mat-icon>
+          <a [href]="'tel:' + user.mobileNumber">{{ user.mobileNumber }}</a>
+        </li>
+        <li *ngIf="user.referralCode">
+          <mat-icon>qr_code_2</mat-icon>
+          <span class="code">{{ user.referralCode }}</span>
+          <button class="copy-btn" type="button" matTooltip="Copy referral code"
+                  (click)="copyCode(user.referralCode)">
+            <mat-icon>content_copy</mat-icon>
+          </button>
+        </li>
+      </ul>
+
+      <div class="card-stats">
+        <div class="stat">
+          <span class="s-label">Total Balance</span>
+          <span class="s-value">₹{{ (user.totalAccountBalance || 0) | number }}</span>
+        </div>
+        <div class="stat">
+          <span class="s-label">Team Size</span>
+          <span class="s-value">{{ user.children?.length || 0 }}</span>
+        </div>
+      </div>
+
+      <!-- Activate panel for inactive parent -->
+      <div class="activate-section" *ngIf="!isActive(user)">
+        <button class="btn-activate" type="button" *ngIf="!user._showActivate"
+                (click)="toggleActivatePanel(user)">
+          <mat-icon>verified</mat-icon> Activate User
+        </button>
+
+        <div class="activate-form" *ngIf="user._showActivate">
+          <mat-form-field appearance="outline" class="amount-field">
+            <mat-label>Amount (₹)</mat-label>
+            <input matInput type="number" min="1000" [(ngModel)]="user._amountInput" placeholder="Enter amount">
+            <mat-icon matSuffix>currency_rupee</mat-icon>
+          </mat-form-field>
+          <div class="activate-actions">
+            <button class="btn-cancel" type="button" (click)="toggleActivatePanel(user)">
+              Cancel
+            </button>
+            <button class="btn-confirm" type="button"
+                    (click)="activateUserWithAmount(user)"
+                    [disabled]="user._activating">
+              <mat-icon>check_circle</mat-icon>
+              {{ user._activating ? 'Activating...' : 'Confirm' }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <button class="expand-btn" *ngIf="user.children?.length"
+              type="button"
+              (click)="user._open = !user._open">
+        <mat-icon>{{ user._open ? 'expand_less' : 'expand_more' }}</mat-icon>
+        {{ user._open ? 'Hide' : 'Show' }} {{ user.children.length }} team
+        member{{ user.children.length === 1 ? '' : 's' }}
+      </button>
+
+      <!-- Children list -->
+      <ul class="children-list" *ngIf="user._open && user.children?.length">
+        <li class="child-item" *ngFor="let child of user.children">
+          <div class="child-row">
+            <span class="mini-avatar" [style.background]="avatarColor(child)">{{ initials(child) }}</span>
+            <div class="child-info">
+              <div class="child-line">
+                <span class="mini-name">{{ child.fname }} {{ child.lname }}</span>
+                <span class="status-chip small" [class.active]="isActive(child)">
+                  <span class="dot"></span>{{ isActive(child) ? 'Active' : 'Inactive' }}
+                </span>
+              </div>
+              <div class="child-meta">
+                <span *ngIf="child.email"><mat-icon>email</mat-icon> {{ child.email }}</span>
+                <span *ngIf="child.mobileNumber"><mat-icon>call</mat-icon> {{ child.mobileNumber }}</span>
+                <span *ngIf="child.referralCode" class="code-mini" matTooltip="Click to copy"
+                      (click)="copyCode(child.referralCode)">
+                  <mat-icon>qr_code_2</mat-icon> {{ child.referralCode }}
+                </span>
+                <span class="balance-mini">
+                  <mat-icon>account_balance_wallet</mat-icon> ₹{{ (child.totalAccountBalance || 0) | number }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Activate inactive child -->
+          <div class="child-activate" *ngIf="!isActive(child)">
+            <button class="btn-activate small" type="button" *ngIf="!child._showActivate"
+                    (click)="toggleActivatePanel(child, $event)">
+              <mat-icon>verified</mat-icon> Activate
+            </button>
+
+            <div class="activate-form" *ngIf="child._showActivate">
+              <mat-form-field appearance="outline" class="amount-field">
+                <mat-label>Amount (₹)</mat-label>
+                <input matInput type="number" min="1000" [(ngModel)]="child._amountInput" placeholder="Enter amount">
+                <mat-icon matSuffix>currency_rupee</mat-icon>
+              </mat-form-field>
+              <div class="activate-actions">
+                <button class="btn-cancel" type="button" (click)="toggleActivatePanel(child, $event)">
+                  Cancel
+                </button>
+                <button class="btn-confirm" type="button"
+                        (click)="activateUserWithAmount(child)"
+                        [disabled]="child._activating">
+                  <mat-icon>check_circle</mat-icon>
+                  {{ child._activating ? 'Activating...' : 'Confirm' }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </article>
+  </div>
+</section>

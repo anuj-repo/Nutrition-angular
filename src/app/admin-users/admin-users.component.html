@@ -1,0 +1,149 @@
+<div class="au-container">
+  <div class="page-header"><h2>👥 Admin: User Management</h2></div>
+
+  <mat-card class="filter-card">
+    <mat-card-content>
+      <div class="filter-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Search (name/email/code)</mat-label>
+          <input matInput [(ngModel)]="searchKeyword" (keyup.enter)="load()">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-select [(ngModel)]="selectedStatus">
+            <mat-option value="">All</mat-option>
+            <mat-option value="1">Active</mat-option>
+            <mat-option value="0">Inactive</mat-option>
+            <mat-option value="2">Deleted</mat-option>
+            <mat-option value="3">Archived</mat-option>
+            <mat-option value="4">Demo</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="load()">Filter</button>
+      </div>
+      <p class="muted" *ngIf="message">{{ message }}</p>
+    </mat-card-content>
+  </mat-card>
+
+  <table mat-table [dataSource]="users" class="full-width" *ngIf="users.length">
+    <ng-container matColumnDef="id"><th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let u">{{ u.id }}</td></ng-container>
+    <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let u">{{ u.fname }} {{ u.lname }}</td></ng-container>
+    <ng-container matColumnDef="email"><th mat-header-cell *matHeaderCellDef>Email</th>
+      <td mat-cell *matCellDef="let u">{{ u.email }}</td></ng-container>
+    <ng-container matColumnDef="code"><th mat-header-cell *matHeaderCellDef>Referral</th>
+      <td mat-cell *matCellDef="let u">{{ u.referralCode }}</td></ng-container>
+    <ng-container matColumnDef="rank"><th mat-header-cell *matHeaderCellDef>Rank</th>
+      <td mat-cell *matCellDef="let u">{{ u.userLevel || u.rank }}</td></ng-container>
+    <ng-container matColumnDef="balance"><th mat-header-cell *matHeaderCellDef>Balance</th>
+      <td mat-cell *matCellDef="let u">{{ formatCurrency(u.totalAccountBalance) }}</td></ng-container>
+    <ng-container matColumnDef="earned"><th mat-header-cell *matHeaderCellDef>Total Earned</th>
+      <td mat-cell *matCellDef="let u">{{ formatCurrency(u.paidBalance) }}</td></ng-container>
+    <ng-container matColumnDef="status"><th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let u">
+        <span class="badge" [ngClass]="statusClass(u.status)">{{ statusLabel(u.status) }}</span>
+      </td></ng-container>
+    <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let u">
+        <button mat-button color="primary" (click)="open(u)">View</button>
+        <button mat-button color="accent" (click)="toggleActive(u)">
+          {{ u.status === '1' ? 'Deactivate' : 'Activate' }}
+        </button>
+      </td></ng-container>
+    <tr mat-header-row *matHeaderRowDef="['id','name','email','code','rank','balance','earned','status','actions']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['id','name','email','code','rank','balance','earned','status','actions']"></tr>
+  </table>
+
+  <p *ngIf="!users.length" class="empty">No users.</p>
+
+  <!-- Details drawer -->
+  <div class="drawer-backdrop" *ngIf="selected" (click)="close()"></div>
+  <aside class="drawer" *ngIf="selected">
+    <div class="drawer-header">
+      <div>
+        <h3>{{ fullName(selected) || 'User Details' }}</h3>
+        <span class="badge" [ngClass]="statusClass(selected.status)">{{ statusLabel(selected.status) }}</span>
+      </div>
+      <button mat-icon-button (click)="close()" aria-label="Close"><mat-icon>close</mat-icon></button>
+    </div>
+
+    <div class="drawer-body">
+      <p class="muted small" *ngIf="loadingDetails">Loading details...</p>
+
+      <section class="detail-section">
+        <h4>Account</h4>
+        <dl class="kv-grid">
+          <dt>User ID</dt><dd>{{ display(selected.id) }}</dd>
+          <dt>Username</dt><dd>{{ display(selected.username) }}</dd>
+          <dt>Email</dt><dd>{{ display(selected.email) }}</dd>
+          <dt>Mobile</dt><dd>{{ display(selected.mobileNumber) }}</dd>
+          <dt>User Type</dt><dd>{{ display(selected.userType) }}</dd>
+          <dt>Rank / Level</dt><dd>{{ display(selected.userLevel || selected.rank) }}</dd>
+          <dt>Referral Code</dt><dd>{{ display(selected.referralCode) }}</dd>
+          <dt>Referred By</dt><dd>{{ display(selected.referralCodeUsed) }}</dd>
+          <dt>Detail Completed</dt><dd>{{ isYes(selected.isDetailCompleted) ? 'Yes' : 'No' }}</dd>
+          <dt>Phone Verified</dt><dd>{{ isYes(selected.isPhoneVerified) ? 'Yes' : 'No' }}</dd>
+          <dt>Created</dt><dd>{{ formatDate(selected.createdAt) }}</dd>
+          <dt>Updated</dt><dd>{{ formatDate(selected.updatedAt) }}</dd>
+        </dl>
+      </section>
+
+      <section class="detail-section">
+        <h4>Personal</h4>
+        <dl class="kv-grid">
+          <dt>Salutation</dt><dd>{{ display(selected.salutation) }}</dd>
+          <dt>First Name</dt><dd>{{ display(selected.fname) }}</dd>
+          <dt>Last Name</dt><dd>{{ display(selected.lname) }}</dd>
+          <dt>Gender</dt><dd>{{ display(selected.gender) }}</dd>
+          <dt>Date of Birth</dt><dd>{{ formatDob(selected.dob) }}</dd>
+        </dl>
+      </section>
+
+      <section class="detail-section">
+        <h4>Address</h4>
+        <dl class="kv-grid">
+          <dt>Address</dt><dd>{{ display(selected.address) }}</dd>
+          <dt>City</dt><dd>{{ display(selected.city) }}</dd>
+          <dt>State</dt><dd>{{ display(selected.state) }}</dd>
+          <dt>Country</dt><dd>{{ display(selected.country) }}</dd>
+          <dt>Pincode</dt><dd>{{ display(selected.pincode) }}</dd>
+        </dl>
+      </section>
+
+      <section class="detail-section">
+        <h4>Plan &amp; Wallet</h4>
+        <dl class="kv-grid">
+          <dt>Package Taken</dt><dd>{{ display(selected.packageTaken) }}</dd>
+          <dt>Product Choice</dt><dd>{{ display(selected.productChoice) }}</dd>
+          <dt>Total Balance</dt><dd>{{ formatCurrency(selected.totalAccountBalance) }}</dd>
+          <dt>Paid Balance</dt><dd>{{ formatCurrency(selected.paidBalance) }}</dd>
+          <dt>Account Balance</dt><dd>{{ formatCurrency(selected.accountBalance) }}</dd>
+        </dl>
+      </section>
+
+      <section class="detail-section">
+        <h4>KYC &amp; Bank</h4>
+        <dl class="kv-grid">
+          <dt>KYC Status</dt><dd>{{ display(selected.kycStatus) }}</dd>
+          <dt>PAN</dt><dd>{{ display(selected.panNumber) }}</dd>
+          <dt>Aadhaar</dt><dd>{{ display(selected.aadhaarNumber) }}</dd>
+          <dt>Account Holder</dt><dd>{{ display(selected.accountHolderName) }}</dd>
+          <dt>Account Number</dt><dd>{{ display(selected.accountNumber) }}</dd>
+          <dt>IFSC</dt><dd>{{ display(selected.ifscCode) }}</dd>
+          <dt>Bank</dt><dd>{{ display(selected.bankName) }}</dd>
+          <dt>UTR</dt><dd>{{ display(selected.utrNumber) }}</dd>
+          <dt *ngIf="selected.kycRejectionReason">Rejection Reason</dt>
+          <dd *ngIf="selected.kycRejectionReason">{{ selected.kycRejectionReason }}</dd>
+        </dl>
+      </section>
+    </div>
+
+    <div class="drawer-footer">
+      <button mat-stroked-button color="accent" (click)="toggleActive(selected)">
+        {{ selected.status === '1' ? 'Deactivate' : 'Activate' }}
+      </button>
+      <button mat-button (click)="close()">Close</button>
+    </div>
+  </aside>
+</div>

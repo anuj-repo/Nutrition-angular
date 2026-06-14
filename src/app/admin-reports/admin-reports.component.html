@@ -1,0 +1,274 @@
+<div class="ar-container">
+  <div class="page-header"><h2>📊 Admin Reports</h2></div>
+
+  <mat-card class="filter-card">
+    <mat-card-content>
+      <div class="filter-row">
+        <mat-form-field appearance="outline">
+          <mat-label>From</mat-label>
+          <input matInput [matDatepicker]="fromPicker" [(ngModel)]="fromDate" placeholder="Select date">
+          <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+          <mat-datepicker #fromPicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>To</mat-label>
+          <input matInput [matDatepicker]="toPicker" [(ngModel)]="toDate" placeholder="Select date">
+          <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+          <mat-datepicker #toPicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Year</mat-label>
+          <input matInput type="number" [(ngModel)]="year">
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="applyFilter()">Apply</button>
+        <button mat-stroked-button (click)="clearFilter()">Clear</button>
+        <button mat-stroked-button (click)="runRepurchaseCron()">Run Repurchase Cron</button>
+        <button mat-stroked-button (click)="runRanksCron()">Run Rank Cron</button>
+      </div>
+      <p class="muted" *ngIf="message">{{ message }}</p>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="tab-nav">
+    <button mat-button [class.active-tab]="selectedTab==='bv'" (click)="switchTab('bv')">Business Volume</button>
+    <button mat-button [class.active-tab]="selectedTab==='commission'" (click)="switchTab('commission')">Commission</button>
+    <button mat-button [class.active-tab]="selectedTab==='repurchase'" (click)="switchTab('repurchase')">Repurchase</button>
+    <button mat-button [class.active-tab]="selectedTab==='rewards'" (click)="switchTab('rewards')">Rewards</button>
+    <button mat-button [class.active-tab]="selectedTab==='tds'" (click)="switchTab('tds')">TDS</button>
+    <button mat-button [class.active-tab]="selectedTab==='gst'" (click)="switchTab('gst')">GST</button>
+    <button mat-button [class.active-tab]="selectedTab==='inactive'" (click)="switchTab('inactive')">Inactive Users</button>
+    <button mat-button [class.active-tab]="selectedTab==='audit'" (click)="switchTab('audit')">Audit Logs</button>
+    <button mat-button [class.active-tab]="selectedTab==='pending'" (click)="switchTab('pending')">Pending Payouts</button>
+  </div>
+
+  <mat-card class="tab-content" *ngIf="selectedTab==='bv'">
+    <mat-card-content>
+      <h3>Business Volume</h3>
+      <div *ngIf="bv; else noBv" class="kpi-row">
+        <div class="kpi">
+          <div class="kpi-label">Total BV</div>
+          <div class="kpi-value">₹ {{ (bv?.totalBV || 0) | number:'1.2-2' }}</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">From</div>
+          <div class="kpi-value">{{ bv?.from ? (bv.from | date:'mediumDate') : 'All time' }}</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">To</div>
+          <div class="kpi-value">{{ bv?.to ? (bv.to | date:'mediumDate') : 'All time' }}</div>
+        </div>
+        <div class="kpi" *ngIf="bv?.orderCount != null">
+          <div class="kpi-label">Orders</div>
+          <div class="kpi-value">{{ bv.orderCount }}</div>
+        </div>
+      </div>
+      <ng-template #noBv><p class="muted">No business volume data.</p></ng-template>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="tab-content" *ngIf="selectedTab==='commission'">
+    <mat-card-content>
+      <h3>Commission Summary</h3>
+      <div *ngIf="comm; else noComm" class="kpi-row">
+        <div class="kpi">
+          <div class="kpi-label">Total Earnings</div>
+          <div class="kpi-value">₹ {{ (comm?.totalEarnings || 0) | number:'1.2-2' }}</div>
+        </div>
+      </div>
+      <ng-template #noComm><p class="muted">No commission data.</p></ng-template>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="tab-content" *ngIf="selectedTab==='repurchase'">
+    <mat-card-content>
+      <h3>Repurchase Bonus Slabs</h3>
+      <table mat-table [dataSource]="rep?.slabs || []" class="full-width" *ngIf="rep?.slabs?.length; else noRep">
+        <ng-container matColumnDef="id"><th mat-header-cell *matHeaderCellDef>#</th>
+          <td mat-cell *matCellDef="let s">{{ s.id }}</td></ng-container>
+        <ng-container matColumnDef="desc"><th mat-header-cell *matHeaderCellDef>Slab</th>
+          <td mat-cell *matCellDef="let s">{{ s.description }}</td></ng-container>
+        <ng-container matColumnDef="range"><th mat-header-cell *matHeaderCellDef>Amount Range (₹)</th>
+          <td mat-cell *matCellDef="let s">{{ s.minAmount | number }} – {{ s.maxAmount | number }}</td></ng-container>
+        <ng-container matColumnDef="bonus"><th mat-header-cell *matHeaderCellDef>Bonus %</th>
+          <td mat-cell *matCellDef="let s">{{ s.bonusPercentage }}%</td></ng-container>
+        <ng-container matColumnDef="active"><th mat-header-cell *matHeaderCellDef>Active</th>
+          <td mat-cell *matCellDef="let s">
+            <span class="chip" [class.chip-on]="s.isActive" [class.chip-off]="!s.isActive">
+              {{ s.isActive ? 'Yes' : 'No' }}
+            </span>
+          </td></ng-container>
+        <tr mat-header-row *matHeaderRowDef="['id','desc','range','bonus','active']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['id','desc','range','bonus','active']"></tr>
+      </table>
+      <ng-template #noRep><p class="muted">No repurchase slabs configured.</p></ng-template>
+      <div class="kpi-row" *ngIf="rep?.totalBonusPaid != null">
+        <div class="kpi">
+          <div class="kpi-label">Total Bonus Paid</div>
+          <div class="kpi-value">₹ {{ rep.totalBonusPaid | number:'1.2-2' }}</div>
+        </div>
+        <div class="kpi" *ngIf="rep?.transactionCount != null">
+          <div class="kpi-label">Transactions</div>
+          <div class="kpi-value">{{ rep.transactionCount }}</div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="tab-content" *ngIf="selectedTab==='rewards'">
+    <mat-card-content>
+      <h3>Rewards Fulfillment</h3>
+      <div *ngIf="rew; else noRew" class="kpi-row">
+        <div class="kpi">
+          <div class="kpi-label">Total Achieved</div>
+          <div class="kpi-value">{{ rew?.totalAchieved || 0 }}</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Claimed</div>
+          <div class="kpi-value">{{ rew?.totalClaimed || 0 }}</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Pending</div>
+          <div class="kpi-value">{{ rew?.totalPending || 0 }}</div>
+        </div>
+      </div>
+      <ng-template #noRew><p class="muted">No reward data available.</p></ng-template>
+      <table mat-table [dataSource]="rew?.byTier || []" class="full-width" *ngIf="rew?.byTier?.length">
+        <ng-container matColumnDef="tier"><th mat-header-cell *matHeaderCellDef>Tier</th>
+          <td mat-cell *matCellDef="let t">{{ t.tierName }}</td></ng-container>
+        <ng-container matColumnDef="achieved"><th mat-header-cell *matHeaderCellDef>Achieved</th>
+          <td mat-cell *matCellDef="let t">{{ t.achieved }}</td></ng-container>
+        <ng-container matColumnDef="claimed"><th mat-header-cell *matHeaderCellDef>Claimed</th>
+          <td mat-cell *matCellDef="let t">{{ t.claimed }}</td></ng-container>
+        <ng-container matColumnDef="pending"><th mat-header-cell *matHeaderCellDef>Pending</th>
+          <td mat-cell *matCellDef="let t">{{ t.pending }}</td></ng-container>
+        <tr mat-header-row *matHeaderRowDef="['tier','achieved','claimed','pending']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['tier','achieved','claimed','pending']"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="tab-content" *ngIf="selectedTab==='tds'">
+    <mat-card-content>
+      <h3>TDS Report ({{ year }})</h3>
+      <div *ngIf="tds; else noTds" class="kpi-row">
+        <div class="kpi">
+          <div class="kpi-label">Total TDS Deducted</div>
+          <div class="kpi-value">₹ {{ (tds?.totalTdsDeducted || 0) | number:'1.2-2' }}</div>
+        </div>
+        <div class="kpi" *ngIf="tds?.userCount != null">
+          <div class="kpi-label">Users with TDS</div>
+          <div class="kpi-value">{{ tds.userCount }}</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Year</div>
+          <div class="kpi-value">{{ tds?.year || year }}</div>
+        </div>
+      </div>
+      <ng-template #noTds><p class="muted">No TDS data available.</p></ng-template>
+      <table mat-table [dataSource]="tds?.byUser || []" class="full-width" *ngIf="tds?.byUser?.length">
+        <ng-container matColumnDef="user"><th mat-header-cell *matHeaderCellDef>User</th>
+          <td mat-cell *matCellDef="let r">{{ r.userName }} <span class="muted">#{{ r.userId }}</span></td></ng-container>
+        <ng-container matColumnDef="earned"><th mat-header-cell *matHeaderCellDef>Total Earned</th>
+          <td mat-cell *matCellDef="let r">₹ {{ r.totalEarned | number:'1.2-2' }}</td></ng-container>
+        <ng-container matColumnDef="tds"><th mat-header-cell *matHeaderCellDef>TDS Deducted</th>
+          <td mat-cell *matCellDef="let r">₹ {{ r.totalTdsDeducted | number:'1.2-2' }}</td></ng-container>
+        <tr mat-header-row *matHeaderRowDef="['user','earned','tds']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['user','earned','tds']"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="tab-content" *ngIf="selectedTab==='gst'">
+    <mat-card-content>
+      <h3>GST Report</h3>
+      <div *ngIf="gst; else noGst" class="kpi-row">
+        <div class="kpi">
+          <div class="kpi-label">Total GST Collected</div>
+          <div class="kpi-value">₹ {{ (gst?.totalGstCollected || 0) | number:'1.2-2' }}</div>
+        </div>
+        <div class="kpi" *ngIf="gst?.orderCount != null">
+          <div class="kpi-label">Orders</div>
+          <div class="kpi-value">{{ gst.orderCount }}</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">From</div>
+          <div class="kpi-value">{{ gst?.from ? (gst.from | date:'mediumDate') : 'All time' }}</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">To</div>
+          <div class="kpi-value">{{ gst?.to ? (gst.to | date:'mediumDate') : 'All time' }}</div>
+        </div>
+      </div>
+      <ng-template #noGst><p class="muted">No GST data available.</p></ng-template>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="tab-content" *ngIf="selectedTab==='inactive'">
+    <mat-card-content>
+      <h3>Inactive Users ({{ inactive.length }})</h3>
+      <table mat-table [dataSource]="inactive" class="full-width" *ngIf="inactive.length">
+        <ng-container matColumnDef="id"><th mat-header-cell *matHeaderCellDef>ID</th>
+          <td mat-cell *matCellDef="let u">{{ u.id }}</td></ng-container>
+        <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let u">{{ u.fname }} {{ u.lname }}</td></ng-container>
+        <ng-container matColumnDef="email"><th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let u">{{ u.email }}</td></ng-container>
+        <ng-container matColumnDef="last"><th mat-header-cell *matHeaderCellDef>Last Active</th>
+          <td mat-cell *matCellDef="let u">{{ u.lastActive | date:'medium' }}</td></ng-container>
+        <tr mat-header-row *matHeaderRowDef="['id','name','email','last']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['id','name','email','last']"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="tab-content" *ngIf="selectedTab==='audit'">
+    <mat-card-content>
+      <h3>Audit Logs</h3>
+      <table mat-table [dataSource]="audit" class="full-width" *ngIf="audit.length">
+        <ng-container matColumnDef="time"><th mat-header-cell *matHeaderCellDef>Time</th>
+          <td mat-cell *matCellDef="let l">{{ l.timestamp | date:'medium' }}</td></ng-container>
+        <ng-container matColumnDef="user"><th mat-header-cell *matHeaderCellDef>User</th>
+          <td mat-cell *matCellDef="let l">{{ l.userId || l.user }}</td></ng-container>
+        <ng-container matColumnDef="action"><th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let l">{{ l.action }}</td></ng-container>
+        <ng-container matColumnDef="entity"><th mat-header-cell *matHeaderCellDef>Entity</th>
+          <td mat-cell *matCellDef="let l">{{ l.entity }} {{ l.entityId }}</td></ng-container>
+        <tr mat-header-row *matHeaderRowDef="['time','user','action','entity']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['time','user','action','entity']"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="tab-content" *ngIf="selectedTab==='pending'">
+    <mat-card-content>
+      <h3>Pending Payouts ({{ pending?.length || 0 }})</h3>
+      <p class="muted" *ngIf="!pending?.length">
+        No wallets have a pending balance above the threshold right now.
+      </p>
+      <div *ngIf="pendingTotal != null" class="kpi-row">
+        <div class="kpi">
+          <div class="kpi-label">Total Pending</div>
+          <div class="kpi-value">₹ {{ pendingTotal | number:'1.2-2' }}</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Wallets</div>
+          <div class="kpi-value">{{ pending?.length || 0 }}</div>
+        </div>
+      </div>
+      <table mat-table [dataSource]="pending" class="full-width" *ngIf="pending?.length">
+        <ng-container matColumnDef="userId"><th mat-header-cell *matHeaderCellDef>User ID</th>
+          <td mat-cell *matCellDef="let w">{{ w.userId }}</td></ng-container>
+        <ng-container matColumnDef="balance"><th mat-header-cell *matHeaderCellDef>Balance</th>
+          <td mat-cell *matCellDef="let w">₹ {{ w.balance | number:'1.2-2' }}</td></ng-container>
+        <ng-container matColumnDef="earned"><th mat-header-cell *matHeaderCellDef>Total Earned</th>
+          <td mat-cell *matCellDef="let w">₹ {{ w.totalEarned | number:'1.2-2' }}</td></ng-container>
+        <ng-container matColumnDef="withdrawn"><th mat-header-cell *matHeaderCellDef>Withdrawn</th>
+          <td mat-cell *matCellDef="let w">₹ {{ w.totalWithdrawn | number:'1.2-2' }}</td></ng-container>
+        <ng-container matColumnDef="tds"><th mat-header-cell *matHeaderCellDef>TDS</th>
+          <td mat-cell *matCellDef="let w">₹ {{ w.totalTdsDeducted | number:'1.2-2' }}</td></ng-container>
+        <tr mat-header-row *matHeaderRowDef="['userId','balance','earned','withdrawn','tds']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['userId','balance','earned','withdrawn','tds']"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

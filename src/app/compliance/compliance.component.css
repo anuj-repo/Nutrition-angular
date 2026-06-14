@@ -1,0 +1,18 @@
+.compl-container { padding: 24px; max-width: 1000px; margin: 0 auto; }
+.page-header { text-align: center; margin-bottom: 16px; }
+.page-header h2 { color: #1b5e20; }
+.subtitle { color: #666; }
+.tab-nav { display: flex; gap: 8px; margin-bottom: 16px; border-bottom: 2px solid #e0e0e0; padding-bottom: 8px; flex-wrap: wrap; }
+.active-tab { color: #2e7d32 !important; border-bottom: 3px solid #4caf50; }
+.tab-content { border-radius: 12px; }
+.full-width { width: 100%; }
+.form-row { display: flex; gap: 16px; flex-wrap: wrap; }
+.form-row mat-form-field { flex: 1; min-width: 200px; }
+.muted { color: #888; }
+.alert { padding: 10px 14px; border-radius: 6px; margin-bottom: 12px; }
+.alert.success { background: #e8f5e9; color: #2e7d32; }
+.alert.error { background: #ffebee; color: #c62828; }
+.dsa-status { margin-bottom: 12px; }
+.badge.accepted { background: #e8f5e9; color: #2e7d32; padding: 6px 14px; border-radius: 14px; }
+.dsa-content { background: #f9f9f9; padding: 16px; border-radius: 8px; max-height: 400px; overflow-y: auto; margin-bottom: 16px; line-height: 1.6; }
+.info { color: #1565c0; }
