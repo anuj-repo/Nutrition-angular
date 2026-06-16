@@ -25,6 +25,15 @@ export class AdminUsersComponent implements OnInit {
   page = 0; size = 50;
   message = '';
 
+  // Payout popup
+  payoutUser: any = null;
+  payoutAmount: number | null = null;
+  payoutUtr = '';
+  payoutRemarks = '';
+  payoutMsg = '';
+  payoutOk = false;
+  payoutBusy = false;
+
   constructor(private api: BackendApiService, private toastr: ToastrService) {}
 
   ngOnInit(): void { this.load(); }
@@ -69,6 +78,63 @@ export class AdminUsersComponent implements OnInit {
   toggleActive(u: any) {
     const next = u.status === '1' ? '0' : '1';
     this.setStatus(u, next);
+  }
+
+  // ---------- Payout popup ----------
+
+  openPayout(u: any): void {
+    this.payoutUser = u;
+    this.payoutAmount = null;
+    this.payoutUtr = '';
+    this.payoutRemarks = '';
+    this.payoutMsg = '';
+    this.payoutOk = false;
+  }
+
+  closePayout(): void {
+    this.payoutUser = null;
+  }
+
+  submitPayout(): void {
+    if (!this.payoutUser || !this.payoutAmount || !this.payoutUtr) return;
+    this.payoutBusy = true;
+    this.payoutMsg = '';
+
+    // Find pending withdrawal for this user and approve it
+    this.api.allWithdrawals().subscribe(
+      (res: any) => {
+        const all = res?.data || [];
+        const pending = all.find((w: any) =>
+          (w.userId === this.payoutUser.id || w.user?.id === this.payoutUser.id)
+          && w.requestStatus === 'PENDING'
+        );
+        if (pending) {
+          this.api.approveWithdrawal(pending.id, this.payoutUtr).subscribe(
+            () => {
+              this.payoutMsg = `✅ Payout recorded. UTR: ${this.payoutUtr}`;
+              this.payoutOk = true;
+              this.payoutBusy = false;
+              this.toastr.success(`Payout to ${this.payoutUser.fname} approved.`, 'Success');
+              this.load();
+            },
+            err => {
+              this.payoutMsg = '❌ ' + (err?.error?.message || 'Approval failed.');
+              this.payoutOk = false;
+              this.payoutBusy = false;
+            }
+          );
+        } else {
+          this.payoutMsg = '❌ No pending withdrawal request for this user. Ask the user to request a withdrawal first from their wallet.';
+          this.payoutOk = false;
+          this.payoutBusy = false;
+        }
+      },
+      err => {
+        this.payoutMsg = '❌ ' + (err?.error?.message || 'Failed to load withdrawals.');
+        this.payoutOk = false;
+        this.payoutBusy = false;
+      }
+    );
   }
 
   // ---------- Display helpers ----------

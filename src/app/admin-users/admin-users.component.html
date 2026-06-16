@@ -52,6 +52,7 @@
         <button mat-button color="accent" (click)="toggleActive(u)">
           {{ u.status === '1' ? 'Deactivate' : 'Activate' }}
         </button>
+        <button mat-button color="warn" (click)="openPayout(u)">Pay</button>
       </td></ng-container>
     <tr mat-header-row *matHeaderRowDef="['id','name','email','code','rank','balance','earned','paid','status','actions']"></tr>
     <tr mat-row *matRowDef="let row; columns: ['id','name','email','code','rank','balance','earned','paid','status','actions']"></tr>
@@ -61,6 +62,45 @@
 
   <!-- Details drawer -->
   <div class="drawer-backdrop" *ngIf="selected" (click)="close()"></div>
+
+  <!-- Payout popup -->
+  <div class="drawer-backdrop" *ngIf="payoutUser" (click)="closePayout()"></div>
+  <aside class="drawer" *ngIf="payoutUser" style="max-width: 480px;">
+    <div class="drawer-header">
+      <div>
+        <h3>💸 Process Payout</h3>
+        <span style="color:#666;">{{ payoutUser.fname }} {{ payoutUser.lname }} (#{{ payoutUser.id }})</span>
+      </div>
+      <button mat-icon-button (click)="closePayout()" aria-label="Close"><mat-icon>close</mat-icon></button>
+    </div>
+    <div class="drawer-body" style="padding:20px;">
+      <div style="margin-bottom:12px; background:#f5f5f5; padding:12px; border-radius:8px;">
+        <div><strong>Wallet Balance:</strong> {{ formatCurrency(payoutUser.totalAccountBalance) }}</div>
+        <div><strong>Total Earned:</strong> {{ formatCurrency(payoutUser.paidBalance) }}</div>
+        <div><strong>Total Withdrawn:</strong> {{ formatCurrency(payoutUser.totalWithdrawn) }}</div>
+      </div>
+      <mat-form-field appearance="outline" style="width:100%;">
+        <mat-label>Amount Paid (₹)</mat-label>
+        <input matInput type="number" min="1" step="0.01" [(ngModel)]="payoutAmount">
+      </mat-form-field>
+      <mat-form-field appearance="outline" style="width:100%;">
+        <mat-label>UTR / Transaction Number</mat-label>
+        <input matInput [(ngModel)]="payoutUtr" placeholder="e.g. UTR412345678910">
+      </mat-form-field>
+      <mat-form-field appearance="outline" style="width:100%;">
+        <mat-label>Remarks (optional)</mat-label>
+        <input matInput [(ngModel)]="payoutRemarks" placeholder="Commission payout">
+      </mat-form-field>
+      <p *ngIf="payoutMsg" [style.color]="payoutOk ? '#2e7d32' : '#c62828'" style="margin:8px 0;">{{ payoutMsg }}</p>
+    </div>
+    <div class="drawer-footer">
+      <button mat-raised-button color="primary" (click)="submitPayout()"
+              [disabled]="!payoutAmount || !payoutUtr || payoutBusy">
+        <mat-icon>send</mat-icon> {{ payoutBusy ? 'Processing...' : 'Record Payout' }}
+      </button>
+      <button mat-button (click)="closePayout()">Cancel</button>
+    </div>
+  </aside>
   <aside class="drawer" *ngIf="selected">
     <div class="drawer-header">
       <div>
