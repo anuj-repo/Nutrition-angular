@@ -1,0 +1,190 @@
+<div class="finance-page">
+  <h2><mat-icon>account_balance</mat-icon> Company Finance Dashboard</h2>
+
+  <!-- Date Filter -->
+  <div class="filter-bar">
+    <mat-form-field appearance="outline">
+      <mat-label>From</mat-label>
+      <input matInput type="date" [(ngModel)]="fromDate">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>To</mat-label>
+      <input matInput type="date" [(ngModel)]="toDate">
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="applyFilter()">Apply</button>
+    <button mat-stroked-button (click)="clearFilter()">Clear</button>
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading...</div>
+
+  <div *ngIf="!loading">
+
+    <!-- Summary Cards -->
+    <div class="cards-grid">
+      <div class="card income">
+        <div class="card-icon"><mat-icon>trending_up</mat-icon></div>
+        <div class="card-body">
+          <span class="card-label">Total Revenue (BV)</span>
+          <span class="card-value">{{ inr(totalRevenue) }}</span>
+        </div>
+      </div>
+      <div class="card expense">
+        <div class="card-icon"><mat-icon>people</mat-icon></div>
+        <div class="card-body">
+          <span class="card-label">Commission Paid to Users</span>
+          <span class="card-value">{{ inr(totalCommissionPaid) }}</span>
+        </div>
+      </div>
+      <div class="card expense">
+        <div class="card-icon"><mat-icon>loop</mat-icon></div>
+        <div class="card-body">
+          <span class="card-label">Repurchase Bonus Paid</span>
+          <span class="card-value">{{ inr(totalRepurchaseBonus) }}</span>
+        </div>
+      </div>
+      <div class="card warn">
+        <div class="card-icon"><mat-icon>payments</mat-icon></div>
+        <div class="card-body">
+          <span class="card-label">Total Withdrawn by Users</span>
+          <span class="card-value">{{ inr(totalWithdrawn) }}</span>
+        </div>
+      </div>
+      <div class="card warn">
+        <div class="card-icon"><mat-icon>hourglass_top</mat-icon></div>
+        <div class="card-body">
+          <span class="card-label">Pending Payouts ({{ pendingPayoutCount }} users)</span>
+          <span class="card-value">{{ inr(pendingPayoutAmount) }}</span>
+        </div>
+      </div>
+      <div class="card info">
+        <div class="card-icon"><mat-icon>receipt</mat-icon></div>
+        <div class="card-body">
+          <span class="card-label">GST Collected</span>
+          <span class="card-value">{{ inr(totalGst) }}</span>
+        </div>
+      </div>
+      <div class="card info">
+        <div class="card-icon"><mat-icon>receipt_long</mat-icon></div>
+        <div class="card-body">
+          <span class="card-label">TDS Deducted</span>
+          <span class="card-value">{{ inr(totalTds) }}</span>
+        </div>
+      </div>
+      <div class="card net">
+        <div class="card-icon"><mat-icon>savings</mat-icon></div>
+        <div class="card-body">
+          <span class="card-label">Company Net (Revenue - Paid Out - Pool Spent)</span>
+          <span class="card-value">{{ inr(companyNet) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Expense Pools Section -->
+    <h3><mat-icon>account_balance_wallet</mat-icon> Expense Pool Balances</h3>
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Pool</th>
+            <th>%</th>
+            <th>Balance</th>
+            <th>Total Credited</th>
+            <th>Total Spent</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of pools">
+            <td><strong>{{ p.name || p.code }}</strong></td>
+            <td>{{ p.percentage }}%</td>
+            <td class="amount">{{ inr(p.balance) }}</td>
+            <td class="amount">{{ inr(p.totalCredited) }}</td>
+            <td class="amount">{{ inr(p.totalSpent) }}</td>
+            <td><span [class]="p.isActive ? 'badge-active' : 'badge-inactive'">{{ p.isActive ? 'Active' : 'Inactive' }}</span></td>
+          </tr>
+          <tr class="total-row">
+            <td><strong>TOTAL</strong></td>
+            <td></td>
+            <td class="amount"><strong>{{ inr(totalPoolBalance) }}</strong></td>
+            <td class="amount"><strong>{{ inr(totalPoolCredited) }}</strong></td>
+            <td class="amount"><strong>{{ inr(totalPoolSpent) }}</strong></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Withdrawals / Payments Section -->
+    <h3><mat-icon>payment</mat-icon> User Withdrawal History</h3>
+    <div class="filter-bar">
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select [(ngModel)]="withdrawalFilter" (selectionChange)="filterWithdrawals()">
+          <mat-option value="ALL">All</mat-option>
+          <mat-option value="PENDING">Pending</mat-option>
+          <mat-option value="APPROVED">Approved/Paid</mat-option>
+          <mat-option value="REJECTED">Rejected</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <span class="count-badge">{{ filteredWithdrawals.length }} records</span>
+    </div>
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Amount</th>
+            <th>TDS</th>
+            <th>Net Paid</th>
+            <th>Status</th>
+            <th>UTR</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let w of filteredWithdrawals">
+            <td>{{ w.user?.fname }} {{ w.user?.lname }}</td>
+            <td class="amount">{{ inr(w.amount) }}</td>
+            <td class="amount">{{ inr(w.tdsAmount || 0) }}</td>
+            <td class="amount">{{ inr(w.netAmount || w.amount) }}</td>
+            <td>
+              <span [class]="'badge-' + (w.requestStatus || '').toLowerCase()">{{ w.requestStatus }}</span>
+            </td>
+            <td>{{ w.utrNumber || '-' }}</td>
+            <td>{{ (w.paidOn || w.createdAt) | date:'dd/MM/yyyy' }}</td>
+          </tr>
+          <tr *ngIf="filteredWithdrawals.length === 0">
+            <td colspan="7" style="text-align:center; color:#999;">No withdrawal records found.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pending Payouts -->
+    <h3><mat-icon>schedule</mat-icon> Users with Pending Balance (Need to Pay)</h3>
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>User ID</th>
+            <th>Balance (Owed)</th>
+            <th>Total Earned</th>
+            <th>Total Withdrawn</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of pendingPayouts">
+            <td>{{ p.userId || p.id }}</td>
+            <td class="amount highlight">{{ inr(p.balance) }}</td>
+            <td class="amount">{{ inr(p.totalEarned) }}</td>
+            <td class="amount">{{ inr(p.totalWithdrawn) }}</td>
+          </tr>
+          <tr *ngIf="pendingPayouts.length === 0">
+            <td colspan="4" style="text-align:center; color:#999;">No pending payouts.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,45 @@
+.finance-page { padding: 24px; max-width: 1200px; margin: 0 auto; }
+.finance-page h2 { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; color: #333; }
+.finance-page h3 { display: flex; align-items: center; gap: 8px; margin: 32px 0 12px; color: #444; }
+
+.filter-bar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
+.filter-bar mat-form-field { width: 160px; }
+
+.loading { text-align: center; padding: 60px; font-size: 1.2em; color: #888; }
+
+/* Summary Cards */
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.card { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-radius: 12px; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 4px solid #ccc; }
+.card.income { border-left-color: #2e7d32; }
+.card.expense { border-left-color: #c62828; }
+.card.warn { border-left-color: #f57c00; }
+.card.info { border-left-color: #1565c0; }
+.card.net { border-left-color: #6a1b9a; background: #f3e5f5; }
+.card-icon { font-size: 1.5em; opacity: 0.7; }
+.card-body { display: flex; flex-direction: column; }
+.card-label { font-size: 0.82em; color: #666; }
+.card-value { font-size: 1.4em; font-weight: 700; color: #222; }
+
+/* Tables */
+.table-container { overflow-x: auto; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+.data-table th { background: #f5f5f5; padding: 10px 12px; text-align: left; font-weight: 600; border-bottom: 2px solid #ddd; }
+.data-table td { padding: 8px 12px; border-bottom: 1px solid #eee; }
+.data-table tr:hover { background: #fafafa; }
+.total-row { background: #f0f7ff; font-weight: 600; }
+.amount { text-align: right; font-family: monospace; }
+.highlight { color: #c62828; font-weight: 700; }
+
+/* Badges */
+.badge-active { background: #e8f5e9; color: #2e7d32; padding: 2px 8px; border-radius: 8px; font-size: 0.8em; }
+.badge-inactive { background: #fbe9e7; color: #c62828; padding: 2px 8px; border-radius: 8px; font-size: 0.8em; }
+.badge-pending { background: #fff3e0; color: #e65100; padding: 2px 8px; border-radius: 8px; font-size: 0.8em; }
+.badge-approved, .badge-paid { background: #e8f5e9; color: #2e7d32; padding: 2px 8px; border-radius: 8px; font-size: 0.8em; }
+.badge-rejected { background: #fbe9e7; color: #c62828; padding: 2px 8px; border-radius: 8px; font-size: 0.8em; }
+
+.count-badge { background: #e3f2fd; color: #1565c0; padding: 4px 12px; border-radius: 12px; font-size: 0.85em; }
+
+@media (max-width: 768px) {
+  .cards-grid { grid-template-columns: 1fr; }
+  .filter-bar { flex-direction: column; align-items: stretch; }
+}

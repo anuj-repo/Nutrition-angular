@@ -129,6 +129,7 @@
 
       <button mat-button [matMenuTriggerFor]="adminConfMenu"><mat-icon>settings</mat-icon><span>Config</span><mat-icon class="caret">expand_more</mat-icon></button>
       <mat-menu #adminConfMenu="matMenu">
+        <button mat-menu-item routerLink="/admin/finance">Company Finance</button>
         <button mat-menu-item routerLink="/admin/configs">Commission/Repurchase/Rewards</button>
         <button mat-menu-item routerLink="/admin/expense-pools">Expense Pools</button>
         <button mat-menu-item routerLink="/admin/catalog">Plans/Insurance/Announcements</button>

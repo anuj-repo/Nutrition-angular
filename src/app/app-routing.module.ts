@@ -66,6 +66,7 @@ import { AdminConfigsComponent } from './admin-configs/admin-configs.component';
 import { AdminApprovalsComponent } from './admin-approvals/admin-approvals.component';
 import { AdminCatalogComponent } from './admin-catalog/admin-catalog.component';
 import { AdminExpensePoolsComponent } from './admin-expense-pools/admin-expense-pools.component';
+import { AdminFinanceComponent } from './admin-finance/admin-finance.component';
 import { AdminUserTreeComponent } from './admin-user-tree/admin-user-tree.component';
 
 import { CartV2Component } from './cart-v2/cart-v2.component';
@@ -155,6 +156,7 @@ const routes: Routes = [
   { path: 'admin/settings', component: AdminSettingsComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
   { path: 'admin/configs', component: AdminConfigsComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
   { path: 'admin/expense-pools', component: AdminExpensePoolsComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
+  { path: 'admin/finance', component: AdminFinanceComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
   { path: 'admin/approvals', component: AdminApprovalsComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
   { path: 'admin/catalog', component: AdminCatalogComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
   { path: 'admin/user-tree', component: AdminUserTreeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },

@@ -111,6 +111,7 @@ import { AdminApprovalsComponent } from './admin-approvals/admin-approvals.compo
 import { AdminCatalogComponent } from './admin-catalog/admin-catalog.component';
 import { AdminUserTreeComponent } from './admin-user-tree/admin-user-tree.component';
 import { AdminExpensePoolsComponent } from './admin-expense-pools/admin-expense-pools.component';
+import { AdminFinanceComponent } from './admin-finance/admin-finance.component';
 
 // Wave 7: Final coverage components
 import { CartV2Component } from './cart-v2/cart-v2.component';
@@ -198,6 +199,7 @@ import { I18nService } from './_services/i18n.service';
     AdminCatalogComponent,
     AdminUserTreeComponent,
     AdminExpensePoolsComponent,
+    AdminFinanceComponent,
     CartV2Component,
     AdminProductEditComponent,
     AdminFileManagerComponent,
