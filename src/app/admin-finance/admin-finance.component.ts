@@ -129,43 +129,19 @@ export class AdminFinanceComponent implements OnInit {
     if (!confirm(`Pay ₹${this.payoutAmount} to User #${this.payoutUserId}?\nUTR: ${this.payoutUtr}`)) return;
 
     this.payoutMessage = '';
-    // Use the withdraw endpoint to create a request, then approve it
-    // For now we'll use the admin manual wallet debit approach
-    const remarks = `Admin payout | UTR: ${this.payoutUtr} | ${this.payoutRemarks || ''}`.trim();
-
-    // Step 1: Find if there's a pending withdrawal for this user, or create one
-    // For simplicity, use the existing process: search withdrawals for this user
-    this.api.allWithdrawals().subscribe(
+    this.api.adminPayout(this.payoutUserId, this.payoutAmount, this.payoutUtr, this.payoutRemarks || undefined).subscribe(
       (res: any) => {
-        const all = res?.data || [];
-        const pending = all.find((w: any) =>
-          (w.userId === this.payoutUserId || w.user?.id === this.payoutUserId)
-          && w.requestStatus === 'PENDING'
-        );
-        if (pending) {
-          // Approve the existing pending withdrawal
-          this.api.approveWithdrawal(pending.id, this.payoutUtr).subscribe(
-            () => {
-              this.payoutMessage = `✅ Payout of ₹${this.payoutAmount} recorded for User #${this.payoutUserId}. UTR: ${this.payoutUtr}`;
-              this.payoutSuccess = true;
-              this.payoutUserId = null;
-              this.payoutAmount = null;
-              this.payoutUtr = '';
-              this.payoutRemarks = '';
-              this.loadAll();
-            },
-            err => {
-              this.payoutMessage = '❌ ' + (err?.error?.message || 'Failed to approve withdrawal.');
-              this.payoutSuccess = false;
-            }
-          );
-        } else {
-          this.payoutMessage = `❌ No pending withdrawal request found for User #${this.payoutUserId}. The user must first request a withdrawal from their wallet, then you can approve it here with the UTR.`;
-          this.payoutSuccess = false;
-        }
+        const data = res?.data || {};
+        this.payoutMessage = `✅ Payout of ₹${this.payoutAmount} recorded for User #${this.payoutUserId}. UTR: ${this.payoutUtr}. New balance: ${this.inr(data.newBalance || 0)}`;
+        this.payoutSuccess = true;
+        this.payoutUserId = null;
+        this.payoutAmount = null;
+        this.payoutUtr = '';
+        this.payoutRemarks = '';
+        this.loadAll();
       },
       err => {
-        this.payoutMessage = '❌ ' + (err?.error?.message || 'Failed to load withdrawals.');
+        this.payoutMessage = '❌ ' + (err?.error?.message || 'Payout failed.');
         this.payoutSuccess = false;
       }
     );

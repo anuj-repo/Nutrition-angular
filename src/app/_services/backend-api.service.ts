@@ -38,6 +38,11 @@ export class BackendApiService {
   rejectWithdrawal(id: number, reason?: string) { return this.http.post<any>(this.url(`/api/wallet/withdrawals/${id}/reject`), {}, { params: new HttpParams().set('reason', reason || '') }); }
   allWithdrawals()                              { return this.http.get<any>(this.url('/api/wallet/withdrawals/all')); }
   processPayouts()                         { return this.http.post<any>(this.url('/api/wallet/payouts/process'), {}); }
+  adminPayout(userId: number, amount: number, utr: string, remarks?: string) {
+    let params = new HttpParams().set('userId', String(userId)).set('amount', String(amount)).set('utr', utr);
+    if (remarks) params = params.set('remarks', remarks);
+    return this.http.post<any>(this.url('/api/wallet/admin/payout'), {}, { params });
+  }
   tdsSummary()                             { return this.http.get<any>(this.url('/api/wallet/me/tds-summary')); }
   form16a(year: number)                    { return this.http.get(this.url(`/api/wallet/me/tds/${year}/form-16a`), { responseType: 'blob' }); }
 

@@ -100,37 +100,17 @@ export class AdminUsersComponent implements OnInit {
     this.payoutBusy = true;
     this.payoutMsg = '';
 
-    // Find pending withdrawal for this user and approve it
-    this.api.allWithdrawals().subscribe(
+    this.api.adminPayout(this.payoutUser.id, this.payoutAmount, this.payoutUtr, this.payoutRemarks || undefined).subscribe(
       (res: any) => {
-        const all = res?.data || [];
-        const pending = all.find((w: any) =>
-          (w.userId === this.payoutUser.id || w.user?.id === this.payoutUser.id)
-          && w.requestStatus === 'PENDING'
-        );
-        if (pending) {
-          this.api.approveWithdrawal(pending.id, this.payoutUtr).subscribe(
-            () => {
-              this.payoutMsg = `✅ Payout recorded. UTR: ${this.payoutUtr}`;
-              this.payoutOk = true;
-              this.payoutBusy = false;
-              this.toastr.success(`Payout to ${this.payoutUser.fname} approved.`, 'Success');
-              this.load();
-            },
-            err => {
-              this.payoutMsg = '❌ ' + (err?.error?.message || 'Approval failed.');
-              this.payoutOk = false;
-              this.payoutBusy = false;
-            }
-          );
-        } else {
-          this.payoutMsg = '❌ No pending withdrawal request for this user. Ask the user to request a withdrawal first from their wallet.';
-          this.payoutOk = false;
-          this.payoutBusy = false;
-        }
+        const data = res?.data || {};
+        this.payoutMsg = `✅ Payout of ₹${this.payoutAmount} recorded. New balance: ${data.newBalance || '—'}. UTR: ${this.payoutUtr}`;
+        this.payoutOk = true;
+        this.payoutBusy = false;
+        this.toastr.success(`Payout to ${this.payoutUser.fname} recorded.`, 'Success');
+        this.load();
       },
       err => {
-        this.payoutMsg = '❌ ' + (err?.error?.message || 'Failed to load withdrawals.');
+        this.payoutMsg = '❌ ' + (err?.error?.message || 'Payout failed.');
         this.payoutOk = false;
         this.payoutBusy = false;
       }
