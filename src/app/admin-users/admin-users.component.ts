@@ -103,7 +103,8 @@ export class AdminUsersComponent implements OnInit {
     this.api.adminPayout(this.payoutUser.id, this.payoutAmount, this.payoutUtr, this.payoutRemarks || undefined).subscribe(
       (res: any) => {
         const data = res?.data || {};
-        this.payoutMsg = `✅ Payout of ₹${this.payoutAmount} recorded. New balance: ${data.newBalance || '—'}. UTR: ${this.payoutUtr}`;
+        const newBal = data.newBalance != null ? this.inr(Number(data.newBalance)) : '₹0';
+        this.payoutMsg = `✅ Payout of ₹${this.payoutAmount} recorded. New balance: ${newBal}. UTR: ${this.payoutUtr}`;
         this.payoutOk = true;
         this.payoutBusy = false;
         this.toastr.success(`Payout to ${this.payoutUser.fname} recorded.`, 'Success');
