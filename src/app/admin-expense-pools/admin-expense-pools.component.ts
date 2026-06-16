@@ -48,6 +48,12 @@ export class AdminExpensePoolsComponent implements OnInit {
   ledgerSize = 20;
   ledgerHasMore = true;
 
+  // Quick payment form
+  quickPool: string = '';
+  quickAmount: number | null = null;
+  quickUtr: string = '';
+  quickDesc: string = '';
+
   constructor(
     private fb: FormBuilder,
     private api: BackendApiService,
@@ -130,6 +136,32 @@ export class AdminExpensePoolsComponent implements OnInit {
 
   trackByCode(_i: number, p: ExpensePool): string {
     return p.code;
+  }
+
+  // ----------------- Quick Payment -----------------
+
+  quickSpend(): void {
+    if (!this.quickPool || !this.quickAmount || !this.quickUtr) {
+      this.toastr.warning('Please fill all required fields.', 'Incomplete');
+      return;
+    }
+    const desc = this.quickDesc
+      ? `${this.quickDesc} | UTR: ${this.quickUtr}`
+      : `UTR: ${this.quickUtr}`;
+
+    if (!confirm(`Debit ₹${this.quickAmount} from ${this.quickPool}?\nUTR: ${this.quickUtr}`)) return;
+
+    this.api.spendExpensePool(this.quickPool, Number(this.quickAmount), this.quickUtr, desc).subscribe(
+      () => {
+        this.toastr.success(`₹${this.quickAmount} debited from ${this.quickPool}. UTR: ${this.quickUtr}`, 'Payment Recorded');
+        this.quickPool = '';
+        this.quickAmount = null;
+        this.quickUtr = '';
+        this.quickDesc = '';
+        this.load();
+      },
+      err => this.toastr.error(err?.error?.message || 'Payment recording failed.', 'Failed')
+    );
   }
 
   // ----------------- Per-row edits -----------------

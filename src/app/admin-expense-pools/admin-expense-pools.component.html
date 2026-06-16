@@ -33,6 +33,37 @@
     <span>{{ distributionWarning }}</span>
   </div>
 
+  <!-- Quick Payment Record -->
+  <mat-card class="card-block">
+    <mat-card-content>
+      <h3><mat-icon>payment</mat-icon> Record Expense Payment</h3>
+      <p class="muted">Select a pool, enter the amount paid and UTR number to record the payment.</p>
+      <form class="inline-form" (ngSubmit)="quickSpend()">
+        <mat-form-field appearance="outline">
+          <mat-label>Select Pool</mat-label>
+          <mat-select [(ngModel)]="quickPool" name="quickPool" required>
+            <mat-option *ngFor="let p of pools" [value]="p.code">{{ p.name || p.code }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Amount (₹)</mat-label>
+          <input matInput type="number" min="1" step="0.01" [(ngModel)]="quickAmount" name="quickAmount" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>UTR Number</mat-label>
+          <input matInput [(ngModel)]="quickUtr" name="quickUtr" required placeholder="e.g. UTR123456789">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="grow">
+          <mat-label>Description (optional)</mat-label>
+          <input matInput [(ngModel)]="quickDesc" name="quickDesc" placeholder="Payment to vendor / manufacturer">
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!quickPool || !quickAmount || !quickUtr">
+          <mat-icon>send</mat-icon> Submit Payment
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
   <!-- Pools table -->
   <mat-card class="card-block">
     <mat-card-content>
