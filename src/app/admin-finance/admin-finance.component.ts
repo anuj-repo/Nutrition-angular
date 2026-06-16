@@ -11,8 +11,8 @@ import { BackendApiService } from '../_services/backend-api.service';
 export class AdminFinanceComponent implements OnInit {
 
   loading = true;
-  fromDate = '';
-  toDate = '';
+  fromDate: Date | null = null;
+  toDate: Date | null = null;
 
   // Summary
   totalRevenue = 0;
@@ -46,8 +46,8 @@ export class AdminFinanceComponent implements OnInit {
 
   loadAll(): void {
     this.loading = true;
-    const from = this.fromDate || undefined;
-    const to = this.toDate || undefined;
+    const from = this.formatDate(this.fromDate);
+    const to = this.formatDate(this.toDate);
 
     forkJoin({
       bv: this.api.reportBV(from, to).pipe(catchError(() => of(null))),
@@ -95,9 +95,17 @@ export class AdminFinanceComponent implements OnInit {
   applyFilter(): void { this.loadAll(); }
 
   clearFilter(): void {
-    this.fromDate = '';
-    this.toDate = '';
+    this.fromDate = null;
+    this.toDate = null;
     this.loadAll();
+  }
+
+  private formatDate(d: Date | null): string | undefined {
+    if (!d) return undefined;
+    const y = d.getFullYear();
+    const m = ('0' + (d.getMonth() + 1)).slice(-2);
+    const day = ('0' + d.getDate()).slice(-2);
+    return `${y}-${m}-${day}`;
   }
 
   inr(n: number): string {

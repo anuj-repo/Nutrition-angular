@@ -5,11 +5,15 @@
   <div class="filter-bar">
     <mat-form-field appearance="outline">
       <mat-label>From</mat-label>
-      <input matInput type="date" [(ngModel)]="fromDate">
+      <input matInput [matDatepicker]="fromPicker" [(ngModel)]="fromDate">
+      <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+      <mat-datepicker #fromPicker></mat-datepicker>
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>To</mat-label>
-      <input matInput type="date" [(ngModel)]="toDate">
+      <input matInput [matDatepicker]="toPicker" [(ngModel)]="toDate">
+      <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+      <mat-datepicker #toPicker></mat-datepicker>
     </mat-form-field>
     <button mat-raised-button color="primary" (click)="applyFilter()">Apply</button>
     <button mat-stroked-button (click)="clearFilter()">Clear</button>
