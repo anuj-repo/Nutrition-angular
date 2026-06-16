@@ -37,6 +37,8 @@ export class AdminFinanceComponent implements OnInit {
 
   // Pending payouts
   pendingPayouts: any[] = [];
+  totalEarnedAll = 0;
+  totalWithdrawnAll = 0;
 
   constructor(private api: BackendApiService) {}
 
@@ -79,6 +81,8 @@ export class AdminFinanceComponent implements OnInit {
       this.pendingPayouts = res.pending?.data || [];
       this.pendingPayoutAmount = this.pendingPayouts.reduce((s: number, w: any) => s + (Number(w.balance) || 0), 0);
       this.pendingPayoutCount = this.pendingPayouts.length;
+      this.totalEarnedAll = this.pendingPayouts.reduce((s: number, w: any) => s + (Number(w.totalEarned) || 0), 0);
+      this.totalWithdrawnAll = this.pendingPayouts.reduce((s: number, w: any) => s + (Number(w.totalWithdrawn) || 0), 0);
 
       this.loading = false;
     });

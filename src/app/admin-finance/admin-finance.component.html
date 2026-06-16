@@ -186,6 +186,12 @@
           <tr *ngIf="pendingPayouts.length === 0">
             <td colspan="4" style="text-align:center; color:#999;">No pending payouts.</td>
           </tr>
+          <tr class="total-row" *ngIf="pendingPayouts.length > 0">
+            <td><strong>TOTAL</strong></td>
+            <td class="amount highlight"><strong>{{ inr(pendingPayoutAmount) }}</strong></td>
+            <td class="amount"><strong>{{ inr(totalEarnedAll) }}</strong></td>
+            <td class="amount"><strong>{{ inr(totalWithdrawnAll) }}</strong></td>
+          </tr>
         </tbody>
       </table>
     </div>
