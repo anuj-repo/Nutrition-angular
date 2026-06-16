@@ -90,17 +90,17 @@
         <thead>
           <tr>
             <th>Pool</th>
-            <th>%</th>
-            <th>Balance</th>
-            <th>Total Credited</th>
-            <th>Total Spent</th>
+            <th class="amount">%</th>
+            <th class="amount">Balance</th>
+            <th class="amount">Total Credited</th>
+            <th class="amount">Total Spent</th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let p of pools">
             <td><strong>{{ p.name || p.code }}</strong></td>
-            <td>{{ p.percentage }}%</td>
+            <td class="amount">{{ p.percentage }}%</td>
             <td class="amount">{{ inr(p.balance) }}</td>
             <td class="amount">{{ inr(p.totalCredited) }}</td>
             <td class="amount">{{ inr(p.totalSpent) }}</td>
@@ -108,7 +108,7 @@
           </tr>
           <tr class="total-row">
             <td><strong>TOTAL</strong></td>
-            <td></td>
+            <td class="amount"></td>
             <td class="amount"><strong>{{ inr(totalPoolBalance) }}</strong></td>
             <td class="amount"><strong>{{ inr(totalPoolCredited) }}</strong></td>
             <td class="amount"><strong>{{ inr(totalPoolSpent) }}</strong></td>
@@ -137,9 +137,9 @@
         <thead>
           <tr>
             <th>User</th>
-            <th>Amount</th>
-            <th>TDS</th>
-            <th>Net Paid</th>
+            <th class="amount">Amount</th>
+            <th class="amount">TDS</th>
+            <th class="amount">Net Paid</th>
             <th>Status</th>
             <th>UTR</th>
             <th>Date</th>
@@ -171,9 +171,9 @@
         <thead>
           <tr>
             <th>User ID</th>
-            <th>Balance (Owed)</th>
-            <th>Total Earned</th>
-            <th>Total Withdrawn</th>
+            <th class="amount">Balance (Owed)</th>
+            <th class="amount">Total Earned</th>
+            <th class="amount">Total Withdrawn</th>
           </tr>
         </thead>
         <tbody>

@@ -24,6 +24,7 @@
 .table-container { overflow-x: auto; }
 .data-table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
 .data-table th { background: #f5f5f5; padding: 10px 12px; text-align: left; font-weight: 600; border-bottom: 2px solid #ddd; }
+.data-table th.amount { text-align: right; }
 .data-table td { padding: 8px 12px; border-bottom: 1px solid #eee; }
 .data-table tr:hover { background: #fafafa; }
 .total-row { background: #f0f7ff; font-weight: 600; }
