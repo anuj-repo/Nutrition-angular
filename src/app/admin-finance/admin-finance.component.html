@@ -1,6 +1,37 @@
 <div class="finance-page">
   <h2><mat-icon>account_balance</mat-icon> Company Finance Dashboard</h2>
 
+  <!-- Manual Payout to User -->
+  <mat-card class="payout-card" style="margin-bottom: 24px; border-left: 4px solid #2e7d32;">
+    <mat-card-content>
+      <h3><mat-icon>send</mat-icon> Process Commission Payout to User</h3>
+      <p style="color:#666; font-size:0.85em; margin-bottom:12px;">After transferring money to a user's bank, record the payment here.</p>
+      <div class="filter-bar">
+        <mat-form-field appearance="outline">
+          <mat-label>User ID</mat-label>
+          <input matInput type="number" [(ngModel)]="payoutUserId" placeholder="e.g. 5">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Amount Paid (₹)</mat-label>
+          <input matInput type="number" min="1" step="0.01" [(ngModel)]="payoutAmount">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>UTR / Transaction Number</mat-label>
+          <input matInput [(ngModel)]="payoutUtr" placeholder="e.g. UTR412345678910">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="grow">
+          <mat-label>Remarks (optional)</mat-label>
+          <input matInput [(ngModel)]="payoutRemarks" placeholder="Commission payout for June">
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="processManualPayout()"
+                [disabled]="!payoutUserId || !payoutAmount || !payoutUtr">
+          <mat-icon>check_circle</mat-icon> Record Payout
+        </button>
+      </div>
+      <p *ngIf="payoutMessage" [style.color]="payoutSuccess ? '#2e7d32' : '#c62828'" style="margin-top:8px;">{{ payoutMessage }}</p>
+    </mat-card-content>
+  </mat-card>
+
   <!-- Date Filter -->
   <div class="filter-bar">
     <mat-form-field appearance="outline">

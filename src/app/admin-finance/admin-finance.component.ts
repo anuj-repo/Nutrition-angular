@@ -40,6 +40,14 @@ export class AdminFinanceComponent implements OnInit {
   totalEarnedAll = 0;
   totalWithdrawnAll = 0;
 
+  // Manual payout form
+  payoutUserId: number | null = null;
+  payoutAmount: number | null = null;
+  payoutUtr = '';
+  payoutRemarks = '';
+  payoutMessage = '';
+  payoutSuccess = false;
+
   constructor(private api: BackendApiService) {}
 
   ngOnInit(): void {
@@ -110,6 +118,57 @@ export class AdminFinanceComponent implements OnInit {
     const m = ('0' + (d.getMonth() + 1)).slice(-2);
     const day = ('0' + d.getDate()).slice(-2);
     return `${y}-${m}-${day}`;
+  }
+
+  processManualPayout(): void {
+    if (!this.payoutUserId || !this.payoutAmount || !this.payoutUtr) {
+      this.payoutMessage = 'Please fill User ID, Amount, and UTR.';
+      this.payoutSuccess = false;
+      return;
+    }
+    if (!confirm(`Pay ₹${this.payoutAmount} to User #${this.payoutUserId}?\nUTR: ${this.payoutUtr}`)) return;
+
+    this.payoutMessage = '';
+    // Use the withdraw endpoint to create a request, then approve it
+    // For now we'll use the admin manual wallet debit approach
+    const remarks = `Admin payout | UTR: ${this.payoutUtr} | ${this.payoutRemarks || ''}`.trim();
+
+    // Step 1: Find if there's a pending withdrawal for this user, or create one
+    // For simplicity, use the existing process: search withdrawals for this user
+    this.api.allWithdrawals().subscribe(
+      (res: any) => {
+        const all = res?.data || [];
+        const pending = all.find((w: any) =>
+          (w.userId === this.payoutUserId || w.user?.id === this.payoutUserId)
+          && w.requestStatus === 'PENDING'
+        );
+        if (pending) {
+          // Approve the existing pending withdrawal
+          this.api.approveWithdrawal(pending.id, this.payoutUtr).subscribe(
+            () => {
+              this.payoutMessage = `✅ Payout of ₹${this.payoutAmount} recorded for User #${this.payoutUserId}. UTR: ${this.payoutUtr}`;
+              this.payoutSuccess = true;
+              this.payoutUserId = null;
+              this.payoutAmount = null;
+              this.payoutUtr = '';
+              this.payoutRemarks = '';
+              this.loadAll();
+            },
+            err => {
+              this.payoutMessage = '❌ ' + (err?.error?.message || 'Failed to approve withdrawal.');
+              this.payoutSuccess = false;
+            }
+          );
+        } else {
+          this.payoutMessage = `❌ No pending withdrawal request found for User #${this.payoutUserId}. The user must first request a withdrawal from their wallet, then you can approve it here with the UTR.`;
+          this.payoutSuccess = false;
+        }
+      },
+      err => {
+        this.payoutMessage = '❌ ' + (err?.error?.message || 'Failed to load withdrawals.');
+        this.payoutSuccess = false;
+      }
+    );
   }
 
   inr(n: number): string {
