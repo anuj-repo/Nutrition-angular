@@ -77,6 +77,13 @@
 html, body {
   height: 100%;
   margin: 0;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+body {
   overflow-x: hidden;
 }
 
@@ -88,6 +95,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
   font-size: 14px;
+  padding-top: 110px;
+  overflow-x: hidden;
 }
 
 /* ===== Utility Classes ===== */
