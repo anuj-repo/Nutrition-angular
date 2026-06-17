@@ -344,3 +344,8 @@ body {
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
 }
+
+/* Fix mat-menu dropdown appearing behind mobile nav */
+.cdk-overlay-container {
+  z-index: 10000 !important;
+}
