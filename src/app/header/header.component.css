@@ -91,6 +91,21 @@
   color: var(--primary) !important;
 }
 
+.icon-btn.hamburger {
+  display: none;
+}
+
+@media (max-width: 960px) {
+  .icon-btn.hamburger {
+    display: inline-flex !important;
+    color: var(--primary) !important;
+    background: var(--primary-50);
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+  }
+}
+
 /* User chip */
 .user-chip {
   display: inline-flex;
@@ -236,14 +251,6 @@
   .brand-title { font-size: 15px; }
   .brand-tag { display: none; }
   .user-name { display: none; }
-  .hamburger {
-    display: inline-flex !important;
-    color: var(--primary) !important;
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
-    background: var(--primary-50);
-  }
 
   .nav-bar {
     position: fixed;
