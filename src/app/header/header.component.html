@@ -5,6 +5,7 @@
       *ngIf="isLoggedIn()"
       mat-icon-button
       class="icon-btn hamburger"
+      [class.user-hamburger]="!isAdmin()"
       (click)="toggleMobileNav()"
       aria-label="Toggle menu">
       <mat-icon>{{ mobileNavOpen ? 'close' : 'menu' }}</mat-icon>
@@ -66,7 +67,7 @@
 </header>
 
 <!-- Main navigation -->
-<nav class="nav-bar" [class.open]="mobileNavOpen" *ngIf="isLoggedIn()">
+<nav class="nav-bar" [class.open]="mobileNavOpen" [class.user-nav]="!isAdmin()" *ngIf="isLoggedIn()">
   <div class="nav-inner">
 
     <!-- USER NAV -->
