@@ -1,6 +1,15 @@
 <!-- Top app bar -->
 <header class="app-bar">
   <div class="app-bar-inner">
+    <button
+      *ngIf="isLoggedIn()"
+      mat-icon-button
+      class="icon-btn hamburger"
+      (click)="toggleMobileNav()"
+      aria-label="Toggle menu">
+      <mat-icon>{{ mobileNavOpen ? 'close' : 'menu' }}</mat-icon>
+    </button>
+
     <a class="brand" routerLink="/" (click)="closeMobileNav()">
       <span class="brand-mark">
         <mat-icon class="brand-mark-icon">spa</mat-icon>
@@ -41,15 +50,6 @@
         class="login-btn"
         [matMenuTriggerFor]="userMenu">
         <mat-icon>person_outline</mat-icon> Account
-      </button>
-
-      <button
-        *ngIf="isLoggedIn()"
-        mat-icon-button
-        class="icon-btn hamburger"
-        (click)="toggleMobileNav()"
-        aria-label="Toggle menu">
-        <mat-icon>{{ mobileNavOpen ? 'close' : 'menu' }}</mat-icon>
       </button>
     </div>
 
