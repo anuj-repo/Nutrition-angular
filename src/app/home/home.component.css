@@ -2,8 +2,7 @@
 .home-hero {
    position: relative;
    overflow: hidden;
-   width: 100vw;
-   margin-left: calc(-50vw + 50%);
+   width: 100%;
 }
 
 .hero-slider {
