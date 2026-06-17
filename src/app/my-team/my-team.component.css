@@ -764,12 +764,19 @@
   .team-hero { padding: 32px 16px 50px; }
   .team-hero h1 { font-size: 22px; }
   .team-toolbar { padding: 0 12px; }
-  .member-grid { padding: 0 12px; gap: 14px; }
-  .tree-wrap { margin: 0 12px; }
+  .member-grid { padding: 0 8px; gap: 12px; grid-template-columns: 1fr; }
+  .member-card { padding: 14px 12px; border-radius: 14px; }
+  .tree-wrap { margin: 0 8px; }
   .stat-pill { min-width: 100%; }
 
-  /* Stack the expand pill below the row content on tight widths so it
-     doesn't squeeze the name/email into a single character column. */
+  .head-text .name {
+    white-space: normal;
+    word-break: break-word;
+    font-size: 15px;
+  }
+
+  .card-meta li a { max-width: 200px; }
+
   .child-row {
     grid-template-columns: 28px minmax(0, 1fr);
   }
@@ -779,4 +786,13 @@
     margin-top: 4px;
   }
   .child-meta .meta-item a { max-width: 160px; }
+
+  .mini-name {
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  .filter-group { flex-wrap: wrap; }
+  .toolbar-actions { width: 100%; }
+  .search-field { flex: 1 1 100%; max-width: 100%; }
 }

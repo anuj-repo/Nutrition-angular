@@ -46,11 +46,12 @@
 
       <button
         *ngIf="!isLoggedIn()"
-        mat-stroked-button
+        mat-icon-button
         color="primary"
         class="login-btn"
-        [matMenuTriggerFor]="userMenu">
-        <mat-icon>person_outline</mat-icon> Account
+        [matMenuTriggerFor]="userMenu"
+        aria-label="Account">
+        <mat-icon>person_outline</mat-icon>
       </button>
     </div>
 
