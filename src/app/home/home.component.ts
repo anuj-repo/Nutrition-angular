@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { ImageProcessingService } from '../image-processing.service';
@@ -11,17 +11,38 @@ import { ProductService } from '../_services/product.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
   pageNumber: number = 0;
   productDetails=[];
   showLoadButton = false;
+
+  // Banner slider
+  bannerSlides = [
+    { bg: "url('assets/images/banner/bnr1.jpg') center/cover no-repeat" },
+    { bg: "url('assets/images/banner/bnr2.jpg') center/cover no-repeat" },
+    { bg: "url('assets/images/banner/bnr3.jpg') center/cover no-repeat" },
+    { bg: "url('assets/images/banner/bnr4.jpg') center/cover no-repeat" },
+    { bg: "url('assets/images/banner/bnr5.jpg') center/cover no-repeat" }
+  ];
+  currentSlide = 0;
+  private sliderInterval: any;
+
   constructor(private productService: ProductService,
     private imageProcessingService: ImageProcessingService,
     private router : Router) { }
 
   ngOnInit(): void {
     this.getAllProducts();
+    this.sliderInterval = setInterval(() => {
+      this.currentSlide = (this.currentSlide + 1) % this.bannerSlides.length;
+    }, 4000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.sliderInterval) {
+      clearInterval(this.sliderInterval);
+    }
   }
 
   searchByKeyword(searchkeyword){

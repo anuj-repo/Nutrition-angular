@@ -1,44 +1,81 @@
-/* ===== Hero Section — ICICI Blue + Orange Theme ===== */
+/* ===== Hero Section — Sliding Banner ===== */
 .home-hero {
-   background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
-   color: #fff;
-   padding: 56px 24px 72px;
-   text-align: center;
    position: relative;
    overflow: hidden;
 }
 
-.home-hero::before,
-.home-hero::after {
-   content: '';
+.hero-slider {
+   position: relative;
+   height: 480px;
+   overflow: hidden;
+}
+
+.hero-slide {
    position: absolute;
+   top: 0; left: 0; right: 0; bottom: 0;
+   opacity: 0;
+   transition: opacity 1s ease-in-out;
+   background-size: cover;
+   background-position: center;
+}
+
+.hero-slide.active {
+   opacity: 1;
+}
+
+.hero-overlay {
+   position: absolute;
+   top: 0; left: 0; right: 0; bottom: 0;
+   background: linear-gradient(135deg, rgba(107, 69, 48, 0.75) 0%, rgba(183, 100, 72, 0.55) 100%);
+   z-index: 1;
+}
+
+.hero-content {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   z-index: 2;
+   text-align: center;
+   color: #fff;
+   width: 90%;
+   max-width: 800px;
+}
+
+.slider-dots {
+   position: absolute;
+   bottom: 20px;
+   left: 50%;
+   transform: translateX(-50%);
+   z-index: 3;
+   display: flex;
+   gap: 8px;
+}
+
+.dot {
+   width: 10px;
+   height: 10px;
    border-radius: 50%;
-   filter: blur(90px);
-   opacity: 0.4;
-   pointer-events: none;
+   background: rgba(255, 255, 255, 0.5);
+   cursor: pointer;
+   transition: all 0.3s;
 }
 
-.home-hero::before {
-   width: 360px;
-   height: 360px;
-   top: -120px;
-   left: -120px;
-   background: radial-gradient(circle, rgba(249, 157, 39, 0.5), transparent 70%);
+.dot.active {
+   background: #fff;
+   transform: scale(1.3);
 }
 
-.home-hero::after {
-   width: 420px;
-   height: 420px;
-   bottom: -180px;
-   right: -140px;
-   background: radial-gradient(circle, rgba(249, 157, 39, 0.3), transparent 70%);
-}
-
-.hero-inner {
-   max-width: 900px;
+.home-hero .hero-inner {
+   max-width: 1200px;
    margin: 0 auto;
    position: relative;
    z-index: 1;
+}
+
+@media (max-width: 768px) {
+   .hero-slider { height: 380px; }
+   .hero-content h1 { font-size: 28px; }
 }
 
 .hero-badge {

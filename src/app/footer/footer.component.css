@@ -1,4 +1,4 @@
-/* ===== ICICI-Inspired Footer ===== */
+/* ===== Nature Wellness Footer ===== */
 .site-footer {
   background: var(--primary-dark);
   color: white;
@@ -6,7 +6,7 @@
   position: relative;
 }
 
-/* Orange accent line on top */
+/* Gold accent line on top */
 .site-footer::before {
   content: '';
   position: absolute;

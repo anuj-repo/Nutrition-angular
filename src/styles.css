@@ -1,60 +1,60 @@
-/* ============ Nutrition Forever Wellness — ICICI-Inspired Theme ============ */
+/* ============ Nutrition Forever Wellness — Nature Wellness Theme ============ */
 
 :root {
-  /* Primary - ICICI Deep Blue */
-  --primary: #004a7f;
-  --primary-light: #0066a4;
-  --primary-dark: #003560;
-  --primary-50: #e8f4fd;
-  --primary-100: #b8ddf5;
+  /* Primary - Warm Terracotta/Brown */
+  --primary: #b76448;
+  --primary-light: #c9785e;
+  --primary-dark: #944f38;
+  --primary-50: #fdf3ef;
+  --primary-100: #f8ddd4;
 
-  /* Accent - ICICI Orange/Saffron */
-  --accent: #F99D27;
-  --accent-light: #FBBA58;
-  --accent-dark: #E08A15;
-  --accent-50: #fef6e8;
-  --accent-100: #fde9c4;
+  /* Accent - Warm Gold/Honey */
+  --accent: #d4a843;
+  --accent-light: #e0be6a;
+  --accent-dark: #b8922e;
+  --accent-50: #fdf8eb;
+  --accent-100: #f9ecc8;
 
-  /* Brand Red (for special emphasis) */
-  --brand-red: #B02A30;
-  --brand-red-light: #d4444a;
+  /* Brand (for special emphasis) */
+  --brand-red: #b76448;
+  --brand-red-light: #c9785e;
 
   /* Neutral palette */
-  --gray-50: #f8fafb;
-  --gray-100: #f1f4f6;
-  --gray-200: #e3e8ec;
-  --gray-300: #c9d1d8;
-  --gray-400: #8d9baa;
-  --gray-500: #5f7085;
-  --gray-600: #4a5a6b;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
   --gray-700: #374151;
   --gray-800: #1f2937;
   --gray-900: #111827;
 
   /* Functional */
-  --success: #0f9d58;
-  --success-light: #e0f5ea;
-  --warning: #F99D27;
-  --warning-light: #fef6e8;
-  --error: #B02A30;
-  --error-light: #fdeaea;
-  --info: #004a7f;
-  --info-light: #e8f4fd;
+  --success: #059669;
+  --success-light: #d1fae5;
+  --warning: #d97706;
+  --warning-light: #fef3c7;
+  --error: #dc2626;
+  --error-light: #fee2e2;
+  --info: #b76448;
+  --info-light: #fdf3ef;
 
   /* Surface & Layout */
-  --bg-page: #f5f7fa;
+  --bg-page: #fdfaf8;
   --surface: #ffffff;
-  --text-primary: #1a2332;
-  --text-secondary: #4a5a6b;
-  --text-muted: #8d9baa;
-  --border: #e3e8ec;
-  --border-light: #f1f4f6;
+  --text-primary: #2e1f14;
+  --text-secondary: #5c4a3d;
+  --text-muted: #8c7a6d;
+  --border: #e8ddd5;
+  --border-light: #f5f0ec;
 
   /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(0, 74, 127, 0.04);
-  --shadow-md: 0 4px 12px rgba(0, 74, 127, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 10px 24px rgba(0, 74, 127, 0.08), 0 4px 8px rgba(0, 0, 0, 0.04);
-  --shadow-xl: 0 20px 40px rgba(0, 74, 127, 0.1), 0 8px 16px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 3px rgba(183, 100, 72, 0.04);
+  --shadow-md: 0 4px 12px rgba(183, 100, 72, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 24px rgba(183, 100, 72, 0.08), 0 4px 8px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 20px 40px rgba(183, 100, 72, 0.1), 0 8px 16px rgba(0, 0, 0, 0.04);
 
   /* Radius */
   --radius-sm: 6px;
@@ -120,13 +120,13 @@ body {
   color: #fff !important;
   font-weight: 600 !important;
   border-radius: var(--radius-md) !important;
-  box-shadow: 0 2px 8px rgba(0, 74, 127, 0.2) !important;
+  box-shadow: 0 2px 8px rgba(183, 100, 72, 0.2) !important;
   transition: all var(--transition-fast);
 }
 
 .btn-primary:hover {
   background: var(--primary-dark) !important;
-  box-shadow: 0 4px 14px rgba(0, 74, 127, 0.3) !important;
+  box-shadow: 0 4px 14px rgba(183, 100, 72, 0.3) !important;
   transform: translateY(-1px);
 }
 
@@ -135,12 +135,12 @@ body {
   color: #fff !important;
   font-weight: 600 !important;
   border-radius: var(--radius-md) !important;
-  box-shadow: 0 2px 8px rgba(249, 157, 39, 0.25) !important;
+  box-shadow: 0 2px 8px rgba(212, 168, 67, 0.25) !important;
 }
 
 .btn-accent:hover {
   background: var(--accent-dark) !important;
-  box-shadow: 0 4px 14px rgba(249, 157, 39, 0.35) !important;
+  box-shadow: 0 4px 14px rgba(212, 168, 67, 0.35) !important;
 }
 
 /* Material button overrides */
@@ -151,13 +151,13 @@ body {
   border-radius: var(--radius-md) !important;
   font-weight: 600 !important;
   letter-spacing: 0.2px;
-  box-shadow: 0 2px 8px rgba(0, 74, 127, 0.2) !important;
+  box-shadow: 0 2px 8px rgba(183, 100, 72, 0.2) !important;
 }
 
 .mat-mdc-raised-button.mat-primary:hover,
 .mat-raised-button.mat-primary:hover {
   background: var(--primary-dark) !important;
-  box-shadow: 0 4px 14px rgba(0, 74, 127, 0.3) !important;
+  box-shadow: 0 4px 14px rgba(183, 100, 72, 0.3) !important;
 }
 
 .mat-mdc-raised-button.mat-accent,

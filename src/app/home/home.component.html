@@ -1,25 +1,34 @@
 <section class="home-hero brand-bg">
-   <div class="hero-inner">
-      <div class="hero-badge">🌿 Premium Wellness Brand</div>
-      <h1 class="hero-title">Nutrition Forever <span>Wellness</span></h1>
-      <p class="hero-product">Featuring <strong>Stamina Core+</strong></p>
-      <p class="hero-tag">A premium wellness brand · Health + Wealth + Security</p>
-      <p class="hero-tag-hi">अपने शरीर की असली शक्ति को जगाएं</p>
-
-      <div class="hero-search">
-         <mat-form-field appearance="outline" class="search-field">
-            <mat-icon matPrefix>search</mat-icon>
-            <mat-label>Search any Product</mat-label>
-            <input #searchkeyword (keyup)="searchByKeyword(searchkeyword.value)" matInput name="searchKey"
-               id="searchKey" placeholder="Try 'Stamina Core Plus'">
-         </mat-form-field>
+   <div class="hero-slider">
+      <div class="hero-slide" *ngFor="let slide of bannerSlides; let i = index"
+           [class.active]="i === currentSlide"
+           [style.background]="slide.bg">
       </div>
-
-      <div class="hero-promises">
-         <span class="promise-pill">💊 120 Capsules</span>
-         <span class="promise-pill">🌿 100% Natural</span>
-         <span class="promise-pill">🏆 GMP · FSSAI</span>
-         <span class="promise-pill">🚚 Pan-India Delivery</span>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+         <div class="hero-badge">🌿 Premium Ayurvedic Wellness</div>
+         <h1 class="hero-title">Nutrition Forever <span>Wellness</span></h1>
+         <p class="hero-product">Featuring <strong>Stamina Core+</strong> · 120 Capsules · 11 Premium Herbs</p>
+         <p class="hero-tag-hi">अपने शरीर की असली शक्ति को जगाएं</p>
+         <div class="hero-search">
+            <mat-form-field appearance="outline" class="search-field">
+               <mat-icon matPrefix>search</mat-icon>
+               <mat-label>Search any Product</mat-label>
+               <input #searchkeyword (keyup)="searchByKeyword(searchkeyword.value)" matInput name="searchKey"
+                  id="searchKey" placeholder="Try 'Stamina Core Plus'">
+            </mat-form-field>
+         </div>
+         <div class="hero-promises">
+            <span class="promise-pill">💊 120 Capsules</span>
+            <span class="promise-pill">🌿 100% Natural</span>
+            <span class="promise-pill">🏆 GMP · FSSAI · ISO</span>
+            <span class="promise-pill">🚚 Pan-India Delivery</span>
+         </div>
+      </div>
+      <div class="slider-dots">
+         <span *ngFor="let s of bannerSlides; let i = index"
+               class="dot" [class.active]="i === currentSlide"
+               (click)="currentSlide = i"></span>
       </div>
    </div>
 </section>
