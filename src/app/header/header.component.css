@@ -152,7 +152,7 @@
   background: var(--primary-50) !important;
 }
 
-.hamburger { display: none; color: var(--primary) !important; font-size: 28px !important; }
+.hamburger { display: none; }
 
 /* ============ Nav Bar ============ */
 .nav-bar {
@@ -236,7 +236,14 @@
   .brand-title { font-size: 15px; }
   .brand-tag { display: none; }
   .user-name { display: none; }
-  .hamburger { display: inline-flex; color: var(--primary) !important; }
+  .hamburger {
+    display: inline-flex !important;
+    color: var(--primary) !important;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: var(--primary-50);
+  }
 
   .nav-bar {
     position: fixed;
