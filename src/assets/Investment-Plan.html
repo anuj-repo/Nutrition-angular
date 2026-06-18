@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nutrition Forever Wellness - 10% Investment Plan</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #1a1a2e; color: #fff; overflow-x: hidden; }
+
+  .page { min-height: 100vh; padding: 40px 24px; position: relative; background: linear-gradient(160deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%); }
+
+  .page::before { content: ''; position: absolute; width: 300px; height: 300px; border-radius: 50%; top: -100px; right: -100px; background: radial-gradient(circle, rgba(212,168,67,0.2), transparent 70%); }
+  .page::after { content: ''; position: absolute; width: 350px; height: 350px; border-radius: 50%; bottom: -120px; left: -120px; background: radial-gradient(circle, rgba(0,212,170,0.15), transparent 70%); }
+
+  .content { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+
+  .header { text-align: center; margin-bottom: 30px; }
+  .header .icon { font-size: 48px; margin-bottom: 10px; }
+  h1 { font-size: 36px; color: #ffd700; text-shadow: 0 2px 4px rgba(0,0,0,0.3); margin-bottom: 4px; }
+  h1 span { color: #00d4aa; }
+  .subtitle { color: #00d4aa; font-size: 16px; margin-bottom: 6px; }
+  .subtitle-hi { color: #aaa; font-size: 14px; }
+
+  h2 { font-size: 20px; color: #ffd700; border-bottom: 2px solid rgba(255,215,0,0.3); padding-bottom: 6px; margin: 30px 0 16px; }
+  h3 { font-size: 14px; color: #00d4aa; margin: 12px 0 8px; }
+
+  .badge { display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: 700; margin: 2px 4px; }
+  .badge-gold { background: linear-gradient(135deg, #ffd700, #ff9800); color: #1a1a2e; }
+  .badge-green { background: #00d4aa; color: #1a1a2e; }
+
+  .hero-box { background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,152,0,0.05)); border: 2px solid #ffd700; border-radius: 20px; padding: 30px; text-align: center; margin: 24px 0; box-shadow: 0 0 30px rgba(255,215,0,0.1); }
+  .hero-box .big-number { font-size: 72px; font-weight: 900; color: #ffd700; line-height: 1; }
+  .hero-box .big-label { font-size: 18px; color: #fff; margin-top: 6px; }
+  .hero-box .big-label-hi { font-size: 14px; color: #00d4aa; }
+
+  .features { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  .feature-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,215,0,0.25); border-radius: 14px; padding: 18px; text-align: center; }
+  .feature-card .feat-icon { font-size: 32px; margin-bottom: 8px; }
+  .feature-card .feat-title { font-size: 14px; font-weight: 700; color: #ffd700; margin-bottom: 4px; }
+  .feature-card .feat-desc { font-size: 12px; color: #ccc; }
+  .feature-card .feat-hi { font-size: 11px; color: #00d4aa; margin-top: 4px; }
+
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+  th { background: linear-gradient(135deg, #ffd700, #ff9800); color: #1a1a2e; padding: 10px 12px; text-align: center; font-weight: 700; font-size: 13px; }
+  td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.08); text-align: center; color: #ddd; font-size: 13px; }
+  tr:hover { background: rgba(255,215,0,0.05); }
+  .highlight-row td { color: #ffd700; font-weight: 700; }
+
+  .green-box { background: rgba(0,212,170,0.08); border: 1px solid rgba(0,212,170,0.3); border-radius: 14px; padding: 16px; margin: 16px 0; }
+  .gold-box { background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.3); border-radius: 14px; padding: 16px; margin: 16px 0; }
+
+  .steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 16px 0; }
+  .step { background: rgba(255,255,255,0.04); border: 1px solid rgba(0,212,170,0.3); border-radius: 12px; padding: 16px; text-align: center; }
+  .step .step-num { width: 32px; height: 32px; border-radius: 50%; background: #00d4aa; color: #1a1a2e; font-weight: 900; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 8px; }
+  .step .step-title { font-size: 12px; font-weight: 700; color: #fff; }
+  .step .step-hi { font-size: 11px; color: #00d4aa; margin-top: 4px; }
+
+  .cta-box { background: linear-gradient(135deg, #ffd700, #ff9800); color: #1a1a2e; padding: 20px; border-radius: 16px; text-align: center; margin: 24px 0; }
+  .cta-box .cta-big { font-size: 20px; font-weight: 900; }
+  .cta-box .cta-sub { font-size: 13px; margin-top: 4px; }
+
+  .contact-bar { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,215,0,0.25); padding: 12px; border-radius: 10px; text-align: center; font-size: 12px; color: #ccc; margin-top: 20px; }
+  .contact-bar strong { color: #ffd700; }
+
+  .disclaimer { text-align: center; font-size: 10px; color: #666; margin-top: 12px; font-style: italic; }
+
+  @media (max-width: 600px) {
+    .features { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr; }
+    h1 { font-size: 26px; }
+    .hero-box .big-number { font-size: 52px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+<div class="content">
+
+<div class="header">
+  <div class="icon">💰</div>
+  <h1>10% ASSURED <span>RETURNS</span></h1>
+  <p class="subtitle">Investment Plan by Nutrition Forever Wellness</p>
+  <p class="subtitle-hi">न्यूट्रिशन फॉरएवर वेलनेस — निवेश योजना</p>
+  <p style="margin-top: 8px;"><span class="badge badge-gold">GUARANTEED</span> <span class="badge badge-green">SAFE & SECURE</span> <span class="badge badge-gold">COMPANY BACKED</span></p>
+</div>
+
+<div class="hero-box">
+  <div class="big-number">10%</div>
+  <div class="big-label">Assured Annual Returns / गारंटीड वार्षिक रिटर्न</div>
+  <div class="big-label-hi">बैंक FD से बेहतर! सुरक्षित और गारंटीड!</div>
+</div>
+
+<h2>📈 Why Invest With Us? / हमारे साथ क्यों निवेश करें?</h2>
+<div class="features">
+  <div class="feature-card">
+    <div class="feat-icon">📈</div>
+    <div class="feat-title">10% Annual Returns</div>
+    <div class="feat-desc">Guaranteed returns paid regularly</div>
+    <div class="feat-hi">10% वार्षिक गारंटीड रिटर्न</div>
+  </div>
+  <div class="feature-card">
+    <div class="feat-icon">🔒</div>
+    <div class="feat-title">100% Safe Investment</div>
+    <div class="feat-desc">Company guaranteed, secure funds</div>
+    <div class="feat-hi">100% सुरक्षित निवेश</div>
+  </div>
+  <div class="feature-card">
+    <div class="feat-icon">💰</div>
+    <div class="feat-title">Better Than Bank FD</div>
+    <div class="feat-desc">Higher returns than fixed deposits</div>
+    <div class="feat-hi">बैंक FD से ज्यादा रिटर्न</div>
+  </div>
+  <div class="feature-card">
+    <div class="feat-icon">📅</div>
+    <div class="feat-title">Monthly Income</div>
+    <div class="feat-desc">Receive returns every month</div>
+    <div class="feat-hi">हर महीने आय प्राप्त करें</div>
+  </div>
+</div>
+
+<h2>🧮 Investment Calculator / निवेश कैलकुलेटर</h2>
+<p style="font-size: 13px; color: #aaa; margin-bottom: 10px;">See how your money grows with 10% assured annual returns:</p>
+<table>
+  <tr><th>Investment Amount<br><span style="font-weight:400;font-size:10px;">निवेश राशि</span></th><th>10% Annual Return<br><span style="font-weight:400;font-size:10px;">वार्षिक रिटर्न</span></th><th>Monthly Benefit<br><span style="font-weight:400;font-size:10px;">मासिक लाभ</span></th></tr>
+  <tr><td>₹10,000</td><td style="color:#00d4aa;">₹1,000/year</td><td>₹83/month</td></tr>
+  <tr><td>₹25,000</td><td style="color:#00d4aa;">₹2,500/year</td><td>₹208/month</td></tr>
+  <tr><td>₹50,000</td><td style="color:#ffd700;">₹5,000/year</td><td>₹417/month</td></tr>
+  <tr><td>₹1,00,000</td><td style="color:#ffd700;">₹10,000/year</td><td>₹833/month</td></tr>
+  <tr><td>₹2,50,000</td><td style="color:#ff9800;">₹25,000/year</td><td>₹2,083/month</td></tr>
+  <tr><td>₹5,00,000</td><td style="color:#ff9800;">₹50,000/year</td><td>₹4,167/month</td></tr>
+  <tr class="highlight-row"><td>₹10,00,000</td><td>₹1,00,000/year</td><td>₹8,333/month</td></tr>
+</table>
+
+<div class="green-box" style="text-align: center;">
+  <p style="font-size: 15px; font-weight: 700;">💡 Better than Bank FD rates! Safe & Guaranteed!</p>
+  <p style="font-size: 13px; color: #00d4aa;">💡 बैंक FD दरों से बेहतर! सुरक्षित और गारंटीड!</p>
+</div>
+
+<h2>🚀 How to Invest / कैसे निवेश करें</h2>
+<div class="steps">
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-title">Choose Amount<br>(₹10,000+)</div>
+    <div class="step-hi">राशि चुनें</div>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-title">Make Payment<br>(Bank Transfer/UPI)</div>
+    <div class="step-hi">भुगतान करें</div>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-title">Receive Returns<br>(10% Annually)</div>
+    <div class="step-hi">रिटर्न प्राप्त करें</div>
+  </div>
+</div>
+
+<div class="gold-box">
+  <h3 style="color:#ffd700; text-align:center; margin-bottom:8px;">🏦 Investment Highlights / निवेश की विशेषताएं</h3>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:12px;">
+    <div>✓ Minimum investment: ₹10,000<br><span style="color:#00d4aa;">न्यूनतम निवेश: ₹10,000</span></div>
+    <div>✓ No upper limit<br><span style="color:#00d4aa;">कोई ऊपरी सीमा नहीं</span></div>
+    <div>✓ Returns paid monthly/quarterly<br><span style="color:#00d4aa;">मासिक/तिमाही भुगतान</span></div>
+    <div>✓ Withdrawal after lock-in period<br><span style="color:#00d4aa;">लॉक-इन के बाद निकासी</span></div>
+    <div>✓ Company guaranteed<br><span style="color:#00d4aa;">कंपनी गारंटी</span></div>
+    <div>✓ No hidden charges<br><span style="color:#00d4aa;">कोई छिपे शुल्क नहीं</span></div>
+  </div>
+</div>
+
+<div class="cta-box">
+  <p class="cta-big">🎯 Start Investing Today — Grow Your Money at 10% p.a.!</p>
+  <p class="cta-sub">आज ही निवेश शुरू करें — 10% वार्षिक रिटर्न के साथ अपना पैसा बढ़ाएं!</p>
+</div>
+
+<div class="contact-bar">
+  📞 <strong>7701863636</strong> | 📱 WhatsApp: <strong>7701863636</strong> | 📧 nutritionforeverwellness@gmail.com<br>
+  🌐 www.nutritionforeverwellness.com | <span style="color:#00d4aa;">संपर्क: सुबह 9 - रात 9 बजे</span>
+</div>
+
+<div class="disclaimer">
+  * Returns are subject to company terms & conditions. Investment involves risk. Past performance does not guarantee future results.<br>
+  * रिटर्न कंपनी के नियम और शर्तों के अधीन हैं। निवेश में जोखिम शामिल है।
+</div>
+
+</div>
+</div>
+</body>
+</html>
