@@ -8,8 +8,13 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Segoe UI', Arial, sans-serif; background: #1a1a2e; color: #fff; }
 
-  .page { width: 210mm; min-height: 297mm; padding: 16mm; page-break-after: always; position: relative; background: linear-gradient(160deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%); overflow: hidden; }
+  .page { width: 100%; max-width: 210mm; min-height: 297mm; padding: 16mm; page-break-after: always; position: relative; background: linear-gradient(160deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%); overflow: hidden; margin: 0 auto; }
   .page:last-child { page-break-after: avoid; }
+
+  @media screen {
+    body { background: #0a0a1a; }
+    .page { width: 100%; max-width: 100%; padding: 24px; min-height: auto; }
+  }
 
   /* Decorative circles */
   .page::before { content: ''; position: absolute; width: 200px; height: 200px; border-radius: 50%; top: -60px; right: -60px; background: radial-gradient(circle, rgba(212,168,67,0.2), transparent 70%); }
