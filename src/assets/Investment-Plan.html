@@ -68,8 +68,47 @@
   @media (max-width: 600px) {
     .features { grid-template-columns: 1fr; }
     .steps { grid-template-columns: 1fr; }
+    .compare-strip { grid-template-columns: 1fr 1fr; }
     h1 { font-size: 26px; }
     .hero-box .big-number { font-size: 52px; }
+  }
+
+  /* Comparison strip */
+  .compare-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 20px 0; }
+  .compare-item { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 14px 10px; text-align: center; position: relative; }
+  .compare-item.win { border-color: #ffd700; background: rgba(255,215,0,0.08); box-shadow: 0 0 20px rgba(255,215,0,0.15); }
+  .compare-item.lose { opacity: 0.7; }
+  .compare-icon { font-size: 24px; margin-bottom: 6px; }
+  .compare-name { font-size: 11px; color: #aaa; margin-bottom: 4px; }
+  .compare-rate { font-size: 22px; font-weight: 900; color: #888; }
+  .compare-item.win .compare-rate { color: #ffd700; }
+  .compare-item.win .compare-name { color: #fff; }
+  .compare-badge { position: absolute; top: -8px; right: -8px; background: #00d4aa; color: #1a1a2e; font-size: 8px; font-weight: 900; padding: 3px 8px; border-radius: 8px; letter-spacing: 0.5px; }
+
+  /* Growth bars */
+  .growth-bars { display: flex; flex-direction: column; gap: 8px; }
+  .growth-row { display: flex; align-items: center; gap: 10px; }
+  .growth-label { font-size: 11px; color: #aaa; width: 50px; flex-shrink: 0; }
+  .growth-track { flex: 1; height: 18px; background: rgba(255,255,255,0.06); border-radius: 9px; overflow: hidden; }
+  .growth-fill { height: 100%; background: linear-gradient(90deg, #00d4aa, #ffd700); border-radius: 9px; transition: width 1s ease; }
+  .growth-val { font-size: 12px; color: #ddd; width: 80px; text-align: right; flex-shrink: 0; }
+  .highlight-gold { color: #ffd700 !important; font-weight: 700; }
+
+  /* Testimonials */
+  .testimonials { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 12px 0; }
+  .testimonial-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(0,212,170,0.2); border-radius: 12px; padding: 14px; }
+  .testi-quote { font-size: 12px; color: #ddd; font-style: italic; margin-bottom: 8px; line-height: 1.4; }
+  .testi-author { font-size: 11px; font-weight: 700; color: #ffd700; }
+  .testi-hi { font-size: 10px; color: #00d4aa; margin-top: 4px; }
+
+  /* FAQ */
+  .faq-list { display: flex; flex-direction: column; gap: 10px; margin: 12px 0; }
+  .faq-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,215,0,0.15); border-radius: 10px; padding: 12px 14px; }
+  .faq-q { font-size: 12px; font-weight: 700; color: #ffd700; margin-bottom: 4px; }
+  .faq-a { font-size: 11px; color: #ccc; }
+
+  @media (max-width: 600px) {
+    .testimonials { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -90,6 +129,31 @@
   <div class="big-number">10%</div>
   <div class="big-label">Assured Annual Returns / गारंटीड वार्षिक रिटर्न</div>
   <div class="big-label-hi">बैंक FD से बेहतर! सुरक्षित और गारंटीड!</div>
+</div>
+
+<!-- Comparison strip -->
+<div class="compare-strip">
+  <div class="compare-item lose">
+    <div class="compare-icon">🏦</div>
+    <div class="compare-name">Bank FD</div>
+    <div class="compare-rate">6-7%</div>
+  </div>
+  <div class="compare-item lose">
+    <div class="compare-icon">📮</div>
+    <div class="compare-name">Post Office</div>
+    <div class="compare-rate">7.1%</div>
+  </div>
+  <div class="compare-item lose">
+    <div class="compare-icon">🏠</div>
+    <div class="compare-name">PPF</div>
+    <div class="compare-rate">7.1%</div>
+  </div>
+  <div class="compare-item win">
+    <div class="compare-icon">🌿</div>
+    <div class="compare-name">NFW Plan</div>
+    <div class="compare-rate">10%</div>
+    <div class="compare-badge">WINNER</div>
+  </div>
 </div>
 
 <h2>📈 Why Invest With Us? / हमारे साथ क्यों निवेश करें?</h2>
@@ -172,6 +236,61 @@
 <div class="cta-box">
   <p class="cta-big">🎯 Start Investing Today — Grow Your Money at 10% p.a.!</p>
   <p class="cta-sub">आज ही निवेश शुरू करें — 10% वार्षिक रिटर्न के साथ अपना पैसा बढ़ाएं!</p>
+</div>
+
+<!-- Growth over years -->
+<h2>📅 Your Money Growth Over Time / समय के साथ आपका पैसा</h2>
+<div class="gold-box">
+  <p style="text-align:center; font-size:12px; color:#aaa; margin-bottom:10px;">Example: ₹1,00,000 invested at 10% annual returns</p>
+  <div class="growth-bars">
+    <div class="growth-row"><span class="growth-label">Year 1</span><div class="growth-track"><div class="growth-fill" style="width:20%;"></div></div><span class="growth-val">₹1,10,000</span></div>
+    <div class="growth-row"><span class="growth-label">Year 2</span><div class="growth-track"><div class="growth-fill" style="width:35%;"></div></div><span class="growth-val">₹1,21,000</span></div>
+    <div class="growth-row"><span class="growth-label">Year 3</span><div class="growth-track"><div class="growth-fill" style="width:50%;"></div></div><span class="growth-val">₹1,33,100</span></div>
+    <div class="growth-row"><span class="growth-label">Year 5</span><div class="growth-track"><div class="growth-fill" style="width:70%;"></div></div><span class="growth-val">₹1,61,051</span></div>
+    <div class="growth-row"><span class="growth-label">Year 10</span><div class="growth-track"><div class="growth-fill" style="width:100%;"></div></div><span class="growth-val highlight-gold">₹2,59,374</span></div>
+  </div>
+  <p style="text-align:center; font-size:11px; color:#00d4aa; margin-top:8px;">💡 Your ₹1 Lakh becomes ₹2.59 Lakh in 10 years with compounding!</p>
+</div>
+
+<!-- Testimonials -->
+<h2>💬 What Investors Say / निवेशकों की राय</h2>
+<div class="testimonials">
+  <div class="testimonial-card">
+    <div class="testi-quote">"I invested ₹50,000 and receive ₹4,167 every month. Better than any bank FD I've had!"</div>
+    <div class="testi-author">— Rajesh K., Delhi</div>
+    <div class="testi-hi">मैंने ₹50,000 निवेश किया और हर महीने ₹4,167 मिलता है</div>
+  </div>
+  <div class="testimonial-card">
+    <div class="testi-quote">"Safe, reliable, and the returns come on time every month. Very happy with NFW."</div>
+    <div class="testi-author">— Priya S., Mumbai</div>
+    <div class="testi-hi">सुरक्षित, विश्वसनीय और समय पर रिटर्न मिलता है</div>
+  </div>
+  <div class="testimonial-card">
+    <div class="testi-quote">"Started with ₹25,000, now invested ₹2 Lakh. The consistent 10% is unbeatable."</div>
+    <div class="testi-author">— Amit P., Bangalore</div>
+    <div class="testi-hi">₹25,000 से शुरू किया, अब ₹2 लाख निवेश है</div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<h2>❓ Frequently Asked Questions / अक्सर पूछे जाने वाले प्रश्न</h2>
+<div class="faq-list">
+  <div class="faq-item">
+    <div class="faq-q">Q: Is my investment safe? / क्या मेरा निवेश सुरक्षित है?</div>
+    <div class="faq-a">A: Yes, 100% company backed and guaranteed. Your principal is safe.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Q: When do I receive returns? / मुझे रिटर्न कब मिलेगा?</div>
+    <div class="faq-a">A: Returns are credited monthly/quarterly to your wallet or bank account.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Q: Can I withdraw my money? / क्या मैं पैसे निकाल सकता हूं?</div>
+    <div class="faq-a">A: Yes, after the lock-in period (typically 6-12 months), you can withdraw anytime.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Q: What is the minimum investment? / न्यूनतम निवेश कितना है?</div>
+    <div class="faq-a">A: You can start with as low as ₹10,000.</div>
+  </div>
 </div>
 
 <div class="contact-bar">
