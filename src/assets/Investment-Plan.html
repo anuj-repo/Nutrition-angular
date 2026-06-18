@@ -110,6 +110,13 @@
   @media (max-width: 600px) {
     .testimonials { grid-template-columns: 1fr; }
   }
+
+  /* Timeline */
+  .timeline { display: flex; flex-direction: column; gap: 12px; }
+  .timeline-item { display: flex; align-items: flex-start; gap: 12px; }
+  .tl-dot { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #ffd700, #ff9800); color: #1a1a2e; font-size: 12px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .tl-content { font-size: 12px; color: #ddd; padding-top: 4px; }
+  .tl-content strong { color: #fff; }
 </style>
 </head>
 <body>
