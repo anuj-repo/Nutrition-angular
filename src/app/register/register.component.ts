@@ -104,7 +104,7 @@ export class RegisterComponent implements OnInit {
       // KYC text fields - mandatory at registration time
       panNumber: ['', [
         Validators.required,
-        Validators.pattern('^[A-Z]{5}[0-9]{4}[A-Z]$')
+        Validators.pattern('^[A-Za-z]{5}[0-9]{4}[A-Za-z]$')
       ]],
       aadhaarNumber: ['', [
         Validators.required,

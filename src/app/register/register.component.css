@@ -525,3 +525,10 @@
   font-size: 12px;
   margin-left: 4px;
 }
+
+.password-mismatch {
+  color: #c62828;
+  font-size: 12px;
+  font-weight: 600;
+  margin: -8px 0 8px 4px;
+}

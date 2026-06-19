@@ -435,7 +435,11 @@
               <button type="button" mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" tabindex="-1">
                 <mat-icon>{{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
               </button>
+              <mat-error *ngIf="registerForm.get('confirmPassword').hasError('required')">Required</mat-error>
             </mat-form-field>
+            <p class="password-mismatch" *ngIf="registerForm.get('confirmPassword').value && registerForm.get('password').value !== registerForm.get('confirmPassword').value">
+              ⚠️ Passwords do not match
+            </p>
           </div>
 
           <!-- Submit -->
