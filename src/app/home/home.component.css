@@ -2,9 +2,15 @@
 .home-hero {
    position: relative;
    overflow: hidden;
-   width: 100vw;
-   margin-left: 50%;
-   transform: translateX(-50%);
+   width: 100%;
+   margin: 0;
+   padding: 0;
+}
+
+:host {
+   display: block;
+   margin: 0;
+   padding: 0;
 }
 
 .hero-slider {
