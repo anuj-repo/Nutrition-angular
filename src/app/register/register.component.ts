@@ -89,7 +89,7 @@ export class RegisterComponent implements OnInit {
       // Kept in form for UX/segmentation but NOT sent to backend (backend SignUpRequest no longer has these)
       packageTaken: ['2280'],
       productChoice: ['home'],
-      address: ['', Validators.required],
+      address: ['', [Validators.required, Validators.maxLength(200)]],
       country: ['', Validators.required],
       state: ['', Validators.required],
       city: ['', Validators.required],

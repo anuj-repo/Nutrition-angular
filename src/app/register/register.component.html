@@ -111,7 +111,9 @@
           <div class="form-grid">
             <mat-form-field appearance="outline" class="full-row">
               <mat-label>Address</mat-label>
-              <textarea matInput formControlName="address" rows="2" placeholder="Street, area, landmark"></textarea>
+              <textarea matInput formControlName="address" rows="2" placeholder="Street, area, landmark" maxlength="200"></textarea>
+              <mat-hint align="end">{{ registerForm.get('address').value?.length || 0 }}/200</mat-hint>
+              <mat-error *ngIf="registerForm.get('address').hasError('maxlength')">Max 200 characters</mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline">
