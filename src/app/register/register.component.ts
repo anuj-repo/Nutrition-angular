@@ -39,6 +39,8 @@ export class RegisterComponent implements OnInit {
   submitting = false;
   successMessage = '';
   errorMessage = '';
+  hidePassword = true;
+  hideConfirmPassword = true;
 
   /** Show / hide the payment-options block (QR + bank details). Off by default
    *  to keep the form short — user clicks "Show payment options" if they

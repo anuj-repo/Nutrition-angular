@@ -26,6 +26,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 })
 export class LoginComponent implements OnInit {
 
+  hideLoginPassword = true;
   userRoles: any[] = ['User', 'Admin'];
 
   constructor(
