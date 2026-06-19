@@ -113,7 +113,7 @@ export class RegisterComponent implements OnInit {
       ]],
       ifscCode: ['', [
         Validators.required,
-        Validators.pattern('^[A-Z]{4}0[A-Z0-9]{6}$')
+        Validators.pattern('^[A-Za-z]{4}0[A-Za-z0-9]{6}$')
       ]],
       // Not part of backend payload anymore - kept for UX only
       upiId: ['']
@@ -356,6 +356,13 @@ export class RegisterComponent implements OnInit {
 
   clearKycFile(docType: 'PAN' | 'AADHAAR' | 'BANK_PROOF') {
     this.kycFiles[docType] = null;
+  }
+
+  previewKycFile(docType: 'PAN' | 'AADHAAR' | 'BANK_PROOF') {
+    const file = this.kycFiles[docType];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    window.open(url, '_blank');
   }
 
   /** Copy a payment detail to clipboard with a friendly Toastr confirmation. */
