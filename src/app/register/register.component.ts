@@ -42,6 +42,9 @@ export class RegisterComponent implements OnInit {
   hidePassword = true;
   hideConfirmPassword = true;
 
+  // Max date for DOB = today minus 10 years (minimum age)
+  maxDob = new Date(new Date().getFullYear() - 10, new Date().getMonth(), new Date().getDate());
+
   /** Show / hide the payment-options block (QR + bank details). Off by default
    *  to keep the form short — user clicks "Show payment options" if they
    *  haven't paid yet. */
@@ -363,8 +366,15 @@ export class RegisterComponent implements OnInit {
   previewKycFile(docType: 'PAN' | 'AADHAAR' | 'BANK_PROOF') {
     const file = this.kycFiles[docType];
     if (!file) return;
-    const url = URL.createObjectURL(file);
-    window.open(url, '_blank');
+    // data is a base64 data URL — open it in new tab
+    const win = window.open('', '_blank');
+    if (win) {
+      if (file.type === 'application/pdf') {
+        win.document.write(`<iframe src="${file.data}" width="100%" height="100%" style="border:none;position:fixed;top:0;left:0;right:0;bottom:0;"></iframe>`);
+      } else {
+        win.document.write(`<img src="${file.data}" style="max-width:100%;height:auto;">`);
+      }
+    }
   }
 
   /** Copy a payment detail to clipboard with a friendly Toastr confirmation. */
@@ -407,18 +417,7 @@ export class RegisterComponent implements OnInit {
    * is an extra cue at the top-right so the user can't miss it.
    */
   onKycFieldBlur(field: 'panNumber' | 'aadhaarNumber' | 'accountNumber' | 'ifscCode'): void {
-    const ctrl = this.registerForm.get(field);
-    if (!ctrl || !ctrl.value) return; // empty — required-error toast on submit is enough
-    if (!ctrl.hasError('pattern')) return;
-
-    const messages: Record<typeof field, { title: string; body: string }> = {
-      panNumber:    { title: 'Invalid PAN',          body: 'Expected format: ABCDE1234F (5 letters, 4 digits, 1 letter).' },
-      aadhaarNumber:{ title: 'Invalid Aadhaar',      body: 'Aadhaar must be exactly 12 digits.' },
-      accountNumber:{ title: 'Invalid account no.',  body: 'Account number should be 9 to 18 digits.' },
-      ifscCode:     { title: 'Invalid IFSC',         body: 'Expected format: ABCD0123456 (4 letters, 0, then 6 letters or digits).' }
-    };
-    const m = messages[field];
-    this.toastr.error(m.body, m.title, { timeOut: 4000, closeButton: true, positionClass: 'toast-top-right' });
+    // Disabled — inline mat-error is sufficient. Toast was too aggressive with browser autofill.
   }
 
   private toIsoInstant(d: any): string {
