@@ -5,8 +5,8 @@ import { UserService } from '../_services/user.service';
 import { BackendApiService } from '../_services/backend-api.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { trigger, style, transition, animate } from '@angular/animations';
-import { map, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { map, catchError, debounceTime, switchMap, distinctUntilChanged, first } from 'rxjs/operators';
+import { of, timer } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -248,7 +248,7 @@ export class RegisterComponent implements OnInit {
           : '🎉 Registration successful! Welcome to Nutrition Forever Wellness.';
 
         this.successMessage =
-          friendly + ' Please check your email and sign in. You will be redirected to login shortly.';
+          friendly + ' Please check your email and sign in. You will be redirected to login shortly.\n\n✅ आपका अकाउंट बन गया है। कृपया अपना ईमेल चेक करें और लॉगिन करें।';
         this.errorMessage = '';
 
         // Toast popup so the user notices even on a long form
@@ -466,13 +466,16 @@ export class RegisterComponent implements OnInit {
     return '';
   }
 
-  // Async email uniqueness validator
+  // Async email uniqueness validator — debounced so it only fires
+  // after the user stops typing for 800ms.
   emailAsyncValidator(userService: UserService): AsyncValidatorFn {
     return (control: AbstractControl) => {
       if (!control.value) return of(null);
-      return userService.isEmailExist(control.value).pipe(
+      return timer(800).pipe(
+        switchMap(() => userService.isEmailExist(control.value)),
         map((exists: any) => (exists ? { emailTaken: true } : null)),
-        catchError(() => of(null))
+        catchError(() => of(null)),
+        first()
       );
     };
   }
