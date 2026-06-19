@@ -248,7 +248,7 @@ export class RegisterComponent implements OnInit {
           : '🎉 Registration successful! Welcome to Nutrition Forever Wellness.';
 
         this.successMessage =
-          friendly + ' Please check your email and sign in. Redirecting to login...';
+          friendly + ' Please check your email and sign in. You will be redirected to login shortly.';
         this.errorMessage = '';
 
         // Toast popup so the user notices even on a long form
@@ -309,7 +309,7 @@ export class RegisterComponent implements OnInit {
         this.sponsorError = '';
         this.pincodeServiceable = null;
 
-        setTimeout(() => this.router.navigate(['/login']), 2500);
+        setTimeout(() => this.router.navigate(['/login']), 120000);
       },
       err => {
         this.submitting = false;
