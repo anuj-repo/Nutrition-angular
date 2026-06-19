@@ -2,7 +2,9 @@
 .home-hero {
    position: relative;
    overflow: hidden;
-   width: 100%;
+   width: 100vw;
+   margin-left: 50%;
+   transform: translateX(-50%);
 }
 
 .hero-slider {
