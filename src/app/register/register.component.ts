@@ -64,7 +64,7 @@ export class RegisterComponent implements OnInit {
     BANK_PROOF: null
   };
   kycFileError = '';
-  private readonly MAX_KYC_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
+  private readonly MAX_KYC_FILE_SIZE = 1 * 1024 * 1024; // 1 MB
 
   cityParams: any = { smartSearch: '', publicUse: '1' };
 
