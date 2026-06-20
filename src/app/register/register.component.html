@@ -157,7 +157,8 @@
           <p class="sponsor-feedback ok" *ngIf="pincodeServiceable === true">✓ Delivery available in your area</p>
           <p class="sponsor-feedback bad" *ngIf="pincodeServiceable === false">✗ Delivery not available in this pincode</p>
 
-          <!-- Package Selection -->
+          <!-- Package Selection (hidden - single product only) -->
+          <!--
           <h3 class="section-title">💊 Choose Your Package</h3>
           <div class="form-grid">
             <mat-form-field appearance="outline">
@@ -187,6 +188,7 @@
               <input matInput formControlName="upiId" placeholder="yourname@bank">
             </mat-form-field>
           </div>
+          -->
 
           <!-- Payment Confirmation (UTR / Transaction ID) -->
           <h3 class="section-title">💳 Payment Confirmation</h3>

@@ -5,8 +5,8 @@ import { UserService } from '../_services/user.service';
 import { BackendApiService } from '../_services/backend-api.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { trigger, style, transition, animate } from '@angular/animations';
-import { map, catchError, debounceTime, switchMap, distinctUntilChanged, first } from 'rxjs/operators';
-import { of, timer } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -79,7 +79,7 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email], [this.emailAsyncValidator(this.userService)]],
+      email: ['', { validators: [Validators.required, Validators.email], asyncValidators: [this.emailAsyncValidator(this.userService)], updateOn: 'blur' }],
       mobNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       referralCode: [''],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -466,16 +466,13 @@ export class RegisterComponent implements OnInit {
     return '';
   }
 
-  // Async email uniqueness validator — debounced so it only fires
-  // after the user stops typing for 800ms.
+  // Async email uniqueness validator — only fires on blur (user leaves the field).
   emailAsyncValidator(userService: UserService): AsyncValidatorFn {
     return (control: AbstractControl) => {
       if (!control.value) return of(null);
-      return timer(800).pipe(
-        switchMap(() => userService.isEmailExist(control.value)),
+      return userService.isEmailExist(control.value).pipe(
         map((exists: any) => (exists ? { emailTaken: true } : null)),
-        catchError(() => of(null)),
-        first()
+        catchError(() => of(null))
       );
     };
   }

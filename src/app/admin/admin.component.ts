@@ -99,31 +99,43 @@ export class AdminComponent implements OnInit {
     this.loading = true;
     this.error = '';
 
-    forkJoin({
-      registrations: this.api.allRegistrations().pipe(catchError(() => of({ data: [] }))),
-      pendingPayouts: this.api.pendingPayouts().pipe(catchError(() => of({ data: [] }))),
-      users: this.api.adminUsers().pipe(catchError(() => of({ data: [] })))
-    }).subscribe(
-      (res: any) => {
-        const regs: any[] = res.registrations?.data || [];
-        const payouts: any[] = res.pendingPayouts?.data || [];
-        const users: any[] = res.users?.data || [];
+    // Load each API independently so tiles appear as data arrives
+    // instead of blocking everything until the slowest call finishes.
+    let completed = 0;
+    const total = 3;
+    let regs: any[] = [];
+    let payouts: any[] = [];
+    let users: any[] = [];
 
-        this.computeTiles(regs, payouts, users);
+    const tryFinish = () => {
+      completed++;
+      // Render partial data as each call completes
+      this.computeTiles(regs, payouts, users);
+      if (completed >= total) {
         this.computeRegStatusBars(regs);
         this.computeKycDonut(regs);
         this.computeTrend(regs);
         this.recent = [...regs]
           .sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''))
           .slice(0, 6);
-
         this.loading = false;
-      },
-      err => {
-        this.loading = false;
-        this.error = err?.error?.message || 'Could not load admin dashboard.';
       }
-    );
+    };
+
+    this.api.allRegistrations().pipe(catchError(() => of({ data: [] }))).subscribe(res => {
+      regs = res?.data || [];
+      tryFinish();
+    });
+
+    this.api.pendingPayouts().pipe(catchError(() => of({ data: [] }))).subscribe(res => {
+      payouts = res?.data || [];
+      tryFinish();
+    });
+
+    this.api.adminUsers().pipe(catchError(() => of({ data: [] }))).subscribe(res => {
+      users = res?.data || [];
+      tryFinish();
+    });
   }
 
   // ----- Tiles -----
