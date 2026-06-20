@@ -144,25 +144,42 @@ export class RegisterComponent implements OnInit {
   register(form: FormGroup) {
     if (form.invalid) {
       form.markAllAsTouched();
-      // Friendly call-out for the most commonly forgotten field.
-      if (form.get('utrNumber')?.invalid) {
-        this.errorMessage = 'Please enter the UTR / Transaction ID — payment proof is required to register.';
+
+      // Find missing fields and tell user clearly
+      const missing: string[] = [];
+      if (form.get('firstName')?.invalid) missing.push('First Name');
+      if (form.get('lastName')?.invalid) missing.push('Last Name');
+      if (form.get('email')?.invalid) missing.push('Email');
+      if (form.get('mobNumber')?.invalid) missing.push('Mobile Number');
+      if (form.get('dob')?.invalid) missing.push('Date of Birth');
+      if (form.get('address')?.invalid) missing.push('Address');
+      if (form.get('country')?.invalid) missing.push('Country');
+      if (form.get('state')?.invalid) missing.push('State');
+      if (form.get('city')?.invalid) missing.push('City');
+      if (form.get('zipCode')?.invalid) missing.push('Pincode');
+      if (form.get('utrNumber')?.invalid) missing.push('UTR / Transaction ID');
+      if (form.get('panNumber')?.invalid) missing.push('PAN Number');
+      if (form.get('aadhaarNumber')?.invalid) missing.push('Aadhaar Number');
+      if (form.get('accountNumber')?.invalid) missing.push('Account Number');
+      if (form.get('ifscCode')?.invalid) missing.push('IFSC Code');
+      if (form.get('password')?.invalid) missing.push('Password');
+      if (form.get('confirmPassword')?.invalid) missing.push('Confirm Password');
+
+      if (missing.length > 0) {
+        const missingText = missing.join(', ');
+        this.errorMessage = 'Please fill these fields: ' + missingText;
         this.toastr.error(
-          'Enter the UTR / Transaction ID from your bank receipt.',
-          'Payment proof required',
-          { timeOut: 5000, closeButton: true }
-        );
-      } else if (this.hasInvalidKycField(form)) {
-        this.errorMessage = 'Please complete the KYC section (PAN, Aadhaar and bank details).';
-        this.toastr.error(
-          'PAN, Aadhaar, account number and IFSC are all required.',
-          'KYC details missing',
-          { timeOut: 5000, closeButton: true }
+          missingText,
+          '⚠️ Missing fields (' + missing.length + ')',
+          { timeOut: 8000, closeButton: true }
         );
       } else {
         this.errorMessage = 'Please fix the highlighted fields.';
         this.toastr.warning('Please fix the highlighted fields.', 'Form incomplete');
       }
+
+      // Scroll to top to show error
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
     if (form.value.password !== form.value.confirmPassword) {

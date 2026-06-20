@@ -449,7 +449,7 @@
           <!-- Submit -->
           <div class="actions-row">
             <button mat-raised-button class="submit-btn" type="submit"
-                    [disabled]="registerForm.invalid || submitting" [@buttonPress]>
+                    [disabled]="submitting" [@buttonPress]>
               <mat-icon>person_add</mat-icon>
               {{ submitting ? 'Creating account...' : 'Create Account' }}
             </button>
