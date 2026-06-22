@@ -216,11 +216,128 @@
   }
 
   .register-card {
-    padding: 20px;
+    padding: 16px 14px;
+    border-radius: 14px;
   }
 
   .brand-header h1 {
-    font-size: 22px;
+    font-size: 20px;
+  }
+
+  .brand-header .subtitle {
+    font-size: 13px;
+  }
+
+  .register-page {
+    padding: 16px 8px;
+  }
+
+  .section-title {
+    font-size: 14px;
+    margin: 20px 0 10px;
+  }
+
+  /* Actions row stacks vertically */
+  .actions-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 14px !important;
+    font-size: 15px !important;
+  }
+
+  .login-link {
+    font-size: 13px;
+  }
+
+  /* Payment section */
+  .payment-options {
+    grid-template-columns: 1fr;
+  }
+
+  .payment-info-box {
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+
+  .payment-toggle-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  /* QR code smaller on mobile */
+  .qr-option .qr-link {
+    width: 160px;
+    height: 160px;
+  }
+
+  /* Bank details responsive */
+  .pay-option.bank-option .bank-details li {
+    flex-wrap: wrap;
+  }
+
+  .pay-option.bank-option .bank-details li strong {
+    flex-basis: 100%;
+    margin-bottom: 2px;
+  }
+
+  /* Upload tiles */
+  .upload-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .upload-tile {
+    padding: 14px 12px;
+  }
+
+  /* Sponsor row */
+  .sponsor-row {
+    padding: 10px;
+  }
+
+  /* Alert */
+  .alert {
+    padding: 10px 12px;
+    font-size: 13px;
+    gap: 8px;
+  }
+
+  .alert mat-icon {
+    font-size: 20px;
+    height: 20px;
+    width: 20px;
+  }
+}
+
+/* Extra small devices (under 380px) */
+@media (max-width: 380px) {
+  .register-page {
+    padding: 10px 4px;
+  }
+
+  .register-card {
+    padding: 12px 10px;
+  }
+
+  .brand-header h1 {
+    font-size: 18px;
+  }
+
+  .qr-option .qr-link {
+    width: 140px;
+    height: 140px;
+  }
+
+  .referral-code {
+    font-size: 16px;
+    padding: 8px 14px;
+    letter-spacing: 1.5px;
   }
 }
 

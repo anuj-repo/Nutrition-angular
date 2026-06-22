@@ -409,3 +409,31 @@ body {
   border-radius: 8px !important;
   font-size: 15px !important;
 }
+
+/* ===== Global Mobile Helpers ===== */
+@media (max-width: 600px) {
+  /* Ensure all mat-tables can scroll horizontally */
+  .mat-table,
+  table[mat-table] {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Tighter padding on all containers */
+  .container, .mat-card, .mat-mdc-card {
+    margin-left: 4px;
+    margin-right: 4px;
+  }
+
+  /* Buttons: full-width on very small screens for easy tap */
+  .mat-raised-button,
+  .mat-mdc-raised-button {
+    min-height: 44px;
+  }
+
+  /* Avoid tiny tap targets */
+  button, a {
+    min-height: 40px;
+  }
+}

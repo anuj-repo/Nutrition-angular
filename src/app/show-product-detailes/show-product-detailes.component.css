@@ -92,10 +92,30 @@ button[mat-icon-button][color="warn"]:hover {
 /* Mobile */
 @media (max-width: 768px) {
   :host {
-    padding: 16px;
+    padding: 16px 8px;
   }
 
   .w-50 {
     width: 100% !important;
+  }
+
+  .mat-elevation-z8 {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table th.mat-header-cell,
+  th[mat-header-cell] {
+    font-size: 11px !important;
+    padding: 10px 8px !important;
+    white-space: nowrap;
+  }
+
+  table td.mat-cell,
+  td[mat-cell] {
+    font-size: 12px;
+    padding: 8px !important;
+    white-space: nowrap;
   }
 }

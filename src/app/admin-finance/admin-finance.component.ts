@@ -148,8 +148,34 @@ export class AdminFinanceComponent implements OnInit {
   }
 
   inr(n: number): string {
-    if (!isFinite(n)) return '₹0';
-    return '₹' + Math.round(n).toLocaleString('en-IN');
+    if (!isFinite(n)) return '₹0.00';
+    // Show exact value without rounding — up to 2 decimal places,
+    // but preserve more if the value actually has them.
+    const str = Number(n).toString();
+    const parts = str.split('.');
+    const intPart = parts[0];
+    const decPart = parts[1] || '00';
+
+    // Format integer part with Indian grouping (xx,xx,xxx)
+    let formatted = '';
+    const digits = intPart.replace('-', '');
+    if (digits.length <= 3) {
+      formatted = digits;
+    } else {
+      formatted = digits.slice(-3);
+      let remaining = digits.slice(0, -3);
+      while (remaining.length > 2) {
+        formatted = remaining.slice(-2) + ',' + formatted;
+        remaining = remaining.slice(0, -2);
+      }
+      if (remaining.length > 0) {
+        formatted = remaining + ',' + formatted;
+      }
+    }
+
+    const sign = n < 0 ? '-' : '';
+    const decimal = decPart.length < 2 ? decPart.padEnd(2, '0') : decPart;
+    return '₹' + sign + formatted + '.' + decimal;
   }
 
   get companyNet(): number {

@@ -26,3 +26,21 @@
 .badge.pending { background: #fff3e0; color: #e65100; }
 .badge.approved, .badge.success, .badge.processed { background: #e8f5e9; color: #2e7d32; }
 .badge.rejected, .badge.failed { background: #ffebee; color: #c62828; }
+
+/* Mobile */
+@media (max-width: 600px) {
+  .wallet-container { padding: 12px 8px; }
+  .summary-cards { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .summary-card mat-card-content { padding: 14px; }
+  .card-value { font-size: 18px; }
+  .card-label { font-size: 12px; }
+  .tab-nav { flex-wrap: wrap; gap: 4px; }
+  .tab-nav button { font-size: 13px; padding: 8px 12px; }
+
+  /* Make tables scrollable */
+  table, .mat-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
