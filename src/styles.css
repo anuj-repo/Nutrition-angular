@@ -1,23 +1,23 @@
-/* ============ Nutrition Forever Wellness — Nature Wellness Theme ============ */
+/* ============ Nutrition Forever Wellness — Navy + Gold Theme ============ */
 
 :root {
-  /* Primary - Warm Terracotta/Brown */
-  --primary: #b76448;
-  --primary-light: #c9785e;
-  --primary-dark: #944f38;
-  --primary-50: #fdf3ef;
-  --primary-100: #f8ddd4;
+  /* Primary - Dark Navy Blue */
+  --primary: #0f3460;
+  --primary-light: #16213e;
+  --primary-dark: #1a1a2e;
+  --primary-50: #eef3f9;
+  --primary-100: #d4e0ed;
 
-  /* Accent - Warm Gold/Honey */
-  --accent: #d4a843;
-  --accent-light: #e0be6a;
-  --accent-dark: #b8922e;
-  --accent-50: #fdf8eb;
-  --accent-100: #f9ecc8;
+  /* Accent - Gold */
+  --accent: #ffd700;
+  --accent-light: #ffe44d;
+  --accent-dark: #c9a800;
+  --accent-50: #fffde6;
+  --accent-100: #fff8b3;
 
   /* Brand (for special emphasis) */
-  --brand-red: #b76448;
-  --brand-red-light: #c9785e;
+  --brand-red: #e74c3c;
+  --brand-red-light: #f39c9c;
 
   /* Neutral palette */
   --gray-50: #f9fafb;
@@ -32,29 +32,29 @@
   --gray-900: #111827;
 
   /* Functional */
-  --success: #059669;
-  --success-light: #d1fae5;
-  --warning: #d97706;
-  --warning-light: #fef3c7;
-  --error: #dc2626;
-  --error-light: #fee2e2;
-  --info: #b76448;
-  --info-light: #fdf3ef;
+  --success: #00b894;
+  --success-light: #d4faf1;
+  --warning: #ff9800;
+  --warning-light: #fff3e0;
+  --error: #e74c3c;
+  --error-light: #fdeaea;
+  --info: #0f3460;
+  --info-light: #eef3f9;
 
   /* Surface & Layout */
-  --bg-page: #fdfaf8;
+  --bg-page: #f0f4f8;
   --surface: #ffffff;
-  --text-primary: #2e1f14;
-  --text-secondary: #5c4a3d;
-  --text-muted: #8c7a6d;
-  --border: #e8ddd5;
-  --border-light: #f5f0ec;
+  --text-primary: #1a1a2e;
+  --text-secondary: #4a5568;
+  --text-muted: #718096;
+  --border: #e2e8f0;
+  --border-light: #edf2f7;
 
   /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(183, 100, 72, 0.04);
-  --shadow-md: 0 4px 12px rgba(183, 100, 72, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 10px 24px rgba(183, 100, 72, 0.08), 0 4px 8px rgba(0, 0, 0, 0.04);
-  --shadow-xl: 0 20px 40px rgba(183, 100, 72, 0.1), 0 8px 16px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 3px rgba(15, 52, 96, 0.04);
+  --shadow-md: 0 4px 12px rgba(15, 52, 96, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 24px rgba(15, 52, 96, 0.1), 0 4px 8px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 20px 40px rgba(15, 52, 96, 0.12), 0 8px 16px rgba(0, 0, 0, 0.04);
 
   /* Radius */
   --radius-sm: 6px;
