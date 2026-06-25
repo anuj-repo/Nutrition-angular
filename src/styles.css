@@ -1,60 +1,60 @@
-/* ============ Nutrition Forever Wellness — Navy + Gold Theme ============ */
+/* ============ Nutrition Forever Wellness — ICICI-Inspired Theme ============ */
 
 :root {
-  /* Primary - Dark Navy Blue */
-  --primary: #0f3460;
-  --primary-light: #16213e;
-  --primary-dark: #1a1a2e;
-  --primary-50: #eef3f9;
-  --primary-100: #d4e0ed;
+  /* Primary - ICICI Deep Blue */
+  --primary: #004a7f;
+  --primary-light: #0066a4;
+  --primary-dark: #003560;
+  --primary-50: #e8f4fd;
+  --primary-100: #b8ddf5;
 
-  /* Accent - Gold */
-  --accent: #ffd700;
-  --accent-light: #ffe44d;
-  --accent-dark: #c9a800;
-  --accent-50: #fffde6;
-  --accent-100: #fff8b3;
+  /* Accent - ICICI Orange/Saffron */
+  --accent: #F99D27;
+  --accent-light: #FBBA58;
+  --accent-dark: #E08A15;
+  --accent-50: #fef6e8;
+  --accent-100: #fde9c4;
 
-  /* Brand (for special emphasis) */
-  --brand-red: #e74c3c;
-  --brand-red-light: #f39c9c;
+  /* Brand Red (for special emphasis) */
+  --brand-red: #B02A30;
+  --brand-red-light: #d4444a;
 
   /* Neutral palette */
-  --gray-50: #f9fafb;
-  --gray-100: #f3f4f6;
-  --gray-200: #e5e7eb;
-  --gray-300: #d1d5db;
-  --gray-400: #9ca3af;
-  --gray-500: #6b7280;
-  --gray-600: #4b5563;
+  --gray-50: #f8fafb;
+  --gray-100: #f1f4f6;
+  --gray-200: #e3e8ec;
+  --gray-300: #c9d1d8;
+  --gray-400: #8d9baa;
+  --gray-500: #5f7085;
+  --gray-600: #4a5a6b;
   --gray-700: #374151;
   --gray-800: #1f2937;
   --gray-900: #111827;
 
   /* Functional */
-  --success: #00b894;
-  --success-light: #d4faf1;
-  --warning: #ff9800;
-  --warning-light: #fff3e0;
-  --error: #e74c3c;
+  --success: #0f9d58;
+  --success-light: #e0f5ea;
+  --warning: #F99D27;
+  --warning-light: #fef6e8;
+  --error: #B02A30;
   --error-light: #fdeaea;
-  --info: #0f3460;
-  --info-light: #eef3f9;
+  --info: #004a7f;
+  --info-light: #e8f4fd;
 
   /* Surface & Layout */
-  --bg-page: #f0f4f8;
+  --bg-page: #f5f7fa;
   --surface: #ffffff;
-  --text-primary: #1a1a2e;
-  --text-secondary: #4a5568;
-  --text-muted: #718096;
-  --border: #e2e8f0;
-  --border-light: #edf2f7;
+  --text-primary: #1a2332;
+  --text-secondary: #4a5a6b;
+  --text-muted: #8d9baa;
+  --border: #e3e8ec;
+  --border-light: #f1f4f6;
 
   /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(15, 52, 96, 0.04);
-  --shadow-md: 0 4px 12px rgba(15, 52, 96, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 10px 24px rgba(15, 52, 96, 0.1), 0 4px 8px rgba(0, 0, 0, 0.04);
-  --shadow-xl: 0 20px 40px rgba(15, 52, 96, 0.12), 0 8px 16px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 3px rgba(0, 74, 127, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 74, 127, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 24px rgba(0, 74, 127, 0.08), 0 4px 8px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 20px 40px rgba(0, 74, 127, 0.1), 0 8px 16px rgba(0, 0, 0, 0.04);
 
   /* Radius */
   --radius-sm: 6px;
