@@ -132,7 +132,15 @@ export class RegisterComponent implements OnInit {
     this.registerForm.get('email').setAsyncValidators(this.emailAsyncValidator(this.userService));
     this.registerForm.get('email').updateValueAndValidity();
 
-    this.registerForm.get('panNumber').setAsyncValidators(this.panAsyncValidator(this.userService));
+    this.registerForm.get('panNumber').setAsyncValidators((control: AbstractControl) => {
+      if (!control.value) return of(null);
+      const pan = control.value.trim().toUpperCase();
+      if (!/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(pan)) return of(null);
+      return this.userService.isPanExist(pan).pipe(
+        map((exists: any) => (exists ? { panTaken: true } : null)),
+        catchError(() => of(null))
+      );
+    });
     this.registerForm.get('panNumber').updateValueAndValidity();
 
     // Pick up referral from URL: /register?ref=ABC123 (also accept ?referral= or ?referralCode=)
@@ -496,6 +504,20 @@ export class RegisterComponent implements OnInit {
       if (!control.value) return of(null);
       return userService.isEmailExist(control.value).pipe(
         map((exists: any) => (exists ? { emailTaken: true } : null)),
+        catchError(() => of(null))
+      );
+    };
+  }
+
+  // Async PAN uniqueness validator — only fires on blur (user leaves the field).
+  panAsyncValidator(userService: UserService): AsyncValidatorFn {
+    return (control: AbstractControl) => {
+      if (!control.value) return of(null);
+      const pan = control.value.trim().toUpperCase();
+      // Only validate if PAN format is correct
+      if (!/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(pan)) return of(null);
+      return userService.isPanExist(pan).pipe(
+        map((exists: any) => (exists ? { panTaken: true } : null)),
         catchError(() => of(null))
       );
     };
