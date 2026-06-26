@@ -55,6 +55,7 @@ export class AdminApprovalsComponent implements OnInit, OnDestroy {
   // Registrations
   registrations: RegistrationRow[] = [];
   registrationFilter: '' | 'PENDING' | 'COMPLETED' | 'FAILED' = 'PENDING';
+  regSearchKeyword = '';
   loadingRegs = false;
 
   // Verify-by-UTR widget
@@ -143,6 +144,31 @@ export class AdminApprovalsComponent implements OnInit, OnDestroy {
   setRegFilter(f: '' | 'PENDING' | 'COMPLETED' | 'FAILED') {
     this.registrationFilter = f;
     this.loadRegistrations();
+  }
+
+  filterRegistrations() {
+    if (!this.regSearchKeyword || !this.regSearchKeyword.trim()) {
+      this.loadRegistrations();
+      return;
+    }
+    const q = this.regSearchKeyword.trim().toLowerCase();
+    // Filter locally from already loaded registrations
+    this.loadingRegs = true;
+    const obs = this.api.allRegistrations(this.registrationFilter || undefined);
+    obs.subscribe(
+      (r: any) => {
+        const all: any[] = r?.data || [];
+        this.registrations = all.filter((reg: any) => {
+          const email = (reg.user?.email || '').toLowerCase();
+          const phone = (reg.user?.mobileNumber || '').toLowerCase();
+          const name = ((reg.user?.fname || '') + ' ' + (reg.user?.lname || '')).toLowerCase();
+          const utr = (reg.utrNumber || '').toLowerCase();
+          return email.includes(q) || phone.includes(q) || name.includes(q) || utr.includes(q);
+        });
+        this.loadingRegs = false;
+      },
+      () => { this.loadingRegs = false; }
+    );
   }
 
   approveRegistration(row: RegistrationRow) {

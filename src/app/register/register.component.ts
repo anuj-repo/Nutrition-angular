@@ -128,6 +128,13 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.getAllCountry();
 
+    // Async validators for email and PAN uniqueness (fire on blur)
+    this.registerForm.get('email').setAsyncValidators(this.emailAsyncValidator(this.userService));
+    this.registerForm.get('email').updateValueAndValidity();
+
+    this.registerForm.get('panNumber').setAsyncValidators(this.panAsyncValidator(this.userService));
+    this.registerForm.get('panNumber').updateValueAndValidity();
+
     // Pick up referral from URL: /register?ref=ABC123 (also accept ?referral= or ?referralCode=)
     this.route.queryParamMap.subscribe(params => {
       const ref =

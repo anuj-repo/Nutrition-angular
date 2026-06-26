@@ -56,6 +56,11 @@
       <mat-card-content>
         <div class="filter-row">
           <h3>Registration Requests</h3>
+          <mat-form-field appearance="outline" style="width:240px; margin-right:12px;">
+            <mat-label>Search (email / phone / name)</mat-label>
+            <input matInput [(ngModel)]="regSearchKeyword" (keyup.enter)="filterRegistrations()" placeholder="Search...">
+            <mat-icon matSuffix style="cursor:pointer;" (click)="filterRegistrations()">search</mat-icon>
+          </mat-form-field>
           <div class="filter-group">
             <button class="filter-chip" [class.active]="registrationFilter===''"
                     (click)="setRegFilter('')">All</button>

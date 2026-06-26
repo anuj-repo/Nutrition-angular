@@ -42,7 +42,46 @@ import { ToastrModule } from 'ngx-toastr';
 import { AllTeamComponent } from './all-team/all-team.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE, DateAdapter, NativeDateAdapter } from '@angular/material/core';
+
+/** Custom date adapter that parses DD/MM/YYYY input. */
+export class DdMmYyyyDateAdapter extends NativeDateAdapter {
+  override parse(value: any): Date | null {
+    if (typeof value === 'string') {
+      // Accept DD/MM/YYYY or DD-MM-YYYY
+      const parts = value.split(/[\/\-]/);
+      if (parts.length === 3) {
+        const day = +parts[0];
+        const month = +parts[1] - 1;
+        const year = +parts[2];
+        if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
+          return new Date(year, month, day);
+        }
+      }
+    }
+    return super.parse(value);
+  }
+
+  override format(date: Date, displayFormat: Object): string {
+    if (displayFormat === 'input') {
+      const day = date.getDate().toString().padStart(2, '0');
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    }
+    return date.toDateString();
+  }
+}
+
+export const DD_MM_YYYY_FORMATS = {
+  parse: { dateInput: 'input' },
+  display: {
+    dateInput: 'input',
+    monthYearLabel: { year: 'numeric', month: 'short' },
+    dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
+    monthYearA11yLabel: { year: 'numeric', month: 'long' },
+  },
+};
 import { MatMenuModule } from '@angular/material/menu';
 import { MyProfileComponent } from './my-profile/my-profile.component';
 import { MatTreeModule } from '@angular/material/tree';
@@ -253,6 +292,9 @@ import { I18nService } from './_services/i18n.service';
       useClass: AuthInterceptor,
       multi: true
     },
+    { provide: DateAdapter, useClass: DdMmYyyyDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: DD_MM_YYYY_FORMATS },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-IN' },
     UserService,
     NetworkService,
     BackendApiService,

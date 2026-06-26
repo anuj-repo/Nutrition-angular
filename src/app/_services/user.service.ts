@@ -46,6 +46,16 @@ export class UserService {
     }));
   }
 
+  isPanExist(pan: string) {
+    return this.http.post<any>(
+      `${environment.BASE_URL + API_PATH.API_VERSION_V1 + API_PATH.CHECK_PAN_EXIST}`,
+      JSON.stringify(pan),
+      { headers: { 'Content-Type': 'application/json' } }
+    ).pipe(map(result => {
+      return result;
+    }));
+  }
+
   login(data) {
     return this.http.post<any>(`${environment.BASE_URL + API_PATH.API_VERSION_V1 + API_PATH.SIGNIN}`, data)
       .pipe(map(userData => {

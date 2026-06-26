@@ -23,6 +23,7 @@ export const API_PATH: any = {
   SIGNIN: "/auth/signin",
   SIGNOUT: "/auth/signout",
   CHECK_EMAIL_EXIST: "/emailUniqueness",
+  CHECK_PAN_EXIST: "/panUniqueness",
   GET_ALL_USER_BY_ADMIN: "/getAllUsersByAdmin",
   UPDATE_USER_BY_ADMIN: "/updatePayment",
   ACTIVATE_USER: "/activateUser",

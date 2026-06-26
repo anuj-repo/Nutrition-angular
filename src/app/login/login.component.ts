@@ -76,7 +76,9 @@ export class LoginComponent implements OnInit {
         }
       },
       (error) => {
-        this.toastr.error(error?.error?.message || 'Invalid credentials. Please try again.', 'Login failed');
+        const msg = error?.error?.message;
+        const displayMsg = (!msg || msg === 'success') ? 'Invalid username or password. Please try again.' : msg;
+        this.toastr.error(displayMsg, 'Login failed');
       }
     );
   }

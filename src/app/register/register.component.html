@@ -98,7 +98,7 @@
 
             <mat-form-field appearance="outline">
               <mat-label>Date of Birth</mat-label>
-              <input matInput [matDatepicker]="picker" formControlName="dob" placeholder="MM/DD/YYYY" [max]="maxDob">
+              <input matInput [matDatepicker]="picker" formControlName="dob" placeholder="DD/MM/YYYY" [max]="maxDob">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
               <mat-error *ngIf="registerForm.get('dob').hasError('required')">Date of birth is required</mat-error>
