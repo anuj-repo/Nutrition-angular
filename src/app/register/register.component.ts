@@ -57,6 +57,11 @@ export class RegisterComponent implements OnInit {
   sponsorError = ''; // network/server error (kept separate from "invalid code")
   pincodeServiceable: boolean | null = null;
 
+  // UTM tracking (captured from URL params)
+  utmSource = '';
+  utmMedium = '';
+  utmCampaign = '';
+
   // KYC file uploads (PAN, Aadhaar, Bank proof)
   kycFiles: { [key: string]: { name: string; type: string; data: string } | null } = {
     PAN: null,
@@ -128,10 +133,7 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.getAllCountry();
 
-    // Async validators for email and PAN uniqueness (fire on blur)
-    this.registerForm.get('email').setAsyncValidators(this.emailAsyncValidator(this.userService));
-    this.registerForm.get('email').updateValueAndValidity();
-
+    // Async PAN uniqueness validator (fire on blur)
     this.registerForm.get('panNumber').setAsyncValidators((control: AbstractControl) => {
       if (!control.value) return of(null);
       const pan = control.value.trim().toUpperCase();
@@ -153,6 +155,10 @@ export class RegisterComponent implements OnInit {
         this.registerForm.patchValue({ referralCode: ref.trim() });
         this.validateSponsor();
       }
+      // Capture UTM params for tracking
+      this.utmSource = params.get('utm_source') || '';
+      this.utmMedium = params.get('utm_medium') || '';
+      this.utmCampaign = params.get('utm_campaign') || '';
     });
   }
 
@@ -254,7 +260,12 @@ export class RegisterComponent implements OnInit {
       aadhaarImageType: this.kycFiles.AADHAAR.type,
       bankProofImage: this.kycFiles.BANK_PROOF.data,
       bankProofImageName: this.kycFiles.BANK_PROOF.name,
-      bankProofImageType: this.kycFiles.BANK_PROOF.type
+      bankProofImageType: this.kycFiles.BANK_PROOF.type,
+
+      // UTM tracking params (from URL query string)
+      utmSource: this.utmSource || null,
+      utmMedium: this.utmMedium || null,
+      utmCampaign: this.utmCampaign || null
     };
 
     // Sanity check before posting
