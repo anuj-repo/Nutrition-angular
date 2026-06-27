@@ -364,3 +364,56 @@
    .products-section { padding: 32px 12px 48px; }
    .product-image-wrap { height: 180px; }
 }
+
+/* ===== 1 Joining = 1 Tree Banner ===== */
+.tree-banner {
+   background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+   border-bottom: 2px solid #4caf50;
+   padding: 14px 24px;
+}
+
+.tree-banner-inner {
+   max-width: 1300px;
+   margin: 0 auto;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 14px;
+   flex-wrap: wrap;
+}
+
+.tree-icon {
+   font-size: 32px;
+   animation: treeBounce 2s ease-in-out infinite;
+}
+
+@keyframes treeBounce {
+   0%, 100% { transform: scale(1); }
+   50% { transform: scale(1.1); }
+}
+
+.tree-text {
+   display: flex;
+   flex-direction: column;
+   gap: 2px;
+}
+
+.tree-text strong {
+   font-size: 16px;
+   font-weight: 800;
+   color: #2e7d32;
+   letter-spacing: 0.3px;
+}
+
+.tree-text span {
+   font-size: 13px;
+   color: #4a6a4a;
+}
+
+@media (max-width: 600px) {
+   .tree-banner { padding: 12px 16px; }
+   .tree-banner-inner { gap: 10px; }
+   .tree-icon { font-size: 26px; }
+   .tree-text strong { font-size: 14px; }
+   .tree-text span { font-size: 12px; }
+}

@@ -2,85 +2,82 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<title>न्यूट्रिशन फॉरएवर वेलनेस - उत्पाद सारांश (हिंदी)</title>
+<title>न्यूट्रिशन फॉरएवर वेलनेस - उत्पाद सारांश</title>
 <style>
   @page { size: A4; margin: 0; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Segoe UI', Arial, sans-serif; background: #1a1a2e; color: #fff; }
 
-  .page { width: 100%; max-width: 210mm; min-height: 297mm; max-height: 297mm; padding: 12mm; page-break-after: always; position: relative; background: linear-gradient(160deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%); overflow: hidden; margin: 0 auto; }
+  .page { width: 210mm; min-height: 297mm; max-height: 297mm; padding: 8mm 10mm; page-break-after: always; position: relative; background: linear-gradient(160deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%); overflow: hidden; margin: 0 auto; }
   .page:last-child { page-break-after: avoid; }
 
   @media screen {
     body { background: #0a0a1a; }
-    .page { width: 100%; max-width: 100%; padding: 20px; min-height: auto; max-height: none; }
+    .page { width: 210mm; max-width: 210mm; }
   }
 
-  /* Decorative circles */
-  .page::before { content: ''; position: absolute; width: 200px; height: 200px; border-radius: 50%; top: -60px; right: -60px; background: radial-gradient(circle, rgba(212,168,67,0.2), transparent 70%); }
-  .page::after { content: ''; position: absolute; width: 250px; height: 250px; border-radius: 50%; bottom: -80px; left: -80px; background: radial-gradient(circle, rgba(183,100,72,0.15), transparent 70%); }
+  .page::before { content: ''; position: absolute; width: 180px; height: 180px; border-radius: 50%; top: -50px; right: -50px; background: radial-gradient(circle, rgba(212,168,67,0.15), transparent 70%); }
+  .page::after { content: ''; position: absolute; width: 200px; height: 200px; border-radius: 50%; bottom: -60px; left: -60px; background: radial-gradient(circle, rgba(183,100,72,0.12), transparent 70%); }
 
   .content { position: relative; z-index: 1; }
 
-  h1 { font-size: 24px; color: #ffd700; text-align: center; margin-bottom: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-  h2 { font-size: 12px; color: #ffd700; border-bottom: 1.5px solid rgba(255,215,0,0.4); padding-bottom: 3px; margin: 10px 0 5px; letter-spacing: 0.5px; }
-  h3 { font-size: 10px; color: #00d4aa; margin: 4px 0 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+  h1 { font-size: 20px; color: #ffd700; text-align: center; margin-bottom: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+  h2 { font-size: 11px; color: #ffd700; border-bottom: 1.5px solid rgba(255,215,0,0.4); padding-bottom: 2px; margin: 6px 0 4px; letter-spacing: 0.5px; }
+  h3 { font-size: 9px; color: #00d4aa; margin: 3px 0 2px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-  .subtitle { text-align: center; color: #00d4aa; font-size: 11px; margin-bottom: 8px; }
-  .hindi { color: #00d4aa; font-size: 9px; }
+  .subtitle { text-align: center; color: #00d4aa; font-size: 10px; margin-bottom: 5px; }
+  .hindi { color: #00d4aa; font-size: 8px; }
 
-  .flex { display: flex; gap: 12px; }
+  .flex { display: flex; gap: 8px; }
   .flex > div { flex: 1; }
-  .flex-3 { display: flex; gap: 10px; }
+  .flex-3 { display: flex; gap: 6px; }
   .flex-3 > div { flex: 1; }
 
-  .box { border: 1px solid rgba(255,215,0,0.3); border-radius: 8px; padding: 8px; margin-bottom: 6px; background: rgba(255,255,255,0.03); }
+  .box { border: 1px solid rgba(255,215,0,0.3); border-radius: 6px; padding: 6px; margin-bottom: 4px; background: rgba(255,255,255,0.03); }
   .box-gold { border-color: rgba(255,215,0,0.5); background: rgba(255,215,0,0.06); }
   .box-green { border-color: rgba(0,212,170,0.4); background: rgba(0,212,170,0.05); }
-  .box-glow { border-color: #ffd700; box-shadow: 0 0 12px rgba(255,215,0,0.15); }
 
-  table { width: 100%; border-collapse: collapse; font-size: 9px; margin: 3px 0; }
-  th { background: linear-gradient(135deg, #ffd700, #ff9800); color: #1a1a2e; padding: 4px 5px; text-align: center; font-weight: 700; }
-  td { padding: 3px 5px; border-bottom: 1px solid rgba(255,255,255,0.08); text-align: center; color: #ddd; }
-  tr:hover { background: rgba(255,215,0,0.05); }
+  table { width: 100%; border-collapse: collapse; font-size: 8px; margin: 2px 0; }
+  th { background: linear-gradient(135deg, #ffd700, #ff9800); color: #1a1a2e; padding: 3px 4px; text-align: center; font-weight: 700; }
+  td { padding: 2px 4px; border-bottom: 1px solid rgba(255,255,255,0.06); text-align: center; color: #ddd; }
 
-  .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 9px; font-weight: 700; margin: 1px 2px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 8px; font-weight: 700; margin: 1px 2px; }
   .badge-gold { background: linear-gradient(135deg, #ffd700, #ff9800); color: #1a1a2e; }
   .badge-green { background: #00d4aa; color: #1a1a2e; }
-  .badge-red { background: #ff6b6b; color: #fff; }
 
-  .price-big { font-size: 22px; font-weight: 900; color: #00d4aa; text-align: center; }
-  .price-strike { text-decoration: line-through; color: #888; font-size: 12px; }
+  .price-big { font-size: 18px; font-weight: 900; color: #00d4aa; text-align: center; }
+  .price-strike { text-decoration: line-through; color: #888; font-size: 11px; }
 
-  .product-img { max-width: 100%; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+  .product-img { max-width: 100%; border-radius: 10px; box-shadow: 0 6px 18px rgba(0,0,0,0.4); }
 
   .center { text-align: center; }
-  ul { padding-left: 12px; margin: 2px 0; }
-  li { margin: 1px 0; color: #ddd; font-size: 10px; }
+  ul { padding-left: 10px; margin: 2px 0; }
+  li { margin: 1px 0; color: #ddd; font-size: 9px; }
   li strong { color: #ffd700; }
 
-  .cta-box { background: linear-gradient(135deg, #ffd700, #ff9800); color: #1a1a2e; padding: 8px; border-radius: 10px; text-align: center; margin-top: 8px; }
-  .cta-box p { font-size: 11px; font-weight: 700; }
-  .cta-box .big { font-size: 14px; }
+  .cta-box { background: linear-gradient(135deg, #ffd700, #ff9800); color: #1a1a2e; padding: 6px; border-radius: 8px; text-align: center; margin-top: 5px; }
+  .cta-box p { font-size: 9px; font-weight: 700; }
+  .cta-box .big { font-size: 12px; }
 
-  .contact-bar { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,215,0,0.3); padding: 6px; border-radius: 8px; text-align: center; font-size: 9px; color: #ccc; margin-top: 6px; }
+  .contact-bar { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,215,0,0.3); padding: 4px; border-radius: 6px; text-align: center; font-size: 8px; color: #ccc; margin-top: 5px; }
   .contact-bar strong { color: #ffd700; }
 
-  .footer { text-align: center; font-size: 8px; color: #666; margin-top: 4px; }
+  .footer { text-align: center; font-size: 7px; color: #666; margin-top: 3px; }
 
   @media print {
     body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .page { width: 210mm; height: 297mm; }
   }
 </style>
 </head>
 <body>
 
-<!-- ==================== PAGE 1: FRONT ==================== -->
+<!-- ==================== पेज 1: सामने ==================== -->
 <div class="page">
 <div class="content">
 
-<div class="center" style="margin-bottom: 6px;">
-  <span style="font-size: 28px;">🌿</span>
+<div class="center" style="margin-bottom: 4px;">
+  <span style="font-size: 24px;">🌿</span>
 </div>
 <h1>न्यूट्रिशन फॉरएवर वेलनेस</h1>
 <p class="subtitle">स्टैमिना कोर+ | स्वास्थ्य · धन · सुरक्षा</p>
@@ -92,32 +89,32 @@
     <div class="box box-gold">
       <h3>उत्पाद विवरण</h3>
       <ul>
-        <li><strong>120 कैप्सूल</strong> — 60 दिनों की सप्लाई (2 महीने)</li>
-        <li><strong>खुराक:</strong> रोजाना 2 कैप्सूल भोजन के बाद</li>
+        <li><strong>120 कैप्सूल</strong> — 60 दिनों की सप्लाई</li>
+        <li><strong>खुराक:</strong> रोजाना 2 कैप्सूल</li>
         <li><strong>11 प्रीमियम जड़ी-बूटियां</strong> — 1055mg प्रति सर्विंग</li>
-        <li><strong>प्रति दिन खर्च:</strong> केवल ₹38/दिन</li>
+        <li><strong>प्रति दिन:</strong> केवल ₹38/दिन</li>
       </ul>
-      <div class="center" style="margin-top: 6px;">
+      <div class="center" style="margin-top: 4px;">
         <span class="price-strike">MRP: ₹2,500</span><br>
-        <span class="price-big">DP मूल्य: ₹2,280</span>
+        <span class="price-big">DP: ₹2,280</span>
       </div>
     </div>
     <div class="box box-green">
       <h3>✅ स्वास्थ्य लाभ</h3>
       <ul>
-        <li>⚡ <strong>Energy & Stamina</strong> — All-day power</li>
-        <li>🧠 <strong>Mental Clarity</strong> — Focus & memory</li>
-        <li>🛡️ <strong>इम्युनिटी बूस्ट</strong> — मजबूत रक्षा प्रणाली</li>
-        <li>😌 <strong>Stress Relief</strong> — Calm & relaxed</li>
-        <li>💪 <strong>Physical Strength</strong> — Muscle & bone</li>
-        <li>🌟 <strong>एंटी-एजिंग</strong> — युवा जीवन शक्ति</li>
+        <li>⚡ <strong>ऊर्जा और ताकत</strong> — पूरे दिन की शक्ति</li>
+        <li>🧠 <strong>मानसिक स्पष्टता</strong> — फोकस और याददाश्त</li>
+        <li>🛡️ <strong>इम्युनिटी</strong> — मजबूत रक्षा प्रणाली</li>
+        <li>😌 <strong>तनाव मुक्ति</strong> — शांत और आरामदायक</li>
+        <li>💪 <strong>शारीरिक शक्ति</strong> — मांसपेशियां और हड्डियां</li>
+        <li>🌟 <strong>एंटी-एजिंग</strong> — युवा शक्ति बनाए रखें</li>
       </ul>
-      <p class="hindi" style="margin-top:4px;">✓ 30-60 दिनों में परिणाम | ✓ कोई साइड इफेक्ट नहीं</p>
+      <p class="hindi" style="margin-top:3px;">✓ 30-60 दिनों में परिणाम | ✓ कोई साइड इफेक्ट नहीं</p>
     </div>
   </div>
   <div style="flex: 0.8; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-    <img src="Front.jpg" class="product-img" alt="Stamina Core+ Product" style="max-height: 200px;">
-    <p class="center hindi" style="margin-top:6px;">प्रीमियम आयुर्वेदिक वेलनेस कैप्सूल</p>
+    <img src="Front.jpg" class="product-img" alt="स्टैमिना कोर+" style="max-height: 170px;">
+    <p class="center hindi" style="margin-top:4px;">प्रीमियम आयुर्वेदिक वेलनेस कैप्सूल</p>
   </div>
 </div>
 
@@ -125,25 +122,29 @@
 <div class="flex">
   <div class="box">
     <h3>🇮🇳 आयुर्वेदिक</h3>
-    • अश्वगंधा (250mg) — ऊर्जा और तनाव मुक्ति<br>
+    <span style="font-size:8px;">
+    • अश्वगंधा (250mg) — ऊर्जा और ताकत<br>
     • शतावरी (125mg) — जीवन शक्ति<br>
-    • सफेद मूसली (125mg) — ताकत और स्टैमिना<br>
+    • सफेद मूसली (125mg) — शारीरिक ताकत<br>
     • गोखरू (125mg) — प्रदर्शन बढ़ाए<br>
     • मंजिष्ठा (100mg) — रक्त शोधक<br>
     • मोरिंगा (100mg) — 90+ पोषक तत्व
+    </span>
   </div>
   <div class="box">
-    <h3>🌍 अंतर्राष्ट्रीय सुपरफूड्स</h3>
+    <h3>🌍 वैश्विक सुपरफूड्स</h3>
+    <span style="font-size:8px;">
     • साइबेरियन जिनसेंग (60mg) — सहनशक्ति<br>
-    • गिंको बिलोबा (30mg) — दिमाग और याददाश्त<br>
-    • बिलबेरी (40mg) — आंखों का स्वास्थ्य<br>
-    • एल्डरबेरी (50mg) — इम्युनिटी<br>
-    • मैंगोस्टीन (50mg) — एंटी-ऑक्सीडेंट
+    • गिंको बिलोबा (30mg) — दिमाग तेज करे<br>
+    • बिलबेरी (40mg) — आंखों की रोशनी<br>
+    • एल्डरबेरी (50mg) — इम्युनिटी बूस्टर<br>
+    • मैंगोस्टीन (50mg) — एंटीऑक्सीडेंट
+    </span>
   </div>
 </div>
 
 <h2>💰 व्यापार अवसर</h2>
-<p style="font-size:11px; margin-bottom:6px;"><strong style="color:#ffd700;">₹2,280</strong> में जुड़ें → <strong style="color:#00d4aa;">60% कमीशन</strong> 15 स्तरों पर कमाएं!</p>
+<p style="font-size:9px; margin-bottom:4px;"><strong style="color:#ffd700;">₹2,280</strong> में जुड़ें → 15 स्तरों पर <strong style="color:#00d4aa;">60% तक कमीशन</strong> कमाएं!</p>
 <div class="flex">
   <div>
     <table>
@@ -156,9 +157,9 @@
     </table>
   </div>
   <div class="box box-gold center" style="display:flex;flex-direction:column;justify-content:center;">
-    <p style="font-size:18px;font-weight:900;color:#ffd700;">60%</p>
-    <p style="font-size:10px;">कुल कमीशन</p>
-    <p style="font-size:10px;color:#00d4aa;">+ 12% रिपरचेज बोनस</p>
+    <p style="font-size:16px;font-weight:900;color:#ffd700;">60%</p>
+    <p style="font-size:9px;">कुल कमीशन</p>
+    <p style="font-size:9px;color:#00d4aa;">+ 12% रिपरचेज बोनस</p>
     <p class="hindi">इंडस्ट्री में सबसे ज्यादा!</p>
   </div>
 </div>
@@ -167,140 +168,186 @@
   📞 <strong>7701863636</strong> | 📱 WhatsApp: <strong>7701863636</strong> | 📧 nutritionforeverwellness@gmail.com | 🌐 www.nutritionforeverwellness.com
 </div>
 
+<!-- Fill remaining space on page 1 -->
+<div style="margin-top:8px; border:1px solid rgba(255,215,0,0.3); border-radius:8px; padding:8px; background:rgba(255,215,0,0.04);">
+  <h3 style="color:#ffd700; font-size:10px; text-align:center; margin-bottom:5px;">🎯 क्यों जुड़ें?</h3>
+  <div class="flex-3" style="font-size:9px; text-align:center;">
+    <div>
+      <p style="font-size:18px; margin:0;">💊</p>
+      <p style="color:#ffd700; font-weight:700; margin:3px 0 1px;">प्रोडक्ट</p>
+      <p style="color:#ccc; font-size:8px;">₹2,280 में प्रीमियम<br>आयुर्वेदिक कैप्सूल</p>
+    </div>
+    <div>
+      <p style="font-size:18px; margin:0;">💰</p>
+      <p style="color:#ffd700; font-weight:700; margin:3px 0 1px;">कमाई</p>
+      <p style="color:#ccc; font-size:8px;">60% कमीशन<br>15 लेवल पर इनकम</p>
+    </div>
+    <div>
+      <p style="font-size:18px; margin:0;">🏥</p>
+      <p style="color:#ffd700; font-weight:700; margin:3px 0 1px;">बीमा</p>
+      <p style="color:#ccc; font-size:8px;">₹7 लाख हेल्थ +<br>एक्सीडेंट कवरेज</p>
+    </div>
+    <div>
+      <p style="font-size:18px; margin:0;">🏆</p>
+      <p style="color:#ffd700; font-weight:700; margin:3px 0 1px;">रिवॉर्ड्स</p>
+      <p style="color:#ccc; font-size:8px;">ट्रिप, कार, विला<br>₹1 करोड़ तक</p>
+    </div>
+    <div>
+      <p style="font-size:18px; margin:0;">🌳</p>
+      <p style="color:#ffd700; font-weight:700; margin:3px 0 1px;">पेड़</p>
+      <p style="color:#ccc; font-size:8px;">1 ज्वाइनिंग =<br>1 पेड़ लगाया जाता है</p>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:8px; text-align:center; border:1px solid rgba(0,212,170,0.3); border-radius:8px; padding:10px; background:rgba(0,212,170,0.04);">
+  <p style="font-size:11px; color:#00d4aa; font-weight:700; margin:0 0 4px;">⭐ हमारे सदस्यों की कमाई</p>
+  <div class="flex-3" style="font-size:9px;">
+    <div style="background:rgba(255,215,0,0.08); border-radius:6px; padding:6px;">
+      <p style="font-size:14px; font-weight:900; color:#ffd700; margin:0;">₹1,824</p>
+      <p style="color:#ccc; font-size:8px; margin:2px 0 0;">4 डायरेक्ट रेफरल<br>(सिर्फ Level 1)</p>
+    </div>
+    <div style="background:rgba(0,212,170,0.08); border-radius:6px; padding:6px;">
+      <p style="font-size:14px; font-weight:900; color:#00d4aa; margin:0;">₹5,472</p>
+      <p style="color:#ccc; font-size:8px; margin:2px 0 0;">Level 1 + Level 2<br>(16 लोग)</p>
+    </div>
+    <div style="background:rgba(255,107,107,0.08); border-radius:6px; padding:6px;">
+      <p style="font-size:14px; font-weight:900; color:#ff9800; margin:0;">₹23 लाख+</p>
+      <p style="color:#ccc; font-size:8px; margin:2px 0 0;">पूरे 15 लेवल<br>(मासिक संभावना)</p>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:8px; text-align:center;">
+  <p style="font-size:10px; color:#ffd700; font-weight:700;">🔥 सिर्फ ₹2,280 में शुरू करें — प्रोडक्ट + बिज़नेस + इंश्योरेंस + रिवॉर्ड्स सब एक साथ! 🔥</p>
+  <p style="font-size:9px; color:#00d4aa; margin-top:2px;">Join करने के लिए WhatsApp करें: 7701863636 | www.nutritionforeverwellness.com</p>
+</div>
+
 </div>
 </div>
 
-<!-- ==================== PAGE 2: BACK ==================== -->
+<!-- ==================== पेज 2: पीछे ==================== -->
 <div class="page">
 <div class="content">
 
-<h1 style="font-size:20px;">🏆 REWARDS & INCOME PLAN</h1>
-<p class="subtitle">एक उत्पाद = स्वास्थ्य + धन + सुरक्षा | एक उत्पाद = संपूर्ण जीवन समाधान</p>
+<h1 style="font-size:18px;">🏆 पुरस्कार और आय योजना</h1>
+<p class="subtitle">एक उत्पाद = स्वास्थ्य + धन + सुरक्षा</p>
 
-<h2>📊 कमाई का उदाहरण</h2>
+<h2>📊 कमाई का उदाहरण (हर एक 4 लोगों को रेफर करे)</h2>
 <div class="flex">
   <div>
-    <p style="font-size:10px;margin-bottom:4px;">अगर हर एक व्यक्ति सिर्फ 4 लोगों को रेफर करे:</p>
     <table>
-      <tr><th>स्तर</th><th>लोग</th><th>बिज़नेस</th><th>%</th><th>आपकी कमाई</th></tr>
-      <tr><td>L1</td><td>4</td><td>₹9,120</td><td>20%</td><td style="color:#ffd700;font-weight:700;">₹1,824</td></tr>
-      <tr><td>L2</td><td>16</td><td>₹36,480</td><td>10%</td><td style="color:#ffd700;font-weight:700;">₹3,648</td></tr>
-      <tr><td>L3</td><td>64</td><td>₹1,45,920</td><td>6%</td><td style="color:#ffd700;font-weight:700;">₹8,755</td></tr>
-      <tr><td>L4</td><td>256</td><td>₹5,83,680</td><td>4%</td><td style="color:#ffd700;font-weight:700;">₹23,347</td></tr>
-      <tr><td>L5</td><td>1,024</td><td>₹23,34,720</td><td>4%</td><td style="color:#ffd700;font-weight:700;">₹93,389</td></tr>
-      <tr><td>L6</td><td>4,096</td><td>₹93,38,880</td><td>3%</td><td style="color:#ffd700;font-weight:700;">₹2,80,166</td></tr>
-      <tr><td>L7</td><td>16,384</td><td>₹3,73,55,520</td><td>3%</td><td style="color:#ffd700;font-weight:700;">₹11,20,666</td></tr>
-      <tr><td>L8</td><td>65,536</td><td>₹14,94,22,080</td><td>2%</td><td style="color:#ffd700;font-weight:700;">₹29,88,442</td></tr>
-      <tr><td>L9</td><td>2,62,144</td><td>₹59,76,88,320</td><td>2%</td><td style="color:#ffd700;font-weight:700;">₹1,19,53,766</td></tr>
-      <tr><td>L10</td><td>10,48,576</td><td>₹239,07,53,280</td><td>2%</td><td style="color:#ffd700;font-weight:700;">₹4,78,15,066</td></tr>
-      <tr><td>L11</td><td>41,94,304</td><td>₹956,30,13,120</td><td>1.5%</td><td style="color:#ffd700;font-weight:700;">₹14,34,45,197</td></tr>
-      <tr><td>L12</td><td>1,67,77,216</td><td>₹3825,20,52,480</td><td>1%</td><td style="color:#ffd700;font-weight:700;">₹38,25,20,525</td></tr>
-      <tr><td>L13</td><td>6,71,08,864</td><td>₹15300,82,09,920</td><td>1%</td><td style="color:#ffd700;font-weight:700;">₹153,00,82,099</td></tr>
-      <tr><td>L14</td><td>26,84,35,456</td><td>₹61203,28,39,680</td><td>1%</td><td style="color:#ffd700;font-weight:700;">₹612,03,28,397</td></tr>
-      <tr><td>L15</td><td>107,37,41,824</td><td>₹244813,13,58,720</td><td>0.5%</td><td style="color:#ffd700;font-weight:700;">₹1224,06,56,794</td></tr>
+      <tr><th>स्तर</th><th>लोग</th><th>%</th><th>कमाई</th></tr>
+      <tr><td>L1</td><td>4</td><td>20%</td><td style="color:#ffd700;font-weight:700;">₹1,824</td></tr>
+      <tr><td>L2</td><td>16</td><td>10%</td><td style="color:#ffd700;font-weight:700;">₹3,648</td></tr>
+      <tr><td>L3</td><td>64</td><td>6%</td><td style="color:#ffd700;font-weight:700;">₹8,755</td></tr>
+      <tr><td>L4</td><td>256</td><td>4%</td><td style="color:#ffd700;font-weight:700;">₹23,347</td></tr>
+      <tr><td>L5</td><td>1,024</td><td>4%</td><td style="color:#ffd700;font-weight:700;">₹93,389</td></tr>
+      <tr><td>L6-L10</td><td>~13 लाख</td><td>2-3%</td><td style="color:#ffd700;font-weight:700;">₹5 लाख+</td></tr>
+      <tr><td>L11-L15</td><td>करोड़ों</td><td>0.5-1.5%</td><td style="color:#ffd700;font-weight:700;">₹23 लाख+</td></tr>
     </table>
-    <p class="center" style="margin-top:4px;"><span class="badge badge-gold">L1-L15 संभावित: ₹23+ लाख/माह</span></p>
+    <p class="center" style="margin-top:3px;"><span class="badge badge-gold">कुल संभावना: ₹23+ लाख/माह</span></p>
   </div>
-  <div style="flex:0.6; display:flex; align-items:center; justify-content:center;">
-    <img src="Bothimage.jpg" class="product-img" alt="Products" style="max-height:150px;">
+  <div style="flex:0.5; display:flex; align-items:center; justify-content:center;">
+    <img src="Bothimage.jpg" class="product-img" alt="उत्पाद" style="max-height:100px;">
   </div>
 </div>
 
-<h2>🎁 पुरस्कार कार्यक्रम</h2>
+<h2>🎁 डायरेक्ट रेफरल पुरस्कार</h2>
 <div class="flex">
-  <div class="box">
-    <h3>डायरेक्ट रेफरल पुरस्कार</h3>
+  <div>
     <table>
       <tr><th>रेफरल</th><th>पुरस्कार</th></tr>
-      <tr><td>3 डायरेक्ट</td><td>₹200 + 🎁 Welcome Surprise</td></tr>
-      <tr><td>5 डायरेक्ट</td><td>₹500 + 🎁 Star Performer Gift</td></tr>
-      <tr><td>10 डायरेक्ट</td><td>₹1,500 + 🏅 Champion Reward</td></tr>
-      <tr><td>15 डायरेक्ट</td><td>₹2,000 + 🌟 Achiever's Special</td></tr>
-      <tr><td>20 डायरेक्ट</td><td>₹3,500 + 💎 Diamond Bonus</td></tr>
-      <tr><td>25 डायरेक्ट</td><td>₹5,000 + 👑 Royal Reward</td></tr>
-      <tr><td>30 डायरेक्ट</td><td>₹7,500 + 🎯 Legend's Treasure</td></tr>
-      <tr><td>35 डायरेक्ट</td><td>₹10,000 + 🔥 Fire Starter Bonus</td></tr>
-      <tr><td>40 डायरेक्ट</td><td>₹12,500 + 🚀 Rocket Reward</td></tr>
-      <tr><td>45 डायरेक्ट</td><td>₹15,000 + ⭐ Superstar Gift</td></tr>
-      <tr><td>50 डायरेक्ट</td><td>₹20,000 + 🏆 Grand Master Prize</td></tr>
+      <tr><td>3</td><td>₹200 + 🎁 Welcome Surprise</td></tr>
+      <tr><td>5</td><td>₹500 + 🎁 Star Performer Gift</td></tr>
+      <tr><td>10</td><td>₹1,500 + 🏅 Champion Reward</td></tr>
+      <tr><td>15</td><td>₹2,000 + 🌟 Achiever's Special</td></tr>
+      <tr><td>20</td><td>₹3,500 + 💎 Diamond Bonus</td></tr>
+      <tr><td>25</td><td>₹5,000 + 👑 Royal Reward</td></tr>
     </table>
   </div>
-  <div class="box">
-    <h3>🏆 टीम अचीवमेंट पुरस्कार</h3>
+  <div>
     <table>
-      <tr><th>टीम</th><th>पुरस्कार</th></tr>
-      <tr><td>5</td><td>🎁 गिफ्ट हैम्पर</td></tr>
-      <tr><td>10</td><td>🛍️ शॉपिंग वाउचर</td></tr>
-      <tr><td>15</td><td>🎧 वायरलेस ईयरबड्स</td></tr>
-      <tr><td>25</td><td>⌚ स्मार्ट वॉच</td></tr>
-      <tr><td>50</td><td>🏔️ हिल स्टेशन ट्रिप</td></tr>
-      <tr><td>75</td><td>🏖️ बीच वेकेशन</td></tr>
-      <tr><td>100</td><td>📱 iPhone SE / Samsung Galaxy</td></tr>
-      <tr><td>150</td><td>💻 MacBook Air / HP Pavilion</td></tr>
-      <tr><td>200</td><td>✈️ इंटरनेशनल ट्रिप</td></tr>
-      <tr><td>300</td><td>🌍 लक्ज़री वेकेशन</td></tr>
-      <tr><td>500</td><td>🏍️ एक्टिवा / पल्सर</td></tr>
+      <tr><th>रेफरल</th><th>पुरस्कार</th></tr>
+      <tr><td>30</td><td>₹7,500 + 🎯 Legend's Treasure</td></tr>
+      <tr><td>35</td><td>₹10,000 + 🔥 Fire Starter Bonus</td></tr>
+      <tr><td>40</td><td>₹12,500 + 🚀 Rocket Reward</td></tr>
+      <tr><td>45</td><td>₹15,000 + ⭐ Superstar Gift</td></tr>
+      <tr><td>50</td><td>₹20,000 + 🏆 Grand Master Prize</td></tr>
     </table>
   </div>
 </div>
 
-<div class="box box-gold">
-  <h3 style="color:#ffd700;">🚗 मेगा पुरस्कार</h3>
-  <div class="flex-3" style="font-size:10px;">
-    <div class="center">750 → <strong>📱 फ्लैगशिप फोन + ₹10K</strong><br><span style="color:#00d4aa;">"Tech Champion"</span><br><br>1000 → <strong>🚗 ₹5L व्हीकल फंड</strong><br><span style="color:#00d4aa;">"Road King"</span><br><br>1500 → <strong>🚙 Swift / i20</strong><br><span style="color:#00d4aa;">"Speed Star"</span><br><br>2000 → <strong>🏠 ₹10L होम फंड</strong><br><span style="color:#00d4aa;">"Dream Builder"</span></div>
-    <div class="center">3000 → <strong>🚙 Thar / Fortuner</strong><br><span style="color:#00d4aa;">"Power Leader"</span><br><br>5000 → <strong>✈️ वर्ल्ड टूर + ₹10L</strong><br><span style="color:#00d4aa;">"Global Icon"</span><br><br>7500 → <strong>🏎️ BMW / Audi</strong><br><span style="color:#00d4aa;">"Elite Achiever"</span></div>
-    <div class="center">10000 → <strong>💎 ₹50L + गोल्ड</strong><br><span style="color:#00d4aa;">"Diamond Dynasty"</span><br><br>15000 → <strong>🏠 फ्लैट (₹75L)</strong><br><span style="color:#00d4aa;">"Property King"</span><br><br>20000 → <strong>👑 ₹1Cr + क्रूज़</strong><br><span style="color:#00d4aa;">"Crown Legend"</span><br><br>25000 → <strong>🏰 विला + ₹50L + रॉयल्टी</strong><br><span style="color:#00d4aa;">"Legacy Chairman"</span></div>
+<h2>🏆 टीम पुरस्कार</h2>
+<table>
+  <tr><th>टीम</th><th>पुरस्कार</th><th>टीम</th><th>पुरस्कार</th></tr>
+  <tr><td>5</td><td>🎁 गिफ्ट हैम्पर</td><td>100</td><td>📱 iPhone / Samsung</td></tr>
+  <tr><td>10</td><td>🛍️ शॉपिंग वाउचर</td><td>150</td><td>💻 MacBook / लैपटॉप</td></tr>
+  <tr><td>15</td><td>🎧 वायरलेस ईयरबड्स</td><td>200</td><td>✈️ इंटरनेशनल ट्रिप</td></tr>
+  <tr><td>25</td><td>⌚ स्मार्ट वॉच</td><td>300</td><td>🌍 लक्जरी वेकेशन</td></tr>
+  <tr><td>50</td><td>🏔️ हिल स्टेशन ट्रिप</td><td>500</td><td>🏍️ एक्टिवा / पल्सर</td></tr>
+  <tr><td>75</td><td>🏖️ बीच वेकेशन</td><td></td><td></td></tr>
+</table>
+
+<h2>🚗 मेगा पुरस्कार</h2>
+<div class="box box-gold" style="padding:5px;">
+  <div class="flex-3" style="font-size:8px;">
+    <div class="center">
+      750 → <strong>📱 फ्लैगशिप फोन + ₹10K</strong><br><span style="color:#00d4aa;">"Tech Champion"</span><br>
+      1000 → <strong>🚗 ₹5L व्हीकल फंड</strong><br><span style="color:#00d4aa;">"Road King"</span><br>
+      1500 → <strong>🚙 Swift / i20</strong><br><span style="color:#00d4aa;">"Speed Star"</span><br>
+      2000 → <strong>🏠 ₹10L होम फंड</strong><br><span style="color:#00d4aa;">"Dream Builder"</span>
+    </div>
+    <div class="center">
+      3000 → <strong>🚙 Thar / Fortuner</strong><br><span style="color:#00d4aa;">"Power Leader"</span><br>
+      5000 → <strong>✈️ वर्ल्ड टूर + ₹10L</strong><br><span style="color:#00d4aa;">"Global Icon"</span><br>
+      7500 → <strong>🏎️ BMW / Audi</strong><br><span style="color:#00d4aa;">"Elite Achiever"</span>
+    </div>
+    <div class="center">
+      10000 → <strong>💎 ₹50L + गोल्ड</strong><br><span style="color:#00d4aa;">"Diamond Dynasty"</span><br>
+      15000 → <strong>🏠 फ्लैट (₹75L)</strong><br><span style="color:#00d4aa;">"Property King"</span><br>
+      20000 → <strong>👑 ₹1Cr + क्रूज़</strong><br><span style="color:#00d4aa;">"Crown Legend"</span><br>
+      25000 → <strong>🏰 विला + ₹50L + रॉयल्टी</strong><br><span style="color:#00d4aa;">"Legacy Chairman"</span>
+    </div>
   </div>
 </div>
 
-<h2>🏥 बीमा (₹7 Lakh कवरेज)</h2>
+<h2>🏥 बीमा (₹7 लाख कवरेज)</h2>
 <div class="flex-3">
-  <div class="box box-green center"><strong>स्वास्थ्य</strong><br><span style="font-size:14px;color:#00d4aa;">₹5 Lakh</span><br><span class="hindi">50+ Team</span></div>
-  <div class="box center"><strong>विकलांगता</strong><br><span style="font-size:14px;color:#ffd700;">₹1 Lakh</span><br><span class="hindi">सहायता</span></div>
-  <div class="box center" style="border-color:rgba(255,107,107,0.4);"><strong>दुर्घटना</strong><br><span style="font-size:14px;color:#ff6b6b;">₹1 Lakh</span><br><span class="hindi">परिवार</span></div>
+  <div class="box box-green center"><strong>स्वास्थ्य बीमा</strong><br><span style="font-size:12px;color:#00d4aa;">₹5 लाख</span><br><span class="hindi">50+ टीम पर मिलता है</span></div>
+  <div class="box center"><strong>विकलांगता</strong><br><span style="font-size:12px;color:#ffd700;">₹1 लाख</span><br><span class="hindi">सहायता राशि</span></div>
+  <div class="box center" style="border-color:rgba(255,107,107,0.4);"><strong>दुर्घटना बीमा</strong><br><span style="font-size:12px;color:#ff6b6b;">₹1 लाख</span><br><span class="hindi">परिवार के लिए</span></div>
 </div>
 
 <h2>🚀 कैसे शुरू करें</h2>
 <div class="cta-box">
   <div class="flex-3">
-    <div><strong>चरण 1</strong><br>₹2,280 में जुड़ें<br>स्टैमिना कोर+ पाएं<br><span style="font-size:9px;">₹2,280 में जुड़ें</span></div>
-    <div><strong>चरण 2</strong><br>4+ लोगों को बताएं<br>Refer & Earn<br><span style="font-size:9px;">4 लोगों को बताएं</span></div>
-    <div><strong>चरण 3</strong><br>नेटवर्क बनाएं<br>पैसिव इनकम कमाएं<br><span style="font-size:9px;">नेटवर्क बनाएं</span></div>
+    <div><strong>चरण 1</strong><br>₹2,280 में जुड़ें<br><span style="font-size:8px;">स्टैमिना कोर+ प्रोडक्ट मिलेगा</span></div>
+    <div><strong>चरण 2</strong><br>4+ लोगों को बताएं<br><span style="font-size:8px;">रेफर करें और 20% कमीशन कमाएं</span></div>
+    <div><strong>चरण 3</strong><br>नेटवर्क बनाएं<br><span style="font-size:8px;">15 स्तरों पर पैसिव इनकम</span></div>
   </div>
-  <p class="big" style="margin-top:8px;">🎯 एक उत्पाद = स्वास्थ्य + धन + सुरक्षा 🎯</p>
+  <p class="big" style="margin-top:5px;">🎯 एक उत्पाद = स्वास्थ्य + धन + सुरक्षा 🎯</p>
 </div>
 
-<!-- WE CARE Community -->
-<div style="margin-top:12px; border:1px solid rgba(0,212,170,0.3); border-radius:12px; padding:12px; background:rgba(0,212,170,0.05);">
-  <h3 style="margin:0 0 10px; color:#00d4aa; font-size:13px; text-align:center; font-weight:800;">🤝 "वी केयर" कम्युनिटी सपोर्ट<br><span style="color:#ffd700; font-size:11px;">"वी केयर" कम्युनिटी सपोर्ट</span></h3>
-  <p style="text-align:center; font-size:11px; color:#ddd; margin:0 0 10px;">हम सिर्फ बिज़नेस नहीं — हम एक परिवार हैं। मुश्किल वक्त में हम साथ खड़े होते हैं।</p>
-  <p style="text-align:center; font-size:10px; color:#00d4aa; margin:0 0 10px;">हम सिर्फ बिजनेस नहीं — हम एक परिवार हैं। मुश्किल वक्त में हम साथ खड़े होते हैं।</p>
-  <div class="flex" style="font-size:10px; gap:10px;">
-    <div style="flex:1; background:rgba(255,215,0,0.06); border:1px solid rgba(255,215,0,0.2); border-radius:8px; padding:8px; text-align:center;">
-      <p style="font-size:16px; margin:0;">🏥</p>
-      <p style="margin:3px 0 0; color:#ffd700; font-weight:700;">मेडिकल इमरजेंसी</p>
-      <p style="margin:2px 0 0; color:#ccc;">परिवार की मेडिकल जरूरतों के लिए कम्युनिटी फंडरेजिंग</p>
-      <p style="margin:2px 0 0; color:#00d4aa; font-size:9px;">मेडिकल इमरजेंसी में फंडरेजिंग कैंपेन</p>
-    </div>
-    <div style="flex:1; background:rgba(255,215,0,0.06); border:1px solid rgba(255,215,0,0.2); border-radius:8px; padding:8px; text-align:center;">
-      <p style="font-size:16px; margin:0;">💪</p>
-      <p style="margin:3px 0 0; color:#ffd700; font-weight:700;">हम आपके साथ हैं</p>
-      <p style="margin:2px 0 0; color:#ccc;">1000+ members notified to help & contribute when you need support</p>
-      <p style="margin:2px 0 0; color:#00d4aa; font-size:9px;">1000+ सदस्य आपकी मदद के लिए तैयार</p>
-    </div>
-    <div style="flex:1; background:rgba(255,215,0,0.06); border:1px solid rgba(255,215,0,0.2); border-radius:8px; padding:8px; text-align:center;">
-      <p style="font-size:16px; margin:0;">❤️</p>
-      <p style="margin:3px 0 0; color:#ffd700; font-weight:700;">पारिवारिक सहायता</p>
-      <p style="margin:2px 0 0; color:#ccc;">Financial & emotional support in difficult times — no one is alone</p>
-      <p style="margin:2px 0 0; color:#00d4aa; font-size:9px;">मुश्किल में आर्थिक और भावनात्मक सहारा</p>
-    </div>
+<!-- वी केयर + पेड़ -->
+<div style="margin-top:6px; display:flex; gap:8px;">
+  <div style="flex:1; border:1px solid rgba(0,212,170,0.3); border-radius:8px; padding:6px; background:rgba(0,212,170,0.05); text-align:center;">
+    <p style="font-size:14px; margin:0;">🤝</p>
+    <p style="margin:2px 0; color:#00d4aa; font-size:9px; font-weight:800;">"वी केयर" कम्युनिटी</p>
+    <p style="margin:0; color:#ddd; font-size:8px;">मेडिकल इमरजेंसी फंड · पारिवारिक सहायता · 1000+ सदस्यों का सहारा</p>
+    <p style="margin:2px 0 0; color:#ffd700; font-size:7px;">"आपकी समस्या हमारी समस्या है। साथ मिलकर आगे बढ़ेंगे।"</p>
   </div>
-  <p style="text-align:center; margin:10px 0 0; font-size:10px; color:#ffd700; font-weight:700;">🌟 "आपकी समस्या हमारी समस्या है। साथ मिलकर आगे बढ़ेंगे।" / "आपकी समस्या हमारी समस्या है।"</p>
+  <div style="flex:1; border:1px solid rgba(0,212,170,0.4); border-radius:8px; padding:6px; background:linear-gradient(135deg, rgba(0,212,170,0.08), rgba(34,139,34,0.08)); text-align:center;">
+    <p style="font-size:14px; margin:0;">🌳</p>
+    <p style="margin:2px 0; color:#00d4aa; font-size:9px; font-weight:800;">1 ज्वाइनिंग = 1 पेड़</p>
+    <p style="margin:0; color:#ddd; font-size:8px;">हर नए सदस्य की ज्वाइनिंग पर हम एक पेड़ लगाते हैं। आपकी सेहत के साथ धरती की भी सेहत।</p>
+    <p style="margin:2px 0 0; color:#ffd700; font-size:7px;">हर नया सदस्य = एक नया पेड़ 🌍</p>
+  </div>
 </div>
 
 <div class="contact-bar">
   📞 <strong>7701863636</strong> | 📱 WhatsApp: <strong>7701863636</strong> | 📧 nutritionforeverwellness@gmail.com<br>
-  🌐 www.nutritionforeverwellness.com | <span class="hindi">संपर्क: सुबह 9 - रात 9 बजे</span>
+  🌐 www.nutritionforeverwellness.com | संपर्क: सुबह 9 - रात 9 बजे
 </div>
 
 <div class="footer">© 2026 न्यूट्रिशन फॉरएवर वेलनेस प्रा. लि. | डायरेक्ट सेलिंग कंपनी | सर्वाधिकार सुरक्षित</div>

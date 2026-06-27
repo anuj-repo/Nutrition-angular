@@ -8,68 +8,65 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Segoe UI', Arial, sans-serif; background: #1a1a2e; color: #fff; }
 
-  .page { width: 100%; max-width: 210mm; min-height: 297mm; max-height: 297mm; padding: 12mm; page-break-after: always; position: relative; background: linear-gradient(160deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%); overflow: hidden; margin: 0 auto; }
+  .page { width: 210mm; min-height: 297mm; max-height: 297mm; padding: 8mm 10mm; page-break-after: always; position: relative; background: linear-gradient(160deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%); overflow: hidden; margin: 0 auto; }
   .page:last-child { page-break-after: avoid; }
 
   @media screen {
     body { background: #0a0a1a; }
-    .page { width: 100%; max-width: 100%; padding: 20px; min-height: auto; max-height: none; }
+    .page { width: 210mm; max-width: 210mm; }
   }
 
-  /* Decorative circles */
-  .page::before { content: ''; position: absolute; width: 200px; height: 200px; border-radius: 50%; top: -60px; right: -60px; background: radial-gradient(circle, rgba(212,168,67,0.2), transparent 70%); }
-  .page::after { content: ''; position: absolute; width: 250px; height: 250px; border-radius: 50%; bottom: -80px; left: -80px; background: radial-gradient(circle, rgba(183,100,72,0.15), transparent 70%); }
+  .page::before { content: ''; position: absolute; width: 180px; height: 180px; border-radius: 50%; top: -50px; right: -50px; background: radial-gradient(circle, rgba(212,168,67,0.15), transparent 70%); }
+  .page::after { content: ''; position: absolute; width: 200px; height: 200px; border-radius: 50%; bottom: -60px; left: -60px; background: radial-gradient(circle, rgba(183,100,72,0.12), transparent 70%); }
 
   .content { position: relative; z-index: 1; }
 
-  h1 { font-size: 24px; color: #ffd700; text-align: center; margin-bottom: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-  h2 { font-size: 12px; color: #ffd700; border-bottom: 1.5px solid rgba(255,215,0,0.4); padding-bottom: 3px; margin: 10px 0 5px; letter-spacing: 0.5px; }
-  h3 { font-size: 10px; color: #00d4aa; margin: 4px 0 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+  h1 { font-size: 20px; color: #ffd700; text-align: center; margin-bottom: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+  h2 { font-size: 11px; color: #ffd700; border-bottom: 1.5px solid rgba(255,215,0,0.4); padding-bottom: 2px; margin: 6px 0 4px; letter-spacing: 0.5px; }
+  h3 { font-size: 9px; color: #00d4aa; margin: 3px 0 2px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-  .subtitle { text-align: center; color: #00d4aa; font-size: 11px; margin-bottom: 8px; }
-  .hindi { color: #00d4aa; font-size: 9px; }
+  .subtitle { text-align: center; color: #00d4aa; font-size: 10px; margin-bottom: 5px; }
+  .hindi { color: #00d4aa; font-size: 8px; }
 
-  .flex { display: flex; gap: 12px; }
+  .flex { display: flex; gap: 8px; }
   .flex > div { flex: 1; }
-  .flex-3 { display: flex; gap: 10px; }
+  .flex-3 { display: flex; gap: 6px; }
   .flex-3 > div { flex: 1; }
 
-  .box { border: 1px solid rgba(255,215,0,0.3); border-radius: 8px; padding: 8px; margin-bottom: 6px; background: rgba(255,255,255,0.03); }
+  .box { border: 1px solid rgba(255,215,0,0.3); border-radius: 6px; padding: 6px; margin-bottom: 4px; background: rgba(255,255,255,0.03); }
   .box-gold { border-color: rgba(255,215,0,0.5); background: rgba(255,215,0,0.06); }
   .box-green { border-color: rgba(0,212,170,0.4); background: rgba(0,212,170,0.05); }
-  .box-glow { border-color: #ffd700; box-shadow: 0 0 12px rgba(255,215,0,0.15); }
 
-  table { width: 100%; border-collapse: collapse; font-size: 9px; margin: 3px 0; }
-  th { background: linear-gradient(135deg, #ffd700, #ff9800); color: #1a1a2e; padding: 4px 5px; text-align: center; font-weight: 700; }
-  td { padding: 3px 5px; border-bottom: 1px solid rgba(255,255,255,0.08); text-align: center; color: #ddd; }
-  tr:hover { background: rgba(255,215,0,0.05); }
+  table { width: 100%; border-collapse: collapse; font-size: 8px; margin: 2px 0; }
+  th { background: linear-gradient(135deg, #ffd700, #ff9800); color: #1a1a2e; padding: 3px 4px; text-align: center; font-weight: 700; }
+  td { padding: 2px 4px; border-bottom: 1px solid rgba(255,255,255,0.06); text-align: center; color: #ddd; }
 
-  .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 9px; font-weight: 700; margin: 1px 2px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 8px; font-weight: 700; margin: 1px 2px; }
   .badge-gold { background: linear-gradient(135deg, #ffd700, #ff9800); color: #1a1a2e; }
   .badge-green { background: #00d4aa; color: #1a1a2e; }
-  .badge-red { background: #ff6b6b; color: #fff; }
 
-  .price-big { font-size: 22px; font-weight: 900; color: #00d4aa; text-align: center; }
-  .price-strike { text-decoration: line-through; color: #888; font-size: 12px; }
+  .price-big { font-size: 18px; font-weight: 900; color: #00d4aa; text-align: center; }
+  .price-strike { text-decoration: line-through; color: #888; font-size: 11px; }
 
-  .product-img { max-width: 100%; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+  .product-img { max-width: 100%; border-radius: 10px; box-shadow: 0 6px 18px rgba(0,0,0,0.4); }
 
   .center { text-align: center; }
-  ul { padding-left: 12px; margin: 2px 0; }
-  li { margin: 1px 0; color: #ddd; font-size: 10px; }
+  ul { padding-left: 10px; margin: 2px 0; }
+  li { margin: 1px 0; color: #ddd; font-size: 9px; }
   li strong { color: #ffd700; }
 
-  .cta-box { background: linear-gradient(135deg, #ffd700, #ff9800); color: #1a1a2e; padding: 8px; border-radius: 10px; text-align: center; margin-top: 8px; }
-  .cta-box p { font-size: 11px; font-weight: 700; }
-  .cta-box .big { font-size: 14px; }
+  .cta-box { background: linear-gradient(135deg, #ffd700, #ff9800); color: #1a1a2e; padding: 6px; border-radius: 8px; text-align: center; margin-top: 5px; }
+  .cta-box p { font-size: 9px; font-weight: 700; }
+  .cta-box .big { font-size: 12px; }
 
-  .contact-bar { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,215,0,0.3); padding: 6px; border-radius: 8px; text-align: center; font-size: 9px; color: #ccc; margin-top: 6px; }
+  .contact-bar { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,215,0,0.3); padding: 4px; border-radius: 6px; text-align: center; font-size: 8px; color: #ccc; margin-top: 5px; }
   .contact-bar strong { color: #ffd700; }
 
-  .footer { text-align: center; font-size: 8px; color: #666; margin-top: 4px; }
+  .footer { text-align: center; font-size: 7px; color: #666; margin-top: 3px; }
 
   @media print {
     body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .page { width: 210mm; height: 297mm; }
   }
 </style>
 </head>
@@ -79,12 +76,12 @@
 <div class="page">
 <div class="content">
 
-<div class="center" style="margin-bottom: 6px;">
-  <span style="font-size: 28px;">🌿</span>
+<div class="center" style="margin-bottom: 4px;">
+  <span style="font-size: 24px;">🌿</span>
 </div>
 <h1>NUTRITION FOREVER WELLNESS</h1>
-<p class="subtitle">Stamina Core+ | Sehat · Paisa · Suraksha</p>
-<p class="center"><span class="badge badge-gold">FSSAI</span> <span class="badge badge-gold">GMP</span> <span class="badge badge-gold">ISO</span> <span class="badge badge-green">100% Natural</span> <span class="badge badge-green">Koi Side Effect Nahi</span></p>
+<p class="subtitle">Stamina Core+ | Health · Wealth · Security</p>
+<p class="center"><span class="badge badge-gold">FSSAI</span> <span class="badge badge-gold">GMP</span> <span class="badge badge-gold">ISO</span> <span class="badge badge-green">100% Natural</span> <span class="badge badge-green">No Side Effects</span></p>
 
 <h2>💊 STAMINA CORE+ — Premium Ayurvedic Formula</h2>
 <div class="flex">
@@ -92,58 +89,62 @@
     <div class="box box-gold">
       <h3>Product Details</h3>
       <ul>
-        <li><strong>120 Capsules</strong> — 60 din ki supply (2 mahine)</li>
-        <li><strong>Khurak:</strong> Rozana 2 capsule khana khane ke baad</li>
-        <li><strong>11 Premium Jaddi-Bootiyaan</strong> — 1055mg per serving</li>
-        <li><strong>Per day kharcha:</strong> Sirf ₹38/din (chai se bhi sasta!)</li>
+        <li><strong>120 Capsules</strong> — 60 din ki supply</li>
+        <li><strong>Dosage:</strong> Rozana 2 capsules</li>
+        <li><strong>11 Premium Herbs</strong> — 1055mg per serving</li>
+        <li><strong>Per day:</strong> Sirf ₹38/din</li>
       </ul>
-      <div class="center" style="margin-top: 6px;">
+      <div class="center" style="margin-top: 4px;">
         <span class="price-strike">MRP: ₹2,500</span><br>
-        <span class="price-big">DP Price: ₹2,280</span>
+        <span class="price-big">DP: ₹2,280</span>
       </div>
     </div>
     <div class="box box-green">
-      <h3>✅ Health Benefits / Sehat ke Fayde</h3>
+      <h3>✅ Health Benefits</h3>
       <ul>
-        <li>⚡ <strong>Energy & Stamina</strong> — All-day power</li>
-        <li>🧠 <strong>Mental Clarity</strong> — Focus & memory</li>
-        <li>🛡️ <strong>Immunity Boost</strong> — Majboot raksha</li>
-        <li>😌 <strong>Stress Relief</strong> — Calm & relaxed</li>
-        <li>💪 <strong>Physical Strength</strong> — Muscle & bone</li>
-        <li>🌟 <strong>Anti-Aging</strong> — Jawaan dikhein</li>
+        <li>⚡ <strong>Energy & Stamina</strong> — Pura din active</li>
+        <li>🧠 <strong>Mental Clarity</strong> — Focus aur memory</li>
+        <li>🛡️ <strong>Immunity</strong> — Mazboot defense system</li>
+        <li>😌 <strong>Stress Relief</strong> — Shant aur relaxed</li>
+        <li>💪 <strong>Physical Strength</strong> — Muscles aur bones</li>
+        <li>🌟 <strong>Anti-Aging</strong> — Jawani banaye rakhe</li>
       </ul>
-      <p class="hindi" style="margin-top:4px;">✓ 30-60 din mein result | ✓ Koi side effect nahi</p>
+      <p class="hindi" style="margin-top:3px;">✓ 30-60 din mein result | ✓ Koi side effect nahi</p>
     </div>
   </div>
   <div style="flex: 0.8; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-    <img src="Front.jpg" class="product-img" alt="Stamina Core+ Product" style="max-height: 200px;">
-    <p class="center hindi" style="margin-top:6px;">Premium Ayurvedic Wellness Capsules</p>
+    <img src="Front.jpg" class="product-img" alt="Stamina Core+" style="max-height: 170px;">
+    <p class="center hindi" style="margin-top:4px;">Premium Ayurvedic Wellness Capsules</p>
   </div>
 </div>
 
 <h2>🌿 11 POWERFUL INGREDIENTS</h2>
 <div class="flex">
   <div class="box">
-    <h3>🇮🇳 Ayurvedic (Desi Jaddi-Booti)</h3>
-    • Ashwagandha (250mg) — Energy aur stress door kare<br>
-    • Shatavari (125mg) — Jeevan shakti badhaye<br>
-    • Safed Musli (125mg) — Taakat aur stamina<br>
+    <h3>🇮🇳 Ayurvedic</h3>
+    <span style="font-size:8px;">
+    • Ashwagandha (250mg) — Energy aur taakat<br>
+    • Shatavari (125mg) — Jeevan shakti<br>
+    • Safed Musli (125mg) — Body strength<br>
     • Gokshura (125mg) — Performance badhaye<br>
-    • Manjistha (100mg) — Khoon saaf kare<br>
+    • Manjistha (100mg) — Blood purifier<br>
     • Moringa (100mg) — 90+ nutrients
+    </span>
   </div>
   <div class="box">
-    <h3>🌍 International Superfoods</h3>
-    • Siberian Ginseng (60mg) — Sahansheelta<br>
+    <h3>🌍 Global Superfoods</h3>
+    <span style="font-size:8px;">
+    • Siberian Ginseng (60mg) — Endurance<br>
     • Ginkgo Biloba (30mg) — Dimag tez kare<br>
-    • Bilberry (40mg) — Aankhon ke liye<br>
-    • Elderberry (50mg) — Immunity badhaye<br>
-    • Mangosteen (50mg) — Anti-oxidant
+    • Bilberry (40mg) — Aankhon ki roshni<br>
+    • Elderberry (50mg) — Immunity booster<br>
+    • Mangosteen (50mg) — Antioxidant power
+    </span>
   </div>
 </div>
 
-<h2>💰 BUSINESS OPPORTUNITY — Kamaayi ka Mauka</h2>
-<p style="font-size:11px; margin-bottom:6px;"><strong style="color:#ffd700;">₹2,280</strong> mein join karo → <strong style="color:#00d4aa;">60% Commission</strong> kamao 15 levels par!</p>
+<h2>💰 BUSINESS OPPORTUNITY</h2>
+<p style="font-size:9px; margin-bottom:4px;"><strong style="color:#ffd700;">₹2,280</strong> mein join karo → 15 levels par <strong style="color:#00d4aa;">60% tak commission</strong> kamao!</p>
 <div class="flex">
   <div>
     <table>
@@ -156,15 +157,70 @@
     </table>
   </div>
   <div class="box box-gold center" style="display:flex;flex-direction:column;justify-content:center;">
-    <p style="font-size:18px;font-weight:900;color:#ffd700;">60%</p>
-    <p style="font-size:10px;">Total Commission</p>
-    <p style="font-size:10px;color:#00d4aa;">+ 12% Repurchase Bonus</p>
+    <p style="font-size:16px;font-weight:900;color:#ffd700;">60%</p>
+    <p style="font-size:9px;">Total Commission</p>
+    <p style="font-size:9px;color:#00d4aa;">+ 12% Repurchase Bonus</p>
     <p class="hindi">Industry mein sabse zyada!</p>
   </div>
 </div>
 
 <div class="contact-bar">
   📞 <strong>7701863636</strong> | 📱 WhatsApp: <strong>7701863636</strong> | 📧 nutritionforeverwellness@gmail.com | 🌐 www.nutritionforeverwellness.com
+</div>
+
+<!-- Fill remaining space on page 1 -->
+<div style="margin-top:8px; border:1px solid rgba(255,215,0,0.3); border-radius:8px; padding:8px; background:rgba(255,215,0,0.04);">
+  <h3 style="color:#ffd700; font-size:10px; text-align:center; margin-bottom:5px;">🎯 WHY JOIN?</h3>
+  <div class="flex-3" style="font-size:9px; text-align:center;">
+    <div>
+      <p style="font-size:18px; margin:0;">💊</p>
+      <p style="color:#ffd700; font-weight:700; margin:3px 0 1px;">Product</p>
+      <p style="color:#ccc; font-size:8px;">Premium Ayurvedic<br>Capsules @ ₹2,280</p>
+    </div>
+    <div>
+      <p style="font-size:18px; margin:0;">💰</p>
+      <p style="color:#ffd700; font-weight:700; margin:3px 0 1px;">Income</p>
+      <p style="color:#ccc; font-size:8px;">60% Commission<br>15 Levels par earning</p>
+    </div>
+    <div>
+      <p style="font-size:18px; margin:0;">🏥</p>
+      <p style="color:#ffd700; font-weight:700; margin:3px 0 1px;">Insurance</p>
+      <p style="color:#ccc; font-size:8px;">₹7 Lakh Health +<br>Accident Coverage</p>
+    </div>
+    <div>
+      <p style="font-size:18px; margin:0;">🏆</p>
+      <p style="color:#ffd700; font-weight:700; margin:3px 0 1px;">Rewards</p>
+      <p style="color:#ccc; font-size:8px;">Trips, Cars, Villa<br>₹1 Crore tak</p>
+    </div>
+    <div>
+      <p style="font-size:18px; margin:0;">🌳</p>
+      <p style="color:#ffd700; font-weight:700; margin:3px 0 1px;">Tree</p>
+      <p style="color:#ccc; font-size:8px;">1 Joining =<br>1 Tree Planted</p>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:8px; text-align:center; border:1px solid rgba(0,212,170,0.3); border-radius:8px; padding:10px; background:rgba(0,212,170,0.04);">
+  <p style="font-size:11px; color:#00d4aa; font-weight:700; margin:0 0 4px;">⭐ EARNING SNAPSHOT</p>
+  <div class="flex-3" style="font-size:9px;">
+    <div style="background:rgba(255,215,0,0.08); border-radius:6px; padding:6px;">
+      <p style="font-size:14px; font-weight:900; color:#ffd700; margin:0;">₹1,824</p>
+      <p style="color:#ccc; font-size:8px; margin:2px 0 0;">4 Direct Referrals<br>(Sirf Level 1)</p>
+    </div>
+    <div style="background:rgba(0,212,170,0.08); border-radius:6px; padding:6px;">
+      <p style="font-size:14px; font-weight:900; color:#00d4aa; margin:0;">₹5,472</p>
+      <p style="color:#ccc; font-size:8px; margin:2px 0 0;">Level 1 + Level 2<br>(16 log)</p>
+    </div>
+    <div style="background:rgba(255,107,107,0.08); border-radius:6px; padding:6px;">
+      <p style="font-size:14px; font-weight:900; color:#ff9800; margin:0;">₹23L+</p>
+      <p style="color:#ccc; font-size:8px; margin:2px 0 0;">Full 15 Levels<br>(Monthly potential)</p>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:8px; text-align:center;">
+  <p style="font-size:10px; color:#ffd700; font-weight:700;">🔥 Sirf ₹2,280 mein shuru karo — Product + Business + Insurance + Rewards sab ek saath! 🔥</p>
+  <p style="font-size:9px; color:#00d4aa; margin-top:2px;">Join karne ke liye WhatsApp karo: 7701863636 | www.nutritionforeverwellness.com</p>
 </div>
 
 </div>
@@ -174,133 +230,124 @@
 <div class="page">
 <div class="content">
 
-<h1 style="font-size:20px;">🏆 REWARDS & INCOME PLAN</h1>
-<p class="subtitle">Ek Product = Sehat + Paisa + Suraksha | Complete Life Solution</p>
+<h1 style="font-size:18px;">🏆 REWARDS & INCOME PLAN</h1>
+<p class="subtitle">Ek Product = Health + Wealth + Security</p>
 
-<h2>📊 EARNING EXAMPLE — Kitna Kama Sakte Ho</h2>
+<h2>📊 EARNING EXAMPLE (Har ek 4 logon ko refer kare)</h2>
 <div class="flex">
   <div>
-    <p style="font-size:10px;margin-bottom:4px;">Agar har ek insaan sirf 4 logon ko refer kare:</p>
     <table>
-      <tr><th>Level</th><th>Log</th><th>Business</th><th>%</th><th>Aapki Kamaai</th></tr>
-      <tr><td>L1</td><td>4</td><td>₹9,120</td><td>20%</td><td style="color:#ffd700;font-weight:700;">₹1,824</td></tr>
-      <tr><td>L2</td><td>16</td><td>₹36,480</td><td>10%</td><td style="color:#ffd700;font-weight:700;">₹3,648</td></tr>
-      <tr><td>L3</td><td>64</td><td>₹1,45,920</td><td>6%</td><td style="color:#ffd700;font-weight:700;">₹8,755</td></tr>
-      <tr><td>L4</td><td>256</td><td>₹5,83,680</td><td>4%</td><td style="color:#ffd700;font-weight:700;">₹23,347</td></tr>
-      <tr><td>L5</td><td>1,024</td><td>₹23,34,720</td><td>4%</td><td style="color:#ffd700;font-weight:700;">₹93,389</td></tr>
-      <tr><td>L6</td><td>4,096</td><td>₹93,38,880</td><td>3%</td><td style="color:#ffd700;font-weight:700;">₹2,80,166</td></tr>
-      <tr><td>L7</td><td>16,384</td><td>₹3,73,55,520</td><td>3%</td><td style="color:#ffd700;font-weight:700;">₹11,20,666</td></tr>
-      <tr><td>L8</td><td>65,536</td><td>₹14,94,22,080</td><td>2%</td><td style="color:#ffd700;font-weight:700;">₹29,88,442</td></tr>
-      <tr><td>L9</td><td>2,62,144</td><td>₹59,76,88,320</td><td>2%</td><td style="color:#ffd700;font-weight:700;">₹1,19,53,766</td></tr>
-      <tr><td>L10</td><td>10,48,576</td><td>₹239,07,53,280</td><td>2%</td><td style="color:#ffd700;font-weight:700;">₹4,78,15,066</td></tr>
-      <tr><td>L11</td><td>41,94,304</td><td>₹956,30,13,120</td><td>1.5%</td><td style="color:#ffd700;font-weight:700;">₹14,34,45,197</td></tr>
-      <tr><td>L12</td><td>1,67,77,216</td><td>₹3825,20,52,480</td><td>1%</td><td style="color:#ffd700;font-weight:700;">₹38,25,20,525</td></tr>
-      <tr><td>L13</td><td>6,71,08,864</td><td>₹15300,82,09,920</td><td>1%</td><td style="color:#ffd700;font-weight:700;">₹153,00,82,099</td></tr>
-      <tr><td>L14</td><td>26,84,35,456</td><td>₹61203,28,39,680</td><td>1%</td><td style="color:#ffd700;font-weight:700;">₹612,03,28,397</td></tr>
-      <tr><td>L15</td><td>107,37,41,824</td><td>₹244813,13,58,720</td><td>0.5%</td><td style="color:#ffd700;font-weight:700;">₹1224,06,56,794</td></tr>
+      <tr><th>Level</th><th>People</th><th>%</th><th>Earning</th></tr>
+      <tr><td>L1</td><td>4</td><td>20%</td><td style="color:#ffd700;font-weight:700;">₹1,824</td></tr>
+      <tr><td>L2</td><td>16</td><td>10%</td><td style="color:#ffd700;font-weight:700;">₹3,648</td></tr>
+      <tr><td>L3</td><td>64</td><td>6%</td><td style="color:#ffd700;font-weight:700;">₹8,755</td></tr>
+      <tr><td>L4</td><td>256</td><td>4%</td><td style="color:#ffd700;font-weight:700;">₹23,347</td></tr>
+      <tr><td>L5</td><td>1,024</td><td>4%</td><td style="color:#ffd700;font-weight:700;">₹93,389</td></tr>
+      <tr><td>L6-L10</td><td>~13 Lakh</td><td>2-3%</td><td style="color:#ffd700;font-weight:700;">₹5L+</td></tr>
+      <tr><td>L11-L15</td><td>Crores</td><td>0.5-1.5%</td><td style="color:#ffd700;font-weight:700;">₹23L+</td></tr>
     </table>
-    <p class="center" style="margin-top:4px;"><span class="badge badge-gold">L1-L15 Potential: ₹23+ Lakh/mahina</span></p>
+    <p class="center" style="margin-top:3px;"><span class="badge badge-gold">Total Potential: ₹23+ Lakh/month</span></p>
   </div>
-  <div style="flex:0.6; display:flex; align-items:center; justify-content:center;">
-    <img src="Bothimage.jpg" class="product-img" alt="Products" style="max-height:150px;">
+  <div style="flex:0.5; display:flex; align-items:center; justify-content:center;">
+    <img src="Bothimage.jpg" class="product-img" alt="Products" style="max-height:100px;">
   </div>
 </div>
 
-<h2>🎁 REWARDS PROGRAM — Inaam</h2>
+<h2>🎁 DIRECT REFERRAL REWARDS</h2>
 <div class="flex">
-  <div class="box">
-    <h3>Direct Referral Inaam</h3>
+  <div>
     <table>
-      <tr><th>Referrals</th><th>Inaam</th></tr>
-      <tr><td>3 Direct</td><td>₹200 + 🎁 Welcome Surprise</td></tr>
-      <tr><td>5 Direct</td><td>₹500 + 🎁 Star Performer Gift</td></tr>
-      <tr><td>10 Direct</td><td>₹1,500 + 🏅 Champion Reward</td></tr>
-      <tr><td>15 Direct</td><td>₹2,000 + 🌟 Achiever's Special</td></tr>
-      <tr><td>20 Direct</td><td>₹3,500 + 💎 Diamond Bonus</td></tr>
-      <tr><td>25 Direct</td><td>₹5,000 + 👑 Royal Reward</td></tr>
-      <tr><td>30 Direct</td><td>₹7,500 + 🎯 Legend's Treasure</td></tr>
-      <tr><td>35 Direct</td><td>₹10,000 + 🔥 Fire Starter Bonus</td></tr>
-      <tr><td>40 Direct</td><td>₹12,500 + 🚀 Rocket Reward</td></tr>
-      <tr><td>45 Direct</td><td>₹15,000 + ⭐ Superstar Gift</td></tr>
-      <tr><td>50 Direct</td><td>₹20,000 + 🏆 Grand Master Prize</td></tr>
+      <tr><th>Referrals</th><th>Reward</th></tr>
+      <tr><td>3</td><td>₹200 + 🎁 Welcome Surprise</td></tr>
+      <tr><td>5</td><td>₹500 + 🎁 Star Performer Gift</td></tr>
+      <tr><td>10</td><td>₹1,500 + 🏅 Champion Reward</td></tr>
+      <tr><td>15</td><td>₹2,000 + 🌟 Achiever's Special</td></tr>
+      <tr><td>20</td><td>₹3,500 + 💎 Diamond Bonus</td></tr>
+      <tr><td>25</td><td>₹5,000 + 👑 Royal Reward</td></tr>
     </table>
   </div>
-  <div class="box">
-    <h3>🏆 Team Achievement Inaam</h3>
+  <div>
     <table>
-      <tr><th>Team Size</th><th>Inaam</th></tr>
-      <tr><td>5</td><td>🎁 Gift Hamper</td></tr>
-      <tr><td>10</td><td>🛍️ Shopping Voucher</td></tr>
-      <tr><td>15</td><td>🎧 Wireless Earbuds</td></tr>
-      <tr><td>25</td><td>⌚ Smart Watch</td></tr>
-      <tr><td>50</td><td>🏔️ Hill Station Trip</td></tr>
-      <tr><td>75</td><td>🏖️ Beach Vacation</td></tr>
-      <tr><td>100</td><td>📱 iPhone SE / Samsung Galaxy</td></tr>
-      <tr><td>150</td><td>💻 MacBook Air / HP Pavilion</td></tr>
-      <tr><td>200</td><td>✈️ International Trip</td></tr>
-      <tr><td>300</td><td>🌍 Luxury Vacation</td></tr>
-      <tr><td>500</td><td>🏍️ Activa / Pulsar</td></tr>
+      <tr><th>Referrals</th><th>Reward</th></tr>
+      <tr><td>30</td><td>₹7,500 + 🎯 Legend's Treasure</td></tr>
+      <tr><td>35</td><td>₹10,000 + 🔥 Fire Starter Bonus</td></tr>
+      <tr><td>40</td><td>₹12,500 + 🚀 Rocket Reward</td></tr>
+      <tr><td>45</td><td>₹15,000 + ⭐ Superstar Gift</td></tr>
+      <tr><td>50</td><td>₹20,000 + 🏆 Grand Master Prize</td></tr>
     </table>
   </div>
 </div>
 
-<div class="box box-gold">
-  <h3 style="color:#ffd700;">🚗 MEGA REWARDS — Bade Inaam</h3>
-  <div class="flex-3" style="font-size:10px;">
-    <div class="center">750 → <strong>📱 Flagship Phone + ₹10K</strong> "Tech Champion"<br>1000 → <strong>🚗 ₹5L Vehicle Fund</strong> "Road King"<br>1500 → <strong>🚙 Swift / i20</strong> "Speed Star"<br>2000 → <strong>🏠 ₹10L Home Fund</strong> "Dream Builder"</div>
-    <div class="center">3000 → <strong>🚙 Thar / Fortuner</strong> "Power Leader"<br>5000 → <strong>✈️ World Tour + ₹10L</strong> "Global Icon"<br>7500 → <strong>🏎️ BMW / Audi</strong> "Elite Achiever"</div>
-    <div class="center">10000 → <strong>💎 ₹50L + Gold</strong> "Diamond Dynasty"<br>15000 → <strong>🏠 Flat (₹75L)</strong> "Property King"<br>20000 → <strong>👑 ₹1Cr + Cruise</strong> "Crown Legend"<br>25000 → <strong>🏰 Villa + ₹50L + Royalty</strong> "Legacy Chairman"</div>
+<h2>🏆 TEAM ACHIEVEMENT REWARDS</h2>
+<table>
+  <tr><th>Team</th><th>Reward</th><th>Team</th><th>Reward</th></tr>
+  <tr><td>5</td><td>🎁 Gift Hamper</td><td>100</td><td>📱 iPhone / Samsung</td></tr>
+  <tr><td>10</td><td>🛍️ Shopping Voucher</td><td>150</td><td>💻 MacBook / Laptop</td></tr>
+  <tr><td>15</td><td>🎧 Wireless Earbuds</td><td>200</td><td>✈️ International Trip</td></tr>
+  <tr><td>25</td><td>⌚ Smart Watch</td><td>300</td><td>🌍 Luxury Vacation</td></tr>
+  <tr><td>50</td><td>🏔️ Hill Station Trip</td><td>500</td><td>🏍️ Activa / Pulsar</td></tr>
+  <tr><td>75</td><td>🏖️ Beach Vacation</td><td></td><td></td></tr>
+</table>
+
+<h2>🚗 MEGA REWARDS — Bade Inaam</h2>
+<div class="box box-gold" style="padding:5px;">
+  <div class="flex-3" style="font-size:8px;">
+    <div class="center">
+      750 → <strong>📱 Flagship Phone + ₹10K</strong><br><span style="color:#00d4aa;">"Tech Champion"</span><br>
+      1000 → <strong>🚗 ₹5L Vehicle Fund</strong><br><span style="color:#00d4aa;">"Road King"</span><br>
+      1500 → <strong>🚙 Swift / i20</strong><br><span style="color:#00d4aa;">"Speed Star"</span><br>
+      2000 → <strong>🏠 ₹10L Home Fund</strong><br><span style="color:#00d4aa;">"Dream Builder"</span>
+    </div>
+    <div class="center">
+      3000 → <strong>🚙 Thar / Fortuner</strong><br><span style="color:#00d4aa;">"Power Leader"</span><br>
+      5000 → <strong>✈️ World Tour + ₹10L</strong><br><span style="color:#00d4aa;">"Global Icon"</span><br>
+      7500 → <strong>🏎️ BMW / Audi</strong><br><span style="color:#00d4aa;">"Elite Achiever"</span>
+    </div>
+    <div class="center">
+      10000 → <strong>💎 ₹50L + Gold</strong><br><span style="color:#00d4aa;">"Diamond Dynasty"</span><br>
+      15000 → <strong>🏠 Flat (₹75L)</strong><br><span style="color:#00d4aa;">"Property King"</span><br>
+      20000 → <strong>👑 ₹1Cr + Cruise</strong><br><span style="color:#00d4aa;">"Crown Legend"</span><br>
+      25000 → <strong>🏰 Villa + ₹50L</strong><br><span style="color:#00d4aa;">"Legacy Chairman"</span>
+    </div>
   </div>
 </div>
 
-<h2>🏥 INSURANCE — Bima (₹7 Lakh) (₹7 Lakh Coverage)</h2>
+<h2>🏥 INSURANCE (₹7 Lakh Coverage)</h2>
 <div class="flex-3">
-  <div class="box box-green center"><strong>Health Bima</strong><br><span style="font-size:14px;color:#00d4aa;">₹5 Lakh</span><br><span class="hindi">50+ Team pe milega</span></div>
-  <div class="box center"><strong>Disability</strong><br><span style="font-size:14px;color:#ffd700;">₹1 Lakh</span><br><span class="hindi">Sahayta</span></div>
-  <div class="box center" style="border-color:rgba(255,107,107,0.4);"><strong>Accident</strong><br><span style="font-size:14px;color:#ff6b6b;">₹1 Lakh</span><br><span class="hindi">Family ke liye</span></div>
+  <div class="box box-green center"><strong>Health Insurance</strong><br><span style="font-size:12px;color:#00d4aa;">₹5 Lakh</span><br><span class="hindi">50+ Team par milta hai</span></div>
+  <div class="box center"><strong>Disability</strong><br><span style="font-size:12px;color:#ffd700;">₹1 Lakh</span><br><span class="hindi">Sahayata rashi</span></div>
+  <div class="box center" style="border-color:rgba(255,107,107,0.4);"><strong>Accidental</strong><br><span style="font-size:12px;color:#ff6b6b;">₹1 Lakh</span><br><span class="hindi">Family ke liye</span></div>
 </div>
 
-<h2>🚀 KAISE SHURU KAREIN — 3 Simple Steps</h2>
+<h2>🚀 KAISE SHURU KAREIN</h2>
 <div class="cta-box">
   <div class="flex-3">
-    <div><strong>Step 1</strong><br>₹2,280 mein Join karo<br>Product lo - Stamina Core+<br><span style="font-size:9px;">Bas ₹2,280 lagao</span></div>
-    <div><strong>Step 2</strong><br>4+ logon ko batao<br>Refer & Earn<br><span style="font-size:9px;">Share karo WhatsApp pe</span></div>
-    <div><strong>Step 3</strong><br>Network banao<br>Passive Income kamao<br><span style="font-size:9px;">Team badi = Income badi</span></div>
+    <div><strong>Step 1</strong><br>₹2,280 mein join karo<br><span style="font-size:8px;">Stamina Core+ product milega</span></div>
+    <div><strong>Step 2</strong><br>4+ logon ko batao<br><span style="font-size:8px;">Refer karo aur 20% commission kamao</span></div>
+    <div><strong>Step 3</strong><br>Network banao<br><span style="font-size:8px;">15 levels par passive income</span></div>
   </div>
-  <p class="big" style="margin-top:8px;">🎯 EK PRODUCT = SEHAT + PAISA + SURAKSHA 🎯</p>
+  <p class="big" style="margin-top:5px;">🎯 EK PRODUCT = HEALTH + WEALTH + SECURITY 🎯</p>
 </div>
 
-<!-- WE CARE Community -->
-<div style="margin-top:12px; border:1px solid rgba(0,212,170,0.3); border-radius:12px; padding:12px; background:rgba(0,212,170,0.05);">
-  <h3 style="margin:0 0 10px; color:#00d4aa; font-size:13px; text-align:center; font-weight:800;">🤝 "WE CARE" Community Support<br><span style="color:#ffd700; font-size:11px;">Hum Ek Parivar Hain</span></h3>
-  <p style="text-align:center; font-size:11px; color:#ddd; margin:0 0 10px;">Hum sirf business nahi — hum ek FAMILY hain. Mushkil waqt mein hum saath khade hote hain.</p>
-  <p style="text-align:center; font-size:10px; color:#00d4aa; margin:0 0 10px;">हम सिर्फ बिजनेस नहीं — हम एक Family ke liye हैं। मुश्किल वक्त में हम साथ खड़े होते हैं।</p>
-  <div class="flex" style="font-size:10px; gap:10px;">
-    <div style="flex:1; background:rgba(255,215,0,0.06); border:1px solid rgba(255,215,0,0.2); border-radius:8px; padding:8px; text-align:center;">
-      <p style="font-size:16px; margin:0;">🏥</p>
-      <p style="margin:3px 0 0; color:#ffd700; font-weight:700;">Medical Emergency</p>
-      <p style="margin:2px 0 0; color:#ccc;">Aapke parivaar ki medical zaroorat mein community fundraising</p>
-      <p style="margin:2px 0 0; color:#00d4aa; font-size:9px;">Hospital ka kharcha — hum milke karenge</p>
-    </div>
-    <div style="flex:1; background:rgba(255,215,0,0.06); border:1px solid rgba(255,215,0,0.2); border-radius:8px; padding:8px; text-align:center;">
-      <p style="font-size:16px; margin:0;">💪</p>
-      <p style="margin:3px 0 0; color:#ffd700; font-weight:700;">Hum Aapke Saath Hain</p>
-      <p style="margin:2px 0 0; color:#ccc;">1000+ members notified to help & contribute when you need support</p>
-      <p style="margin:2px 0 0; color:#00d4aa; font-size:9px;">Akele nahi ho — puri team hai</p>
-    </div>
-    <div style="flex:1; background:rgba(255,215,0,0.06); border:1px solid rgba(255,215,0,0.2); border-radius:8px; padding:8px; text-align:center;">
-      <p style="font-size:16px; margin:0;">❤️</p>
-      <p style="margin:3px 0 0; color:#ffd700; font-weight:700;">Parivar ka Sahara</p>
-      <p style="margin:2px 0 0; color:#ccc;">Financial & emotional support in difficult times — no one is alone</p>
-      <p style="margin:2px 0 0; color:#00d4aa; font-size:9px;">Mushkil mein hum saath hain</p>
-    </div>
+<!-- WE CARE + Tree compact row -->
+<div style="margin-top:6px; display:flex; gap:8px;">
+  <div style="flex:1; border:1px solid rgba(0,212,170,0.3); border-radius:8px; padding:6px; background:rgba(0,212,170,0.05); text-align:center;">
+    <p style="font-size:14px; margin:0;">🤝</p>
+    <p style="margin:2px 0; color:#00d4aa; font-size:9px; font-weight:800;">"WE CARE" Community</p>
+    <p style="margin:0; color:#ddd; font-size:8px;">Medical Emergency Fund · Family Support · 1000+ Members Help</p>
+    <p style="margin:2px 0 0; color:#ffd700; font-size:7px;">"Aapki problem hamari problem hai. Saath milke aage badhenge."</p>
   </div>
-  <p style="text-align:center; margin:10px 0 0; font-size:10px; color:#ffd700; font-weight:700;">🌟 "Aapki problem HAMARI problem hai. Saath milke aage badhenge."</p>
+  <div style="flex:1; border:1px solid rgba(0,212,170,0.4); border-radius:8px; padding:6px; background:linear-gradient(135deg, rgba(0,212,170,0.08), rgba(34,139,34,0.08)); text-align:center;">
+    <p style="font-size:14px; margin:0;">🌳</p>
+    <p style="margin:2px 0; color:#00d4aa; font-size:9px; font-weight:800;">1 JOINING = 1 TREE PLANTED</p>
+    <p style="margin:0; color:#ddd; font-size:8px;">Har naye member ki joining par hum ek ped lagate hain. Aapki health + Planet ki health.</p>
+    <p style="margin:2px 0 0; color:#ffd700; font-size:7px;">Har naya sadasya = Ek naya ped 🌍</p>
+  </div>
 </div>
 
 <div class="contact-bar">
   📞 <strong>7701863636</strong> | 📱 WhatsApp: <strong>7701863636</strong> | 📧 nutritionforeverwellness@gmail.com<br>
-  🌐 www.nutritionforeverwellness.com | <span class="hindi">Contact: Subah 9 - Raat 9 baje</span>
+  🌐 www.nutritionforeverwellness.com | Contact: Subah 9 - Raat 9 baje
 </div>
 
 <div class="footer">© 2026 Nutrition Forever Wellness Pvt. Ltd. | Direct Selling Company | All rights reserved.</div>

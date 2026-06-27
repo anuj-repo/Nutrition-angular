@@ -291,7 +291,7 @@ export class RegisterComponent implements OnInit {
           : '🎉 Registration successful! Welcome to Nutrition Forever Wellness.';
 
         this.successMessage =
-          friendly + ' Please check your email and sign in. You will be redirected to login shortly.\n\n✅ आपका अकाउंट बन गया है। कृपया अपना ईमेल चेक करें और लॉगिन करें।';
+          friendly + ' Please check your email and sign in. You will be redirected to login shortly.\n\n✅ आपका अकाउंट बन गया है। कृपया अपना ईमेल चेक करें और लॉगिन करें।\n\n🌳 1 Joining = 1 Tree Planted — आपकी ज्वाइनिंग से एक पेड़ लगाया जाएगा!';
         this.errorMessage = '';
 
         // Toast popup so the user notices even on a long form
