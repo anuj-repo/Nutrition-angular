@@ -8,8 +8,9 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Segoe UI', Arial, sans-serif; background: #ffffff; color: #000; }
 
-  .page { width: 210mm; min-height: 297mm; padding: 12mm 14mm; page-break-after: always; position: relative; background: #ffffff; overflow: hidden; margin: 0 auto; }
+  .page { width: 210mm; min-height: 297mm; height: 297mm; padding: 15mm 16mm; page-break-after: always; position: relative; background: #ffffff; margin: 0 auto; display: flex; flex-direction: column; }
   .page:last-child { page-break-after: avoid; }
+  .content { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
 
   @media screen {
     body { background: #f0f0f0; }
@@ -19,27 +20,25 @@
   .page::before { display: none; }
   .page::after { display: none; }
 
-  .content { position: relative; z-index: 1; }
+  h1 { font-size: 32px; color: #1b5e20; text-align: center; margin-bottom: 10px; font-weight: 800; }
+  h2 { font-size: 20px; color: #1b5e20; border-bottom: 2px solid #2e7d32; padding-bottom: 6px; margin: 16px 0 12px; letter-spacing: 0.5px; }
+  h3 { font-size: 15px; color: #2e7d32; margin: 8px 0 6px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-  h1 { font-size: 32px; color: #1b5e20; text-align: center; margin-bottom: 6px; font-weight: 800; }
-  h2 { font-size: 18px; color: #1b5e20; border-bottom: 2px solid #2e7d32; padding-bottom: 4px; margin: 12px 0 8px; letter-spacing: 0.5px; }
-  h3 { font-size: 15px; color: #2e7d32; margin: 6px 0 4px; text-transform: uppercase; letter-spacing: 0.5px; }
-
-  .subtitle { text-align: center; color: #2e7d32; font-size: 15px; margin-bottom: 8px; }
+  .subtitle { text-align: center; color: #2e7d32; font-size: 16px; margin-bottom: 12px; }
   .hindi { color: #2e7d32; font-size: 15px; }
 
-  .flex { display: flex; gap: 12px; }
+  .flex { display: flex; gap: 16px; }
   .flex > div { flex: 1; }
-  .flex-3 { display: flex; gap: 10px; }
+  .flex-3 { display: flex; gap: 14px; }
   .flex-3 > div { flex: 1; }
 
-  .box { border: 1.5px solid #c8e6c9; border-radius: 8px; padding: 10px; margin-bottom: 8px; background: #fafff9; }
+  .box { border: 1.5px solid #c8e6c9; border-radius: 10px; padding: 14px; margin-bottom: 12px; background: #fafff9; }
   .box-gold { border-color: #ffd54f; background: #fffde7; }
   .box-green { border-color: #81c784; background: #f1f8f1; }
 
-  table { width: 100%; border-collapse: collapse; font-size: 15px; margin: 6px 0; }
-  th { background: #2e7d32; color: #fff; padding: 6px 8px; text-align: center; font-weight: 700; font-size: 15px; }
-  td { padding: 5px 8px; border-bottom: 1px solid #e0e0e0; text-align: center; color: #000; font-size: 15px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 8px 0; }
+  th { background: #2e7d32; color: #fff; padding: 8px 10px; text-align: center; font-weight: 700; font-size: 14px; }
+  td { padding: 7px 10px; border-bottom: 1px solid #e0e0e0; text-align: center; color: #000; font-size: 14px; }
   tr:nth-child(even) { background: #f5f9f5; }
 
   .badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 15px; font-weight: 700; margin: 2px 3px; }
@@ -52,15 +51,15 @@
   .product-img { max-width: 100%; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
 
   .center { text-align: center; }
-  ul { padding-left: 14px; margin: 4px 0; }
-  li { margin: 3px 0; color: #000; font-size: 15px; line-height: 1.5; }
+  ul { padding-left: 18px; margin: 8px 0; }
+  li { margin: 6px 0; color: #000; font-size: 15px; line-height: 1.7; }
   li strong { color: #1b5e20; }
 
   .cta-box { background: #2e7d32; color: #fff; padding: 12px; border-radius: 10px; text-align: center; margin-top: 10px; }
   .cta-box p { font-size: 15px; font-weight: 700; }
   .cta-box .big { font-size: 18px; }
 
-  .contact-bar { background: #f5f5f5; border: 1.5px solid #c8e6c9; padding: 8px; border-radius: 8px; text-align: center; font-size: 15px; color: #222; margin-top: 10px; }
+  .contact-bar { background: #f5f5f5; border: 1.5px solid #c8e6c9; padding: 12px; border-radius: 10px; text-align: center; font-size: 14px; color: #222; margin-top: 14px; }
   .contact-bar strong { color: #1b5e20; }
 
   .footer { text-align: center; font-size: 10px; color: #888; margin-top: 6px; }
@@ -239,23 +238,26 @@
 <div class="flex">
   <div>
     <table>
-      <tr><th>Referrals</th><th>Reward / पुरस्कार</th></tr>
-      <tr><td>3</td><td>₹200 + 🎁 Welcome Surprise</td></tr>
-      <tr><td>5</td><td>₹500 + 🎁 Star Performer Gift</td></tr>
-      <tr><td>10</td><td>₹1,500 + 🏅 Champion Reward</td></tr>
-      <tr><td>15</td><td>₹2,000 + 🌟 Achiever's Special</td></tr>
-      <tr><td>20</td><td>₹3,500 + 💎 Diamond Bonus</td></tr>
-      <tr><td>25</td><td>₹5,000 + 👑 Royal Reward</td></tr>
+      <tr><th>Direct</th><th>Reward / पुरस्कार</th></tr>
+      <tr><td>4</td><td>🎁 Welcome Kit (Diary + Pen + Plan)</td></tr>
+      <tr><td>8</td><td>👕 Branded T-shirt</td></tr>
+      <tr><td>12</td><td>👜 Branded Bag</td></tr>
+      <tr><td>16</td><td>🌟 Power Bank</td></tr>
+      <tr><td>20</td><td>💎 Bluetooth Speaker</td></tr>
+      <tr><td>24</td><td>⌚ Smartwatch</td></tr>
+      <tr><td>28</td><td>🎧 Noise/boAt Headphones</td></tr>
     </table>
   </div>
   <div>
     <table>
-      <tr><th>Referrals</th><th>Reward / पुरस्कार</th></tr>
-      <tr><td>30</td><td>₹7,500 + 🎯 Legend's Treasure</td></tr>
-      <tr><td>35</td><td>₹10,000 + 🔥 Fire Starter Bonus</td></tr>
-      <tr><td>40</td><td>₹12,500 + 🚀 Rocket Reward</td></tr>
-      <tr><td>45</td><td>₹15,000 + ⭐ Superstar Gift</td></tr>
-      <tr><td>50</td><td>₹20,000 + 🏆 Grand Master Prize</td></tr>
+      <tr><th>Direct</th><th>Reward / पुरस्कार</th></tr>
+      <tr><td>32</td><td>📱 Mobile Phone</td></tr>
+      <tr><td>36</td><td>📲 Tablet / Kindle</td></tr>
+      <tr><td>40</td><td>👨‍👩‍👧 Family Shopping Voucher</td></tr>
+      <tr><td>44</td><td>🏨 Family Trip (2N/3D Resort)</td></tr>
+      <tr><td>48</td><td>💻 Laptop</td></tr>
+      <tr><td>52</td><td>📺 Smart TV + Stage Felicitation + Crown</td></tr>
+      <tr><td>56</td><td>🏍️ Bullet / Royal Enfield</td></tr>
     </table>
   </div>
 </div>
@@ -267,46 +269,48 @@
 <div class="page">
 <div class="content">
 
-<h2>🏆 TEAM ACHIEVEMENT REWARDS / टीम पुरस्कार</h2>
-<table>
-  <tr><th>Team / टीम</th><th>Reward / पुरस्कार</th><th>Team / टीम</th><th>Reward / पुरस्कार</th></tr>
-  <tr><td>5</td><td>🎁 Gift Hamper</td><td>100</td><td>📱 iPhone / Samsung</td></tr>
-  <tr><td>10</td><td>🛍️ Shopping Voucher</td><td>150</td><td>💻 MacBook / Laptop</td></tr>
-  <tr><td>15</td><td>🎧 Wireless Earbuds</td><td>200</td><td>✈️ International Trip</td></tr>
-  <tr><td>25</td><td>⌚ Smart Watch</td><td>300</td><td>🌍 Luxury Vacation</td></tr>
-  <tr><td>50</td><td>🏔️ Hill Station Trip</td><td>500</td><td>🏍️ Activa / Pulsar</td></tr>
-  <tr><td>75</td><td>🏖️ Beach Vacation</td><td></td><td></td></tr>
-</table>
-
-</div>
-</div>
-
-<!-- ==================== PAGE 4: MEGA + INSURANCE + WHY JOIN ==================== -->
-<div class="page">
-<div class="content">
-
-<h2>🚗 MEGA REWARDS / मेगा पुरस्कार</h2>
-<div class="box box-gold" style="padding:5px;">
-  <div class="flex-3" style="font-size:12px;">
-    <div class="center">
-      750 → <strong>📱 Flagship Phone + ₹10K</strong><br><span style="color:#2e7d32;">"Tech Champion"</span><br>
-      1000 → <strong>🚗 ₹5L Vehicle Fund</strong><br><span style="color:#2e7d32;">"Road King"</span><br>
-      1500 → <strong>🚙 Swift / i20</strong><br><span style="color:#2e7d32;">"Speed Star"</span><br>
-      2000 → <strong>🏠 ₹10L Home Fund</strong><br><span style="color:#2e7d32;">"Dream Builder"</span>
-    </div>
-    <div class="center">
-      3000 → <strong>🚙 Thar / Fortuner</strong><br><span style="color:#2e7d32;">"Power Leader"</span><br>
-      5000 → <strong>✈️ World Tour + ₹10L</strong><br><span style="color:#2e7d32;">"Global Icon"</span><br>
-      7500 → <strong>🏎️ BMW / Audi</strong><br><span style="color:#2e7d32;">"Elite Achiever"</span>
-    </div>
-    <div class="center">
-      10000 → <strong>💎 ₹50L + Gold</strong><br><span style="color:#2e7d32;">"Diamond Dynasty"</span><br>
-      15000 → <strong>🏠 Flat (₹75L)</strong><br><span style="color:#2e7d32;">"Property King"</span><br>
-      20000 → <strong>👑 ₹1Cr + Cruise</strong><br><span style="color:#2e7d32;">"Crown Legend"</span><br>
-      25000 → <strong>🏰 Villa + ₹50L</strong><br><span style="color:#2e7d32;">"Legacy Chairman"</span>
-    </div>
+<h2>🏆 TEAM REWARDS / टीम पुरस्कार</h2>
+<div class="flex">
+  <div>
+    <table>
+      <tr><th>Team</th><th>Reward / पुरस्कार</th></tr>
+      <tr><td>5</td><td>🎁 Gift Hamper</td></tr>
+      <tr><td>10</td><td>🛍️ Shopping Voucher</td></tr>
+      <tr><td>15</td><td>🎧 Wireless Earbuds</td></tr>
+      <tr><td>25</td><td>⌚ Smart Watch</td></tr>
+      <tr><td>50</td><td>🏔️ Hill Station Trip</td></tr>
+      <tr><td>75</td><td>🏖️ Beach Vacation</td></tr>
+      <tr><td>100</td><td>📱 iPhone / Samsung</td></tr>
+      <tr><td>150</td><td>💻 Laptop</td></tr>
+      <tr><td>200</td><td>✈️ International Trip</td></tr>
+      <tr><td>300</td><td>🌍 Luxury Vacation</td></tr>
+      <tr><td>500</td><td>🏍️ Activa / Pulsar</td></tr>
+    </table>
+  </div>
+  <div>
+    <table>
+      <tr><th>Team</th><th>Mega Reward / मेगा पुरस्कार</th></tr>
+      <tr><td>750</td><td>🚗 Car (Swift / WagonR)</td></tr>
+      <tr><td>1000</td><td>🏠 Flat Down Payment</td></tr>
+      <tr><td>1500</td><td>🚙 Swift / i20 — <span style="color:#2e7d32;">"Speed Star"</span></td></tr>
+      <tr><td>2000</td><td>🏠 ₹10L Home Fund — <span style="color:#2e7d32;">"Dream Builder"</span></td></tr>
+      <tr><td>3000</td><td>🚙 Thar / Fortuner — <span style="color:#2e7d32;">"Power Leader"</span></td></tr>
+      <tr><td>5000</td><td>✈️ World Tour + ₹10L — <span style="color:#2e7d32;">"Global Icon"</span></td></tr>
+      <tr><td>7500</td><td>🏎️ BMW / Audi — <span style="color:#2e7d32;">"Elite Achiever"</span></td></tr>
+      <tr><td>10000</td><td>💎 ₹50L + Gold — <span style="color:#2e7d32;">"Diamond Dynasty"</span></td></tr>
+      <tr><td>15000</td><td>🏠 Flat (₹75L) — <span style="color:#2e7d32;">"Property King"</span></td></tr>
+      <tr><td>20000</td><td>👑 ₹1Cr + Cruise — <span style="color:#2e7d32;">"Crown Legend"</span></td></tr>
+      <tr><td>25000</td><td>🏰 Villa + ₹50L — <span style="color:#2e7d32;">"Legacy Chairman"</span></td></tr>
+    </table>
   </div>
 </div>
+
+</div>
+</div>
+
+<!-- ==================== PAGE 4: INSURANCE + WHY JOIN ==================== -->
+<div class="page">
+<div class="content">
 
 <h2>🏥 INSURANCE / बीमा (₹7 Lakh Coverage)</h2>
 <div class="flex-3">
@@ -315,48 +319,27 @@
   <div class="box center" style="border-color:rgba(255,107,107,0.4);"><strong>Accidental / दुर्घटना</strong><br><span style="font-size:12px;color:#c62828;">₹1 Lakh</span><br><span class="hindi">परिवार के लिए</span></div>
 </div>
 
-<h2>🎯 WHY JOIN? / क्यों जुड़ें?</h2>
-<div class="flex" style="font-size:13px;">
-  <div class="box box-gold" style="text-align:center;padding:6px;">
-    <p style="font-size:14px;margin:0;">💊</p>
-    <p style="margin:2px 0;color:#1b5e20;font-weight:700;">Product</p>
-    <p style="margin:0;color:#111;">Premium Ayurvedic Capsules @ ₹2,280</p>
-  </div>
-  <div class="box box-gold" style="text-align:center;padding:6px;">
-    <p style="font-size:14px;margin:0;">💰</p>
-    <p style="margin:2px 0;color:#1b5e20;font-weight:700;">Income</p>
-    <p style="margin:0;color:#111;">60% Commission — 15 Levels of earnings</p>
-  </div>
-  <div class="box box-gold" style="text-align:center;padding:6px;">
-    <p style="font-size:14px;margin:0;">🏥</p>
-    <p style="margin:2px 0;color:#1b5e20;font-weight:700;">Insurance</p>
-    <p style="margin:0;color:#111;">₹7 Lakh Health + Accident Coverage</p>
-  </div>
-  <div class="box box-gold" style="text-align:center;padding:6px;">
-    <p style="font-size:14px;margin:0;">🏆</p>
-    <p style="margin:2px 0;color:#1b5e20;font-weight:700;">Rewards</p>
-    <p style="margin:0;color:#111;">Trips, Cars, Villa — Up to ₹1 Crore</p>
-  </div>
-  <div class="box box-gold" style="text-align:center;padding:6px;">
-    <p style="font-size:14px;margin:0;">🌳</p>
-    <p style="margin:2px 0;color:#1b5e20;font-weight:700;">Tree</p>
-    <p style="margin:0;color:#111;">1 Joining = 1 Tree Planted</p>
-  </div>
-</div>
-
 <h2>⭐ EARNING SNAPSHOT / कमाई की झलक</h2>
-<div class="flex-3" style="margin-bottom:6px;">
-  <div class="box box-green center" style="padding:8px;">
-    <p style="font-size:20px;color:#1b5e20;font-weight:900;margin:0;">₹1,824</p>
-    <p style="font-size:13px;color:#111;margin:2px 0 0;">4 Direct Referrals<br>(Level 1 only)</p>
+<div class="flex" style="margin-bottom:6px; gap:5px;">
+  <div class="box box-green center" style="padding:6px;flex:1;">
+    <p style="font-size:16px;color:#1b5e20;font-weight:900;margin:0;">₹1,824</p>
+    <p style="font-size:10px;color:#444;margin:2px 0 0;">L1 (4 people)</p>
   </div>
-  <div class="box box-green center" style="padding:8px;">
-    <p style="font-size:20px;color:#1b5e20;font-weight:900;margin:0;">₹5,472</p>
-    <p style="font-size:13px;color:#111;margin:2px 0 0;">Level 1 + Level 2<br>(16 people)</p>
+  <div class="box box-green center" style="padding:6px;flex:1;">
+    <p style="font-size:16px;color:#1b5e20;font-weight:900;margin:0;">₹5,472</p>
+    <p style="font-size:10px;color:#444;margin:2px 0 0;">L1+L2 (20)</p>
   </div>
-  <div class="box box-green center" style="padding:8px;">
-    <p style="font-size:20px;color:#1b5e20;font-weight:900;margin:0;">₹23L+</p>
-    <p style="font-size:13px;color:#111;margin:2px 0 0;">Full 15 Levels<br>(Monthly potential)</p>
+  <div class="box box-green center" style="padding:6px;flex:1;">
+    <p style="font-size:16px;color:#2e7d32;font-weight:900;margin:0;">₹14,227</p>
+    <p style="font-size:10px;color:#444;margin:2px 0 0;">L1-L3 (84)</p>
+  </div>
+  <div class="box box-green center" style="padding:6px;flex:1;">
+    <p style="font-size:16px;color:#2e7d32;font-weight:900;margin:0;">₹37,574</p>
+    <p style="font-size:10px;color:#444;margin:2px 0 0;">L1-L4 (340)</p>
+  </div>
+  <div class="box box-green center" style="padding:6px;flex:1;">
+    <p style="font-size:16px;color:#c62828;font-weight:900;margin:0;">₹23L+</p>
+    <p style="font-size:10px;color:#444;margin:2px 0 0;">Full 15 Levels</p>
   </div>
 </div>
 
@@ -373,6 +356,35 @@
     <p style="margin:2px 0; color:#2e7d32; font-size:13px; font-weight:800;">1 JOINING = 1 TREE PLANTED</p>
     <p style="margin:0; color:#111; font-size:12px;">For every new member, we plant a tree. Health for you, life for planet.</p>
     <p style="margin:2px 0 0; color:#1b5e20; font-size:11px;">हर नया सदस्य = एक नया पेड़ 🌍 आपकी सेहत + धरती की सेहत</p>
+  </div>
+</div>
+
+<h2 style="margin-top:6px;">🎯 WHY JOIN? / क्यों जुड़ें?</h2>
+<div class="flex" style="font-size:13px; gap:6px;">
+  <div class="box box-gold" style="text-align:center;padding:5px;flex:1;">
+    <p style="font-size:14px;margin:0;">💊</p>
+    <p style="margin:2px 0;color:#1b5e20;font-weight:700;font-size:11px;">Product</p>
+    <p style="margin:0;color:#444;font-size:10px;">Premium Ayurvedic Capsules @ ₹2,280</p>
+  </div>
+  <div class="box box-gold" style="text-align:center;padding:5px;flex:1;">
+    <p style="font-size:14px;margin:0;">💰</p>
+    <p style="margin:2px 0;color:#1b5e20;font-weight:700;font-size:11px;">Income</p>
+    <p style="margin:0;color:#444;font-size:10px;">60% Commission — 15 Levels</p>
+  </div>
+  <div class="box box-gold" style="text-align:center;padding:5px;flex:1;">
+    <p style="font-size:14px;margin:0;">🏥</p>
+    <p style="margin:2px 0;color:#1b5e20;font-weight:700;font-size:11px;">Insurance</p>
+    <p style="margin:0;color:#444;font-size:10px;">₹7 Lakh Health + Accident</p>
+  </div>
+  <div class="box box-gold" style="text-align:center;padding:5px;flex:1;">
+    <p style="font-size:14px;margin:0;">🏆</p>
+    <p style="margin:2px 0;color:#1b5e20;font-weight:700;font-size:11px;">Rewards</p>
+    <p style="margin:0;color:#444;font-size:10px;">Trips, Cars, Villa — ₹1 Crore</p>
+  </div>
+  <div class="box box-gold" style="text-align:center;padding:5px;flex:1;">
+    <p style="font-size:14px;margin:0;">🌳</p>
+    <p style="margin:2px 0;color:#1b5e20;font-weight:700;font-size:11px;">Tree</p>
+    <p style="margin:0;color:#444;font-size:10px;">1 Joining = 1 Tree Planted</p>
   </div>
 </div>
 
