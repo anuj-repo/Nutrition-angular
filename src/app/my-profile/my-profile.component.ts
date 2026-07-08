@@ -12,15 +12,12 @@ import { UtililtyFunctions } from '../utils/utils';
 export class MyProfileComponent implements OnInit {
   user: any = {};
   addresses: any[] = [];
-  prefs: any = {
-    emailEnabled: true, smsEnabled: true, pushEnabled: true,
-    whatsappEnabled: false, preferredLang: 'EN'
-  };
+  editMode = false;
+  editData: any = {};
   successMessage = ''; errorMessage = '';
   reEntryLoading = false;
   loadingProfile = false;
-  loadingPrefs = false;
-  savingPrefs = false;
+  saving = false;
 
   constructor(
     private api: BackendApiService,
@@ -30,11 +27,8 @@ export class MyProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Show whatever we have cached immediately so the page isn't blank.
     this.user = this.utils.getUserMeData() || {};
-    // Then refresh from /api/user/me so we get every field saved at registration.
     this.refreshProfile();
-    this.loadPrefs();
   }
 
   refreshProfile() {
@@ -45,37 +39,79 @@ export class MyProfileComponent implements OnInit {
         const data = res?.data || {};
         this.user = { ...this.user, ...data };
         this.addresses = Array.isArray(data.userAddressDTO) ? data.userAddressDTO : [];
+        this.initEditData();
       },
       err => {
         this.loadingProfile = false;
-        // Don't error-toast here — fall back to cached data quietly.
+        this.initEditData();
         console.warn('Could not refresh profile from server', err);
       }
     );
   }
 
-  loadPrefs() {
-    this.loadingPrefs = true;
-    this.api.getNotifPrefs().subscribe(
-      (res: any) => {
-        this.loadingPrefs = false;
-        if (res?.data) this.prefs = { ...this.prefs, ...res.data };
-      },
-      () => { this.loadingPrefs = false; }
-    );
+  initEditData() {
+    this.editData = {
+      fname: this.user?.fname || '',
+      lname: this.user?.lname || '',
+      email: this.user?.email || '',
+      mobileNumber: this.user?.mobileNumber || this.user?.contact || '',
+      dob: this.user?.dob ? this.user.dob.substring(0, 10) : '',
+      gender: this.user?.gender || 'Male',
+      address: this.user?.address || '',
+      city: this.user?.city || '',
+      state: this.user?.state || '',
+      country: this.user?.country || 'India',
+      pincode: this.user?.pincode || '',
+      panNumber: this.user?.panNumber || '',
+      aadhaarNumber: this.user?.aadhaarNumber || '',
+      accountHolderName: this.user?.accountHolderName || '',
+      bankName: this.user?.bankName || '',
+      accountNumber: this.user?.accountNumber || '',
+      ifscCode: this.user?.ifscCode || ''
+    };
   }
 
-  savePrefs() {
-    this.savingPrefs = true;
-    this.api.saveNotifPrefs(this.prefs).subscribe(
+  saveProfile() {
+    this.saving = true;
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    const payload: any = {
+      fname: this.editData.fname?.trim(),
+      lname: this.editData.lname?.trim(),
+      email: this.editData.email?.trim(),
+      mobileNumber: this.editData.mobileNumber?.trim(),
+      dob: this.editData.dob,
+      gender: this.editData.gender,
+      address: this.editData.address?.trim(),
+      city: this.editData.city,
+      state: this.editData.state,
+      country: this.editData.country,
+      pincode: this.editData.pincode?.trim()
+    };
+
+    // Include KYC fields only if not yet approved
+    if (this.user?.status !== 'ACTIVE') {
+      payload.panNumber = (this.editData.panNumber || '').trim().toUpperCase();
+      payload.aadhaarNumber = (this.editData.aadhaarNumber || '').trim();
+      payload.accountHolderName = (this.editData.accountHolderName || '').trim();
+      payload.bankName = (this.editData.bankName || '').trim();
+      payload.accountNumber = (this.editData.accountNumber || '').trim();
+      payload.ifscCode = (this.editData.ifscCode || '').trim().toUpperCase();
+    }
+
+    this.api.updateProfile(payload).subscribe(
       (res: any) => {
-        this.savingPrefs = false;
-        if (res?.data) this.prefs = { ...this.prefs, ...res.data };
-        this.toastr.success('Preferences saved.', 'Success');
+        this.saving = false;
+        this.editMode = false;
+        this.successMessage = 'Profile updated successfully!';
+        this.toastr.success('Profile updated!', 'Success');
+        this.refreshProfile();
       },
       err => {
-        this.savingPrefs = false;
-        this.toastr.error(err?.error?.message || 'Could not save preferences.', 'Save failed');
+        this.saving = false;
+        this.errorMessage = err?.error?.message || 'Failed to update profile.';
+        this.toastr.error(this.errorMessage, 'Update failed');
       }
     );
   }
@@ -90,25 +126,7 @@ export class MyProfileComponent implements OnInit {
     this.toastr.success('Profile photo updated.', 'Success');
   }
 
-  triggerReEntry() {
-    if (!confirm('Re-enter into the network at the next available level? This action is final.')) return;
-    this.reEntryLoading = true;
-    this.errorMessage = '';
-    this.api.reEntry().subscribe(
-      (r: any) => {
-        this.reEntryLoading = false;
-        this.successMessage = r?.data || r?.message || 'Re-entry processed successfully.';
-        this.toastr.success(this.successMessage, 'Re-entry');
-      },
-      err => {
-        this.reEntryLoading = false;
-        this.errorMessage = err?.error?.message || 'Re-entry failed.';
-        this.toastr.error(this.errorMessage, 'Re-entry failed');
-      }
-    );
-  }
-
-  // Helpers used in template
+  // Helpers
   fullName(): string {
     return [this.user?.fname, this.user?.lname].filter(Boolean).join(' ').trim() || '—';
   }
@@ -132,7 +150,6 @@ export class MyProfileComponent implements OnInit {
   packageLabel(): string {
     const pkg = this.user?.packageTaken;
     if (!pkg) return '—';
-    // backend returns numeric string from @JsonValue, e.g. "2280"
     return `₹${pkg}`;
   }
 }

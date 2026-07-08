@@ -46,3 +46,11 @@
 @media (max-width: 600px) {
   .grid { grid-template-columns: 1fr; }
 }
+
+.edit-toggle { margin-top: 12px; text-align: right; }
+.readonly { background: var(--gray-100); border-radius: 6px; padding: 8px 12px; }
+.readonly label { color: var(--text-muted); }
+.readonly span { color: var(--text-secondary); font-style: italic; }
+.locked-msg { padding: 12px; background: var(--warning-light); border-radius: 8px; margin-top: 8px; }
+.save-row { text-align: center; margin: 20px 0; }
+.full { grid-column: 1 / -1; }

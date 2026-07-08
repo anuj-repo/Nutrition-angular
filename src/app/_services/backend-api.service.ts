@@ -435,6 +435,11 @@ export class BackendApiService {
     return this.http.get<any>(this.url('/api/reEntry'));
   }
 
+  // Profile update
+  updateProfile(payload: any) {
+    return this.http.put<any>(this.url('/api/profile'), payload);
+  }
+
   // Upload payment receipt (admin/registration)
   uploadPaymentReceipt(registrationPaymentRequest: any, files: File[]) {
     const fd = new FormData();
