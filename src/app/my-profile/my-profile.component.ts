@@ -49,6 +49,11 @@ export class MyProfileComponent implements OnInit {
     );
   }
 
+  startEdit() {
+    this.initEditData();
+    this.editMode = true;
+  }
+
   initEditData() {
     this.editData = {
       fname: this.user?.fname || '',

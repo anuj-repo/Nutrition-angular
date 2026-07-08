@@ -22,7 +22,7 @@
         </div>
       </div>
       <div class="edit-toggle">
-        <button mat-stroked-button (click)="editMode = !editMode" *ngIf="!editMode">
+        <button mat-stroked-button (click)="startEdit()" *ngIf="!editMode">
           <mat-icon>edit</mat-icon> Edit Profile
         </button>
         <button mat-stroked-button color="warn" (click)="editMode = false" *ngIf="editMode">
