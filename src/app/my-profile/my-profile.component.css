@@ -54,3 +54,10 @@
 .locked-msg { padding: 12px; background: var(--warning-light); border-radius: 8px; margin-top: 8px; }
 .save-row { text-align: center; margin: 20px 0; }
 .full { grid-column: 1 / -1; }
+
+.avatar-circle {
+  width: 60px; height: 60px; border-radius: 50%;
+  background: var(--primary); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; font-weight: 700; flex-shrink: 0;
+}

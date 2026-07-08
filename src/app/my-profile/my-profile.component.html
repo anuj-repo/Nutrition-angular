@@ -8,7 +8,7 @@
   <mat-card class="profile-card">
     <mat-card-content>
       <div class="profile-row">
-        <app-avatar-upload [avatarUrl]="user?.userImage || ''" (updated)="onAvatarUpdated($event)"></app-avatar-upload>
+        <div class="avatar-circle">{{ (user?.fname || '?').charAt(0).toUpperCase() }}</div>
         <div class="info">
           <h3>{{ fullName() }}</h3>
           <p class="muted">{{ user?.email || '—' }}</p>
