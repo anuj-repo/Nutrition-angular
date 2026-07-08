@@ -155,31 +155,64 @@
       </div>
 
       <!-- Edit Mode (only before approval) -->
-      <div class="grid" *ngIf="editMode && user?.status !== 'ACTIVE'">
-        <mat-form-field appearance="outline">
-          <mat-label>PAN Number</mat-label>
-          <input matInput [(ngModel)]="editData.panNumber" style="text-transform:uppercase;">
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Aadhaar Number</mat-label>
-          <input matInput [(ngModel)]="editData.aadhaarNumber" maxlength="12">
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Account Holder Name</mat-label>
-          <input matInput [(ngModel)]="editData.accountHolderName">
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Bank Name</mat-label>
-          <input matInput [(ngModel)]="editData.bankName">
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Account Number</mat-label>
-          <input matInput [(ngModel)]="editData.accountNumber">
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>IFSC Code</mat-label>
-          <input matInput [(ngModel)]="editData.ifscCode" style="text-transform:uppercase;">
-        </mat-form-field>
+      <div *ngIf="editMode && user?.status !== 'ACTIVE'">
+        <div class="grid">
+          <mat-form-field appearance="outline">
+            <mat-label>PAN Number</mat-label>
+            <input matInput [(ngModel)]="editData.panNumber" style="text-transform:uppercase;">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Aadhaar Number</mat-label>
+            <input matInput [(ngModel)]="editData.aadhaarNumber" maxlength="12">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Account Holder Name</mat-label>
+            <input matInput [(ngModel)]="editData.accountHolderName">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Bank Name</mat-label>
+            <input matInput [(ngModel)]="editData.bankName">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Account Number</mat-label>
+            <input matInput [(ngModel)]="editData.accountNumber">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>IFSC Code</mat-label>
+            <input matInput [(ngModel)]="editData.ifscCode" style="text-transform:uppercase;">
+          </mat-form-field>
+        </div>
+
+        <!-- KYC Document Upload -->
+        <h4 style="margin-top:16px;">📄 Upload KYC Documents</h4>
+        <p class="muted small">JPG, PNG, WEBP or PDF · Max 1 MB each</p>
+        <div class="kyc-uploads">
+          <div class="kyc-upload-item">
+            <label>PAN Card</label>
+            <input type="file" accept="image/*,.pdf" (change)="onKycFile('PAN', $event)" #panInput>
+            <div class="kyc-file-info" *ngIf="kycFiles.PAN">
+              ✅ {{ kycFiles.PAN.name }}
+              <button mat-icon-button (click)="clearKycFile('PAN'); panInput.value=''"><mat-icon>close</mat-icon></button>
+            </div>
+          </div>
+          <div class="kyc-upload-item">
+            <label>Aadhaar Card</label>
+            <input type="file" accept="image/*,.pdf" (change)="onKycFile('AADHAAR', $event)" #aadhaarInput>
+            <div class="kyc-file-info" *ngIf="kycFiles.AADHAAR">
+              ✅ {{ kycFiles.AADHAAR.name }}
+              <button mat-icon-button (click)="clearKycFile('AADHAAR'); aadhaarInput.value=''"><mat-icon>close</mat-icon></button>
+            </div>
+          </div>
+          <div class="kyc-upload-item">
+            <label>Bank Proof (Passbook / Cheque / Statement)</label>
+            <input type="file" accept="image/*,.pdf" (change)="onKycFile('BANK_PROOF', $event)" #bankInput>
+            <div class="kyc-file-info" *ngIf="kycFiles.BANK_PROOF">
+              ✅ {{ kycFiles.BANK_PROOF.name }}
+              <button mat-icon-button (click)="clearKycFile('BANK_PROOF'); bankInput.value=''"><mat-icon>close</mat-icon></button>
+            </div>
+          </div>
+        </div>
+        <p class="muted small" *ngIf="kycFileError" style="color:red;">{{ kycFileError }}</p>
       </div>
 
       <!-- After approval - KYC locked -->

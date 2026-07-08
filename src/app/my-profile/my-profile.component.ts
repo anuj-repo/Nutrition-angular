@@ -14,6 +14,11 @@ export class MyProfileComponent implements OnInit {
   addresses: any[] = [];
   editMode = false;
   editData: any = {};
+  kycFiles: { [key: string]: { name: string; type: string; data: string } | null } = {
+    PAN: null, AADHAAR: null, BANK_PROOF: null
+  };
+  kycFileError = '';
+  private readonly MAX_KYC_FILE_SIZE = 1 * 1024 * 1024; // 1 MB
   successMessage = ''; errorMessage = '';
   reEntryLoading = false;
   loadingProfile = false;
@@ -103,6 +108,23 @@ export class MyProfileComponent implements OnInit {
       payload.bankName = (this.editData.bankName || '').trim();
       payload.accountNumber = (this.editData.accountNumber || '').trim();
       payload.ifscCode = (this.editData.ifscCode || '').trim().toUpperCase();
+
+      // KYC document files
+      if (this.kycFiles.PAN) {
+        payload.panImage = this.kycFiles.PAN.data;
+        payload.panImageName = this.kycFiles.PAN.name;
+        payload.panImageType = this.kycFiles.PAN.type;
+      }
+      if (this.kycFiles.AADHAAR) {
+        payload.aadhaarImage = this.kycFiles.AADHAAR.data;
+        payload.aadhaarImageName = this.kycFiles.AADHAAR.name;
+        payload.aadhaarImageType = this.kycFiles.AADHAAR.type;
+      }
+      if (this.kycFiles.BANK_PROOF) {
+        payload.bankProofImage = this.kycFiles.BANK_PROOF.data;
+        payload.bankProofImageName = this.kycFiles.BANK_PROOF.name;
+        payload.bankProofImageType = this.kycFiles.BANK_PROOF.type;
+      }
     }
 
     this.api.updateProfile(payload).subscribe(
@@ -119,6 +141,30 @@ export class MyProfileComponent implements OnInit {
         this.toastr.error(this.errorMessage, 'Update failed');
       }
     );
+  }
+
+  onKycFile(docType: 'PAN' | 'AADHAAR' | 'BANK_PROOF', event: any) {
+    this.kycFileError = '';
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+    const allowed = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
+    if (!allowed.includes(file.type)) {
+      this.kycFileError = 'Only JPG, PNG, WEBP or PDF allowed.';
+      return;
+    }
+    if (file.size > this.MAX_KYC_FILE_SIZE) {
+      this.kycFileError = 'File is larger than 1 MB.';
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.kycFiles[docType] = { name: file.name, type: file.type, data: String(reader.result || '') };
+    };
+    reader.readAsDataURL(file);
+  }
+
+  clearKycFile(docType: 'PAN' | 'AADHAAR' | 'BANK_PROOF') {
+    this.kycFiles[docType] = null;
   }
 
   onAvatarUpdated(url: string) {
