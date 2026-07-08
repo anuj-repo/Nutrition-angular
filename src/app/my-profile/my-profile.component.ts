@@ -65,7 +65,7 @@ export class MyProfileComponent implements OnInit {
       lname: this.user?.lname || '',
       email: this.user?.email || '',
       mobileNumber: this.user?.mobileNumber || this.user?.contact || '',
-      dob: this.user?.dob ? this.user.dob.substring(0, 10) : '',
+      dob: this.user?.dob ? String(this.user.dob).substring(0, 10) : '',
       gender: this.user?.gender || 'Male',
       address: this.user?.address || '',
       city: this.user?.city || '',
