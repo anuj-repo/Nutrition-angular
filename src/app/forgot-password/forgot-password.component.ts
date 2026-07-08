@@ -48,10 +48,10 @@ export class ForgotPasswordComponent {
     private toastr: ToastrService
   ) {
     this.emailForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required]]
     });
     this.otpForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required]],
       otp: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]]
     });
     this.resetForm = this.fb.group({
