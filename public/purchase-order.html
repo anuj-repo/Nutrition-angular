@@ -8,31 +8,37 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: Arial, sans-serif; font-size: 13px; color: #000; background: #fff; padding: 20px; }
     .container { max-width: 800px; margin: 0 auto; border: 2px solid #000; padding: 15px; }
-    .header { text-align: center; margin-bottom: 15px; border-bottom: 1px solid #000; padding-bottom: 10px; }
-    .header h1 { font-size: 20px; text-decoration: underline; margin-bottom: 8px; }
-    .company-name { font-size: 18px; font-weight: bold; margin-bottom: 5px; }
+    .header { text-align: center; margin-bottom: 15px; border-bottom: 2px solid #000; padding-bottom: 10px; }
+    .header h1 { font-size: 22px; text-decoration: underline; margin-bottom: 5px; }
+    .header-content { display: flex; align-items: center; justify-content: center; gap: 15px; }
+    .logo { flex-shrink: 0; }
+    .company-info { text-align: center; }
+    .company-name { font-size: 18px; font-weight: bold; margin-bottom: 3px; color: #1b5e20; }
+    .company-tagline { font-size: 10px; color: #666; letter-spacing: 1px; margin-bottom: 5px; }
     .company-details { font-size: 11px; line-height: 1.6; }
     .section { border: 1px solid #000; margin-bottom: 10px; padding: 8px; }
     .section-title { font-weight: bold; text-decoration: underline; margin-bottom: 5px; }
     .row { display: flex; justify-content: space-between; gap: 15px; }
     .col { flex: 1; }
-    .col-right { flex: 0 0 250px; }
-    .field { margin-bottom: 3px; }
+    .col-right { flex: 0 0 260px; }
+    .field { margin-bottom: 4px; font-size: 12px; }
     .field label { font-weight: bold; }
+    .field .value { color: #000; }
     table { width: 100%; border-collapse: collapse; margin-top: 10px; }
     th, td { border: 1px solid #000; padding: 6px 8px; text-align: center; font-size: 12px; }
-    th { background: #f0f0f0; font-weight: bold; }
+    th { background: #e8f5e9; font-weight: bold; }
     td.left { text-align: left; }
     td.right { text-align: right; }
-    .totals-table { width: 350px; margin-left: auto; margin-top: 10px; border: none; }
+    .totals-table { width: 350px; margin-left: auto; margin-top: 10px; }
     .totals-table td { padding: 4px 8px; border: 1px solid #000; }
     .totals-table .label { text-align: right; font-weight: bold; }
     .totals-table .value { text-align: right; }
-    .amount-words { border: 1px solid #000; padding: 8px; margin-top: 10px; font-weight: bold; font-size: 12px; }
+    .amount-words { border: 1px solid #000; padding: 8px; margin-top: 10px; font-weight: bold; font-size: 12px; background: #f9fbe7; }
     .footer { display: flex; justify-content: space-between; margin-top: 15px; padding-top: 10px; border-top: 1px solid #000; }
     .declaration { flex: 1; font-size: 11px; padding-right: 20px; }
-    .signature { text-align: center; min-width: 250px; }
-    .signature-line { margin-top: 50px; border-top: 1px solid #000; padding-top: 5px; }
+    .signature { text-align: center; min-width: 250px; display: flex; flex-direction: column; align-items: center; }
+    .signature-img { margin-top: 10px; margin-bottom: 5px; }
+    .signature-line { margin-top: 10px; border-top: 1px solid #000; padding-top: 5px; width: 200px; text-align: center; }
     .eoe { text-align: right; font-weight: bold; font-size: 11px; margin-top: 5px; }
     @media print {
       body { padding: 0; }
@@ -42,15 +48,34 @@
 </head>
 <body>
   <div class="container">
-    <!-- Header -->
+    <!-- Header with Logo -->
     <div class="header">
       <h1>Purchase Order</h1>
-      <div class="company-name">Nutrition Forever Wellness</div>
-      <div class="company-details">
-        Allawalpur, Dhampur, District Bijnore<br>
-        Uttar Pradesh - 246761<br>
-        Contact: 7701863636<br>
-        State Name: Uttar Pradesh, Code: 09
+      <div class="header-content">
+        <div class="logo">
+          <svg width="80" height="80" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path d="M100 30 Q140 40 155 70 Q160 100 140 125 Q120 110 100 100" fill="#2e7d32" opacity="0.9"/>
+            <path d="M100 30 Q60 40 45 70 Q40 100 60 125 Q80 110 100 100" fill="#43a047" opacity="0.9"/>
+            <circle cx="100" cy="75" r="10" fill="#ffd700"/>
+            <path d="M100 85 L100 110" stroke="#ffd700" stroke-width="3" stroke-linecap="round"/>
+            <path d="M100 95 Q90 88 85 92" stroke="#ffd700" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M100 95 Q110 88 115 92" stroke="#ffd700" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M100 30 Q108 18 115 20 Q108 26 103 30 Z" fill="#81c784"/>
+            <text x="100" y="150" text-anchor="middle" font-size="14" font-weight="900" fill="#1b5e20" font-family="Segoe UI">NUTRITION</text>
+            <text x="100" y="167" text-anchor="middle" font-size="14" font-weight="900" fill="#1b5e20" font-family="Segoe UI">FOREVER</text>
+            <text x="100" y="185" text-anchor="middle" font-size="10" font-weight="600" fill="#ffd700" letter-spacing="3" font-family="Segoe UI">WELLNESS</text>
+          </svg>
+        </div>
+        <div class="company-info">
+          <div class="company-name">Nutrition Forever Wellness</div>
+          <div class="company-tagline">PREMIUM AYURVEDIC WELLNESS</div>
+          <div class="company-details">
+            Allawalpur, Dhampur, District Bijnore<br>
+            Uttar Pradesh - 246761<br>
+            Contact: 7701863636<br>
+            State Name: Uttar Pradesh, Code: 09
+          </div>
+        </div>
       </div>
     </div>
 
@@ -71,12 +96,12 @@
       </div>
       <div class="col-right">
         <div class="section">
-          <div class="field"><label>PO No.:</label> _______________</div>
-          <div class="field"><label>Date:</label> _______________</div>
-          <div class="field"><label>Reference No. & Date:</label> _______________</div>
-          <div class="field"><label>Mode/Terms of Payment:</label> _______________</div>
-          <div class="field"><label>Dispatched Through:</label> _______________</div>
-          <div class="field"><label>Destination:</label> Dhampur, Bijnore (U.P)</div>
+          <div class="field"><label>PO No.:</label> <span class="value">NFW/PO/2026/001</span></div>
+          <div class="field"><label>Date:</label> <span class="value">08 July 2026</span></div>
+          <div class="field"><label>Reference No. & Date:</label> <span class="value">NFW/REF/2026/001 - 08/07/2026</span></div>
+          <div class="field"><label>Mode/Terms of Payment:</label> <span class="value">Advance Payment (Bank Transfer)</span></div>
+          <div class="field"><label>Dispatched Through:</label> <span class="value">Transport / Courier</span></div>
+          <div class="field"><label>Destination:</label> <span class="value">Dhampur, Bijnore (U.P)</span></div>
         </div>
       </div>
     </div>
@@ -87,11 +112,10 @@
         <div class="section">
           <div class="section-title">Supplier (Bill From)</div>
           <div class="company-details">
-            <strong>[Supplier Company Name]</strong><br>
-            [Supplier Address Line 1]<br>
+            <strong>[Supplier/Manufacturer Name]</strong><br>
+            [Supplier Address]<br>
             [City, State - PIN]<br>
-            State: [State]<br>
-            State Code: [Code]<br>
+            State: [State], Code: [Code]<br>
             GSTIN: [Supplier GSTIN]<br>
             PAN: [Supplier PAN]
           </div>
@@ -100,7 +124,7 @@
       <div class="col-right">
         <div class="section">
           <div class="field"><label>Terms of Delivery:</label></div>
-          <div class="field">Immediate Dispatch</div>
+          <div class="field"><span class="value">Immediate Dispatch</span></div>
         </div>
       </div>
     </div>
@@ -121,7 +145,7 @@
       <tbody>
         <tr>
           <td>1</td>
-          <td class="left">Stamina Core+<br><small>(120 Capsules per bottle)</small></td>
+          <td class="left"><strong>Stamina Core+</strong><br><small>Ayurvedic Wellness Capsules<br>(120 Capsules per bottle)</small></td>
           <td>21069099</td>
           <td>250</td>
           <td>Bottles</td>
@@ -148,7 +172,7 @@
         <td class="label">Discount Amount:</td>
         <td class="value">0.00</td>
       </tr>
-      <tr style="font-weight: bold;">
+      <tr style="font-weight: bold; background: #e8f5e9;">
         <td class="label">Grand Total:</td>
         <td class="value">₹83,750.00</td>
       </tr>
@@ -169,10 +193,20 @@
         goods described and that all particulars are true and correct.<br><br>
         <strong>Conditions:</strong><br>
         1) Material should be dispatched with Certificate of Analysis<br>
-        2) Dispatch fresh material with original packaging
+        2) Dispatch fresh material with original packaging<br>
+        3) Ensure proper labeling on all bottles
       </div>
       <div class="signature">
         <strong>For Nutrition Forever Wellness</strong>
+        <div class="signature-img">
+          <!-- Signature SVG -->
+          <svg width="150" height="60" viewBox="0 0 150 60" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 45 Q20 20 35 30 Q45 38 50 25 Q55 15 65 28 Q72 36 80 22 Q88 10 95 30 Q100 40 110 25 Q118 15 125 30 Q130 38 140 35" 
+                  fill="none" stroke="#1a237e" stroke-width="2" stroke-linecap="round"/>
+            <path d="M20 50 Q40 48 60 50 Q80 52 100 48 Q115 46 130 50" 
+                  fill="none" stroke="#1a237e" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+          </svg>
+        </div>
         <div class="signature-line">Authorised Signatory</div>
       </div>
     </div>
