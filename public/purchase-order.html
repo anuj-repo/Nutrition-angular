@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Purchase Order - Nutrition Forever Wellness</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; font-size: 13px; color: #000; background: #fff; padding: 20px; }
+    .container { max-width: 800px; margin: 0 auto; border: 2px solid #000; padding: 15px; }
+    .header { text-align: center; margin-bottom: 15px; border-bottom: 1px solid #000; padding-bottom: 10px; }
+    .header h1 { font-size: 20px; text-decoration: underline; margin-bottom: 8px; }
+    .company-name { font-size: 18px; font-weight: bold; margin-bottom: 5px; }
+    .company-details { font-size: 11px; line-height: 1.6; }
+    .section { border: 1px solid #000; margin-bottom: 10px; padding: 8px; }
+    .section-title { font-weight: bold; text-decoration: underline; margin-bottom: 5px; }
+    .row { display: flex; justify-content: space-between; gap: 15px; }
+    .col { flex: 1; }
+    .col-right { flex: 0 0 250px; }
+    .field { margin-bottom: 3px; }
+    .field label { font-weight: bold; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #000; padding: 6px 8px; text-align: center; font-size: 12px; }
+    th { background: #f0f0f0; font-weight: bold; }
+    td.left { text-align: left; }
+    td.right { text-align: right; }
+    .totals-table { width: 350px; margin-left: auto; margin-top: 10px; border: none; }
+    .totals-table td { padding: 4px 8px; border: 1px solid #000; }
+    .totals-table .label { text-align: right; font-weight: bold; }
+    .totals-table .value { text-align: right; }
+    .amount-words { border: 1px solid #000; padding: 8px; margin-top: 10px; font-weight: bold; font-size: 12px; }
+    .footer { display: flex; justify-content: space-between; margin-top: 15px; padding-top: 10px; border-top: 1px solid #000; }
+    .declaration { flex: 1; font-size: 11px; padding-right: 20px; }
+    .signature { text-align: center; min-width: 250px; }
+    .signature-line { margin-top: 50px; border-top: 1px solid #000; padding-top: 5px; }
+    .eoe { text-align: right; font-weight: bold; font-size: 11px; margin-top: 5px; }
+    @media print {
+      body { padding: 0; }
+      .container { border: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>Purchase Order</h1>
+      <div class="company-name">Nutrition Forever Wellness</div>
+      <div class="company-details">
+        Allawalpur, Dhampur, District Bijnore<br>
+        Uttar Pradesh - 246761<br>
+        Contact: 7701863636<br>
+        State Name: Uttar Pradesh, Code: 09
+      </div>
+    </div>
+
+    <!-- Consignee & Order Details -->
+    <div class="row">
+      <div class="col">
+        <div class="section">
+          <div class="section-title">Consignee (Ship To)</div>
+          <div class="company-details">
+            <strong>Nutrition Forever Wellness</strong><br>
+            Allawalpur, Dhampur<br>
+            District Bijnore<br>
+            Uttar Pradesh - 246761<br>
+            Contact: 7701863636<br>
+            State Name: Uttar Pradesh, Code: 09
+          </div>
+        </div>
+      </div>
+      <div class="col-right">
+        <div class="section">
+          <div class="field"><label>PO No.:</label> _______________</div>
+          <div class="field"><label>Date:</label> _______________</div>
+          <div class="field"><label>Reference No. & Date:</label> _______________</div>
+          <div class="field"><label>Mode/Terms of Payment:</label> _______________</div>
+          <div class="field"><label>Dispatched Through:</label> _______________</div>
+          <div class="field"><label>Destination:</label> Dhampur, Bijnore (U.P)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Supplier Details -->
+    <div class="row">
+      <div class="col">
+        <div class="section">
+          <div class="section-title">Supplier (Bill From)</div>
+          <div class="company-details">
+            <strong>[Supplier Company Name]</strong><br>
+            [Supplier Address Line 1]<br>
+            [City, State - PIN]<br>
+            State: [State]<br>
+            State Code: [Code]<br>
+            GSTIN: [Supplier GSTIN]<br>
+            PAN: [Supplier PAN]
+          </div>
+        </div>
+      </div>
+      <div class="col-right">
+        <div class="section">
+          <div class="field"><label>Terms of Delivery:</label></div>
+          <div class="field">Immediate Dispatch</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Items Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>Sr No.</th>
+          <th>Description</th>
+          <th>HSN Code</th>
+          <th>Qty</th>
+          <th>UOM</th>
+          <th>Unit Cost (₹)</th>
+          <th>Amount (₹)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td class="left">Stamina Core+<br><small>(120 Capsules per bottle)</small></td>
+          <td>21069099</td>
+          <td>250</td>
+          <td>Bottles</td>
+          <td class="right">335.00</td>
+          <td class="right">83,750.00</td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align: right; font-weight: bold;">Total</td>
+          <td style="font-weight: bold;">250</td>
+          <td></td>
+          <td></td>
+          <td class="right" style="font-weight: bold;">83,750.00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Totals -->
+    <table class="totals-table">
+      <tr>
+        <td class="label">Sub Total:</td>
+        <td class="value">83,750.00</td>
+      </tr>
+      <tr>
+        <td class="label">Discount Amount:</td>
+        <td class="value">0.00</td>
+      </tr>
+      <tr style="font-weight: bold;">
+        <td class="label">Grand Total:</td>
+        <td class="value">₹83,750.00</td>
+      </tr>
+    </table>
+
+    <!-- Amount in Words -->
+    <div class="amount-words">
+      Amount In Words: EIGHTY THREE THOUSAND SEVEN HUNDRED FIFTY RUPEES AND ZERO PAISA ONLY
+    </div>
+
+    <!-- Footer -->
+    <div class="eoe">E.&amp;O.E</div>
+
+    <div class="footer">
+      <div class="declaration">
+        <strong>Declaration</strong><br>
+        We declare that this purchase order shows the actual price of the
+        goods described and that all particulars are true and correct.<br><br>
+        <strong>Conditions:</strong><br>
+        1) Material should be dispatched with Certificate of Analysis<br>
+        2) Dispatch fresh material with original packaging
+      </div>
+      <div class="signature">
+        <strong>For Nutrition Forever Wellness</strong>
+        <div class="signature-line">Authorised Signatory</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
