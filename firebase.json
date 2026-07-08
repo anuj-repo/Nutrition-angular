@@ -8,6 +8,10 @@
     ],
     "rewrites": [
       {
+        "source": "/purchase-order.html",
+        "destination": "/purchase-order.html"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
