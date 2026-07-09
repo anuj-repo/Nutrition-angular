@@ -65,7 +65,7 @@ export class MyProfileComponent implements OnInit {
       lname: this.user?.lname || '',
       email: this.user?.email || '',
       mobileNumber: this.user?.mobileNumber || this.user?.contact || '',
-      dob: this.user?.dob ? String(this.user.dob).substring(0, 10) : '',
+      dob: this.formatDobForInput(this.user?.dob),
       gender: this.user?.gender || 'Male',
       address: this.user?.address || '',
       city: this.user?.city || '',
@@ -186,6 +186,18 @@ export class MyProfileComponent implements OnInit {
     if (!this.addresses?.length) return null;
     return this.addresses.find(a => a.isDefault === '1' || a.isDefault === 1 || a.isDefault === true)
       || this.addresses[0];
+  }
+
+  formatDobForInput(d: any): string {
+    if (!d) return '';
+    try {
+      const dt = new Date(d);
+      if (isNaN(dt.getTime())) return '';
+      const y = dt.getFullYear();
+      const m = (dt.getMonth() + 1).toString().padStart(2, '0');
+      const day = dt.getDate().toString().padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    } catch { return ''; }
   }
 
   formatDob(): string {
