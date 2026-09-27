@@ -154,3 +154,48 @@
     flex-direction: column;
   }
 }
+
+/* Record Repurchase Form */
+.record-card {
+  border-radius: 12px;
+  margin-bottom: 24px;
+  border-left: 4px solid #4caf50;
+}
+
+.record-card h3 {
+  margin-bottom: 4px;
+}
+
+.form-description {
+  color: #666;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.record-form {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.record-form mat-form-field {
+  flex: 1;
+  min-width: 200px;
+}
+
+.record-form button {
+  margin-top: 4px;
+}
+
+.success-msg {
+  color: #2e7d32;
+  font-weight: 600;
+  margin-top: 12px;
+}
+
+.error-msg {
+  color: #c62828;
+  font-weight: 600;
+  margin-top: 12px;
+}

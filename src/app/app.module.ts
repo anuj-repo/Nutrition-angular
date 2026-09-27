@@ -98,6 +98,7 @@ import { RewardsComponent } from './rewards/rewards.component';
 import { AddMemberComponent } from './add-member/add-member.component';
 import { InvestmentComponent } from './investment/investment.component';
 import { RepurchaseBonusComponent } from './repurchase-bonus/repurchase-bonus.component';
+import { AdminRepurchaseComponent } from './admin-repurchase/admin-repurchase.component';
 import { RanksComponent } from './ranks/ranks.component';
 
 // Wave 1: User-facing essentials
@@ -198,6 +199,7 @@ import { I18nService } from './_services/i18n.service';
     AddMemberComponent,
     InvestmentComponent,
     RepurchaseBonusComponent,
+    AdminRepurchaseComponent,
     RanksComponent,
     WalletComponent,
     AddressesComponent,

@@ -6,6 +6,27 @@
     <p class="description-hindi">अपनी टीम के मासिक रिपरचेज बिजनेस पर बोनस कमाएं!</p>
   </div>
 
+  <!-- Record Repurchase Form -->
+  <mat-card class="record-card">
+    <mat-card-content>
+      <h3>📝 Record Repurchase / रिपरचेज दर्ज करें</h3>
+      <p class="form-description">Record your product repurchase (offline or direct delivery)</p>
+      <form (ngSubmit)="recordRepurchase()" class="record-form">
+        <mat-form-field appearance="outline">
+          <mat-label>Repurchase Amount (₹)</mat-label>
+          <input matInput type="number" [(ngModel)]="repurchaseAmount" name="amount" min="1" required placeholder="e.g. 2280">
+          <mat-hint>Enter the total amount of product repurchased</mat-hint>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!repurchaseAmount || repurchaseAmount <= 0 || recordingRepurchase">
+          <mat-icon>add_shopping_cart</mat-icon>
+          {{ recordingRepurchase ? 'Recording...' : 'Record Repurchase' }}
+        </button>
+      </form>
+      <p class="success-msg" *ngIf="recordSuccess">✅ {{ recordSuccess }}</p>
+      <p class="error-msg" *ngIf="recordError">❌ {{ recordError }}</p>
+    </mat-card-content>
+  </mat-card>
+
   <!-- My Bonus Summary -->
   <div class="bonus-summary">
     <mat-card class="bonus-stat">

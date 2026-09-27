@@ -64,6 +64,11 @@ export const API_PATH: any = {
   REPURCHASE_CONFIG: "/api/repurchase/config",
   REPURCHASE_CURRENT_CYCLE: "/api/repurchase/me/current-cycle",
   REPURCHASE_HISTORY: "/api/repurchase/me/history",
+  REPURCHASE_RECORD_OWN: "/api/repurchase/me/record",
+  REPURCHASE_ADMIN_RECORD: "/api/repurchase/admin/record",
+  REPURCHASE_ADMIN_ALL: "/api/repurchase/admin/all",
+  REPURCHASE_CALCULATE: "/api/repurchase/calculate",
+  REPURCHASE_PAYOUT: "/api/repurchase/payout",
 
   // Ranks
   RANKS_ALL: "/api/ranks",

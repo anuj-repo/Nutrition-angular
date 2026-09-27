@@ -46,6 +46,12 @@ export class RepurchaseBonusComponent implements OnInit {
   bonusHistory: any[] = [];
   loading = true;
 
+  // Record repurchase
+  repurchaseAmount: number | null = null;
+  recordingRepurchase = false;
+  recordSuccess = '';
+  recordError = '';
+
   constructor(private networkService: NetworkService) {}
 
   ngOnInit(): void {
@@ -122,5 +128,25 @@ export class RepurchaseBonusComponent implements OnInit {
       return '₹' + (amount / 100000).toFixed(1) + ' Lakh';
     }
     return '₹' + amount.toLocaleString('en-IN');
+  }
+
+  recordRepurchase(): void {
+    if (!this.repurchaseAmount || this.repurchaseAmount <= 0) return;
+    this.recordingRepurchase = true;
+    this.recordSuccess = '';
+    this.recordError = '';
+    this.networkService.recordOwnRepurchase(this.repurchaseAmount).subscribe(
+      (res: any) => {
+        this.recordSuccess = 'Repurchase of ₹' + this.repurchaseAmount + ' recorded successfully!';
+        this.repurchaseAmount = null;
+        this.recordingRepurchase = false;
+        // Refresh data
+        this.ngOnInit();
+      },
+      (err: any) => {
+        this.recordError = err?.error?.message || 'Failed to record repurchase. Please try again.';
+        this.recordingRepurchase = false;
+      }
+    );
   }
 }

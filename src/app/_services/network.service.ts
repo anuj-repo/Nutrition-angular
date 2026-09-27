@@ -124,6 +124,26 @@ export class NetworkService {
     return this.http.get<any>(this.url(API_PATH.REPURCHASE_HISTORY));
   }
 
+  recordOwnRepurchase(amount: number) {
+    return this.http.post<any>(this.url(API_PATH.REPURCHASE_RECORD_OWN), { amount });
+  }
+
+  adminRecordRepurchase(userId: number, amount: number) {
+    return this.http.post<any>(this.url(API_PATH.REPURCHASE_ADMIN_RECORD + '/' + userId), { amount });
+  }
+
+  adminGetAllRepurchases() {
+    return this.http.get<any>(this.url(API_PATH.REPURCHASE_ADMIN_ALL));
+  }
+
+  calculateRepurchaseBonus() {
+    return this.http.post<any>(this.url(API_PATH.REPURCHASE_CALCULATE), {});
+  }
+
+  repurchasePayout() {
+    return this.http.post<any>(this.url(API_PATH.REPURCHASE_PAYOUT), {});
+  }
+
   // ===== Ranks =====
   getAllRanks() {
     return this.http.get<any>(this.url(API_PATH.RANKS_ALL));
